@@ -1,0 +1,23 @@
+{
+  "name": "adapt-contrib-narrative",
+  "version": "0.0.1",
+  "description": "A component that displays an image gallery with accompanying text",
+  "main": "",
+  "scripts": {
+    "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/adaptlearning/adapt-contrib-narrative.git"
+  },
+  "author": "AdaptLearning",
+  "license": "GPL v3",
+  "bugs": {
+    "url": "https://github.com/adaptlearning/adapt-contrib-narrative/issues"
+  },
+  "devDependencies": {
+    "karma": "~0.9",
+    "karma-mocha": "*",
+    "karma-expect": "*"
+  }
+}

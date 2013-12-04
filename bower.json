@@ -1,0 +1,16 @@
+{
+  "name": "adapt-contrib-narrative",
+  "version": "0.0.1",
+  "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
+  "authors": [
+    "Daryl Hedley <darylhedley@hotmail.com>",
+    "Brian Quinn <brian@learningpool.com>"
+  ],
+  "description": "Please enter a description about your component here. This is what will get shown when registered with the Adapt registry so make it good",
+  "main": "/js/adapt-contrib-narrative.js",
+  "keywords": [
+    "adapt-plugin",
+    "adapt-component"
+  ],
+  "license": "GPLv3"
+}

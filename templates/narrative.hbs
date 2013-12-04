@@ -1,0 +1,105 @@
+<div class="inner">
+    {{#if title}}
+    <div class="title">
+        <h4 class="inner">
+            {{{title}}}
+        </h4>
+    </div>
+    {{/if}}
+    {{#if body}}
+    <div class="body">
+        <p class="inner">
+            {{{body}}}
+        </p>
+    </div>
+    {{/if}}
+    <div class="widget">
+        {{#if mobile}}
+        <div class="strapline">
+            <div class="header">
+                <div class="inner clearfix">
+                    {{#each items}}
+                    <div class="title">
+                        <h5 class="inner">
+                           {{{strapline}}} 
+                        </h5>
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            <a href="#" class="controls open" tabindex="-1">
+                <div class="icon plus"></div>
+            </a>
+        </div>
+        {{/if}}
+        <div class="slide">
+            {{#if mobile}}
+            <div class="popup">
+                <div class="inner">
+                    <div class="toolbar">
+                        <div class="inner clearfix">
+                            {{#each items}}
+                            <div class="title">
+                                <h5 class="inner">
+                                    {{{title}}}
+                                </h5>
+                            </div>
+                            {{/each}}
+                            <a href="#" class="close">
+                                <div class="icon close"></div>
+                            </a>
+                        </div>
+                    </div>
+                    {{#each items}}
+                    <div class="content">
+                        <p class="inner">
+                            {{{body}}}  
+                        </p> 
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+            {{/if}}
+            {{#if navigate}}
+            <a href="#" class="controls left">
+                <div class="icon arrow-l"></div>
+            </a>
+            <a href="#" class="controls right">
+                <div class="icon arrow-r"></div>
+            </a>
+            {{/if}}
+            <div class="slider clearfix">
+                {{#each items}}
+                <div class="graphic">
+                    <img src="{{graphic.src}}" alt="{{graphic.alt}}" title="{{{graphic.title}}}"/>
+                </div>
+                {{/each}}
+            </div>
+            <div class="indicators">
+                {{#each items}}
+                <div class="button progress" tabindex="-1"></div>
+                {{/each}}
+            </div>
+        </div>
+        {{#unless mobile}}
+        <div class="content">
+            <div class="inner">
+                {{#each items}}
+                <div class="item">
+                    <div class="title">
+                        <h5 class="inner">
+                           {{{title}}} 
+                        </h5>
+                    </div>
+                    <div class="body">
+                        <p class="inner">
+                            {{{body}}}
+                        </p> 
+                    </div>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+        {{/unless}}
+    </div>    
+</div>

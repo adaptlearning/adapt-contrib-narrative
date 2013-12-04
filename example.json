@@ -1,0 +1,17 @@
+    {
+        "_id":"c-30",
+        "_parentId":"b-15",
+        "_type":"component",
+        "_component":"graphic",
+        "_classes":"",
+        "_layout":"left",
+        "title":"Here is a graphic object",
+        "body":"Hi everybody!",
+        "graphic": {
+            "alt": "alt text",
+            "title": "title text",
+            "large": "http://cdn.lipstiq.com/wp-content/uploads/2013/07/minions-film.jpg",
+            "medium": "http://www.cartoonbrew.com/wp-content/uploads/2013/09/minions-delay.jpg",
+            "small": "http://minionslovebananas.com/images/check-in-minion.jpg"
+        }
+    }
