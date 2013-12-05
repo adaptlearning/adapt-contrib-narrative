@@ -12,6 +12,7 @@ define(function(require) {
         init: function () {
             // this.$el.addClass('clearfix');
             // this.listenTo(Adapt.Manager.model, 'change:screenSize', this.setupLayout, this);
+            this.listenTo(Adapt, 'pageView:ready', this.setupLayout, this);
             this.listenTo(Adapt, 'device:change', this.reRender, this);
             
         },
@@ -49,9 +50,13 @@ define(function(require) {
         },
         setReadyStatus: function() {
             // console.log('ready status')
-            this.$('.widget').imageready(_.bind(function(){
+            this.$('.slider').imageready(_.bind(function(){
                  console.log('in imageready');
-                this.setupLayout();
+                //  _.defer(function() {
+
+                //     // console.log('slide width', this.$('.slide').width());
+                //  }, this);
+                // this.setupLayout();
                 // this.onScreenSizeChanged();
                 this.model.set('_isReady', true);
             }, this));
