@@ -14,7 +14,7 @@
     </div>
     {{/if}}
     <div class="widget">
-        {{#if mobile}}
+        
         <div class="strapline">
             <div class="header">
                 <div class="inner clearfix">
@@ -28,12 +28,12 @@
                 </div>
             </div>
             <a href="#" class="controls open" tabindex="-1">
-                <div class="icon plus"></div>
+                <div class="icon plus">+</div>
             </a>
         </div>
-        {{/if}}
+        
         <div class="slide">
-            {{#if mobile}}
+   
             <div class="popup">
                 <div class="inner">
                     <div class="toolbar">
@@ -46,7 +46,7 @@
                             </div>
                             {{/each}}
                             <a href="#" class="close">
-                                <div class="icon close"></div>
+                                <div class="icon close">-</div>
                             </a>
                         </div>
                     </div>
@@ -59,15 +59,15 @@
                     {{/each}}
                 </div>
             </div>
-            {{/if}}
-            {{#if navigate}}
+  
+            {{#unless mobile}}
             <a href="#" class="controls left">
-                <div class="icon arrow-l"></div>
+                <div class="icon arrow-l">Left</div>
             </a>
             <a href="#" class="controls right">
-                <div class="icon arrow-r"></div>
+                <div class="icon arrow-r">Right</div>
             </a>
-            {{/if}}
+            {{/unless}}
             <div class="slider clearfix">
                 {{#each items}}
                 <div class="graphic">
