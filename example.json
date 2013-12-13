@@ -1,17 +1,42 @@
-    {
-        "_id":"c-30",
-        "_parentId":"b-15",
+     {
+        "_id": "c-35",
+        "_parentId": "b-15",
+        "_classes": "",
         "_type":"component",
-        "_component":"graphic",
-        "_classes":"",
-        "_layout":"left",
-        "title":"Here is a graphic object",
-        "body":"Hi everybody!",
-        "graphic": {
-            "alt": "alt text",
-            "title": "title text",
-            "large": "http://cdn.lipstiq.com/wp-content/uploads/2013/07/minions-film.jpg",
-            "medium": "http://www.cartoonbrew.com/wp-content/uploads/2013/09/minions-delay.jpg",
-            "small": "http://minionslovebananas.com/images/check-in-minion.jpg"
-        }
+        "_layout": "full",
+        "_component": "narrative",
+        "title": "Narrative",
+        "body": "This is optional body text. Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.",
+        "items": [
+            {
+                "title": "Narrative stage 1 title",
+                "body": "This is display text 1. If viewing on desktop or tablet, this text will appear to the right of the image. On mobile, you’ll need to select the plus icon to reveal this text.",
+                "graphic": {
+                    "src": "course/en/images/image-slider-1.jpg",
+                    "alt": "First graphic",
+                    "title": "Second graphic"
+                },
+                "strapline": "Here is the first..."
+            },
+            {
+                "title": "Narrative stage 2 title",
+                "body": "This is display text 2.",
+                "graphic": {
+                    "src": "course/en/images/image-slider-2.jpg",
+                    "alt": "Second graphic",
+                    "title": "Second graphic"
+                },
+                "strapline": "Now comes the second..."
+            },
+            {
+                "title": "Narrative stage 3 title",
+                "body": "This is display text 3.",
+                "graphic": {
+                    "src": "course/en/images/image-slider-3.jpg",
+                    "alt": "Third graphic",
+                    "title": "Third graphic"
+                },
+                "strapline": "Third here!"
+            }
+        ]
     }

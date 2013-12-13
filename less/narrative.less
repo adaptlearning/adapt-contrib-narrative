@@ -1,152 +1,205 @@
-.narrative-component .widget {
-    width: 100%;
+.narrative-component {
+    
+    .narrative-control-left {
+        left: 0;
+    }
+
+    .narrative-control-right {
+        right: 0;
+    }
+ 
+    .narrative-item-title {
+        position:relative;
+        display:block;
+        text-decoration: none;
+    }
+
+    .narrative-item-title-inner {
+        padding:14px 14px 14px 42px;
+        color:@primary-color;
+    }
+
+    .narrative-item-body {
+        display:none;
+        border-top: 1px solid #b9b9b9;
+    }
+
+    .narrative-item-body-inner {
+        padding:14px;
+    }
+
+    .narrative-indicators {
+        text-align: center;
+    }
+
+    .narrative-progress {
+        background-color: @transparency;
+        border: 1px solid @dark-color;
+        border-radius: 50%;
+        display: inline-block;
+        height: 8px;
+        margin: 1px;
+        padding: 0;
+        width: 8px;
+
+        &.selected {
+            background-color: @dark-color;
+        }
+    }    
+
+    .desktop .narrative-slide-container {
+        float: left;
+        margin-right: 3%;
+        width: 60%;
+    }
+
+    .desktop .narrative-graphic {
+        margin-right: 0;
+    }
+
+    .component-widget {
+        width: 100%;
+    }
+
+    .narrative-slide-container {
+        position: relative;
+        width: 100%;
+        overflow-x: hidden;
+        float: left;
+    }  
+
+    .narrative-popup {
+        background-color: @dark-color;
+        display: none;
+        height: 100%;
+        left: 0;
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 300;
+        &-open {
+            float: right;
+        }
+        &-close {
+            float: right;
+            text-decoration: none;
+        }
+    }
+
+    .narrative-graphic {
+        float: left;
+        margin-right: 5px;
+        position: relative;
+    }
+
+    .narrative-strapline {
+        background-color: @primary-color;
+        color: #FFFFFF;
+        height: 48px;
+        position: relative;
+    }
+
+    .narrative-strapline .header {
+        height: 100%;
+        overflow: hidden;
+        position: absolute;
+    }
+
+    .narrative-strapline .header .inner {
+    }
+
+    .narrative-strapline .header .title {
+        float: left;
+        line-height: 48px;
+    }
+
+    .narrative-strapline .header .title .inner {
+        padding-left: 20px;
+    }
+
+    .narrative-strapline .controls {
+        display: block;
+        height: 48px;
+        position: absolute;
+        right: 0;
+        width: 48px;
+
+        .icon {
+            display: block;
+            margin: 12px;
+
+            &:hover {
+                color: @secondary-color;    
+            }
+        }
+    }
+
+    .icon-cross {
+        color: @primary-color;
+    }
+
+    .narrative-slide-container .controls {
+        display: block;
+        height: 48px;
+        margin-top: -24px;
+        position: absolute;
+        top: 50%;
+        width: 48px;
+        z-index: 10;
+
+        .icon {
+            margin: 12px;
+        }
+    }
+
+    .narrative-content {
+        float: left;
+        width: 36%;
+        margin-left: 3%;
+    }
+
+    
+    .narrative-toolbar {
+        .close {
+            display: inline-block;
+            float: right;
+            color: @primary-color;
+            a {
+                text-decoration: none;
+            }
+        }
+
+        .title {
+            float: left;
+            width: 80%;
+        }
+    }
+
+    .narrative-popup .inner > .narrative-content {
+        float: left;
+        width: 100%;
+        margin-left: 3%;
+    }
+
+    .narrative-popup > .inner {
+        background-color: #FFFFFF;
+        border: 1px solid #FBFBFB;
+        margin: 10px;
+        padding: 10px;
+        position: relative;
+        height: 100%;
+
+        &.content {
+            overflow-y: auto;
+        }
+    }
+
+    .narrative-popup h5 {
+        font-size: 19px;
+        margin-bottom: 10px;
+    }
 }
-.narrative-component .slide {
-    position: relative;
-    width: 100%;
-}
-.no-touch .narrative-component .graphic {
-    margin-right: 0;
-}
-.narrative-component .graphic {
-    float: left;
-    margin-right: 5px;
-    position: relative;
-}
-.narrative-component.desktop .graphic {
-    margin-right: 0;
-}
-.narrative-component .graphic .controls {
-    background-color: rgba(255, 255, 255, 0.6);
-    font-size: 30px;
-    height: 40px;
-    line-height: 40px;
-    margin-top: 0;
-    position: absolute;
-    right: 0;
-    text-align: center;
-    top: 0;
-    width: 40px;
-}
-.narrative-component.desktop .content {
-    float: left;
-    width: 36%;
-}
-.narrative-component.desktop .slide {
-    float: left;
-    margin-right: 3%;
-    width: 60%;
-}
-.narrative-component.desktop .widget .content .item {
-    display: none;
-}
-.narrative-component .popup {
-    background-color: #1E1E1E;
-    display: none;
-    height: 100%;
-    left: 0;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 300;
-}
-.narrative-component .popup > .inner {
-    background-color: #FFFFFF;
-    border: 1px solid #FBFBFB;
-    margin: 10px;
-    padding: 10px;
-    position: relative;
-}
-.narrative-component .popup > .inner .content {
-    overflow-y: auto;
-}
-.narrative-component .popup > .inner .content p {
-}
-.narrative-component .popup h5 {
-    font-size: 19px;
-    margin-bottom: 10px;
-}
-.narrative-component .toolbar {
-    right: 20px;
-    top: 20px;
-    z-index: 400;
-}
-.narrative-component .toolbar .close {
-    display: inline-block;
-}
-.narrative-component .toolbar .title {
-    float: left;
-    width: 80%;
-}
-.narrative-component .toolbar .close {
-    float: right;
-}
-.narrative-component .strapline {
-    background-color: #454545;
-    color: #FFFFFF;
-    height: 48px;
-    position: relative;
-}
-.narrative-component .strapline .header {
-    height: 100%;
-    overflow: hidden;
-    position: absolute;
-}
-.narrative-component .strapline .header .inner {
-}
-.narrative-component .strapline .header .title {
-    float: left;
-    line-height: 48px;
-}
-.narrative-component .strapline .header .title .inner {
-    padding-left: 20px;
-}
-.narrative-component .strapline .controls {
-    display: block;
-    height: 48px;
-    position: absolute;
-    right: 0;
-    width: 48px;
-}
-.narrative-component .strapline .controls .icon {
-    display: block;
-    margin: 12px;
-}
-.narrative-component .strapline .controls .icon:hover {
-    color: #E2E2E2;
-}
-.narrative-component .slide .controls {
-    background-color: #FFFFFF;
-    display: block;
-    height: 48px;
-    margin-top: -24px;
-    position: absolute;
-    top: 50%;
-    width: 48px;
-    z-index: 10;
-}
-.narrative-component .left {
-    left: 0;
-}
-.narrative-component .right {
-    right: 0;
-}
-.narrative-component .slide .controls .icon {
-    margin: 12px;
-}
-.narrative-component .indicators {
-    text-align: center;
-}
-.narrative-component .progress {
-    background-color: #FFFFFF;
-    border: 1px solid #454545;
-    border-radius: 50%;
-    display: inline-block;
-    height: 8px;
-    margin: 1px;
-    padding: 0;
-    width: 8px;
-}
-.narrative-component .progress.selected {
-    background-color: #454545;
+
+div.narrative-slide-container > a, div.narrative-strapline > a, div.title > a {
+    text-decoration: none
 }

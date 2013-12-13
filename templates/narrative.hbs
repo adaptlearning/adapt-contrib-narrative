@@ -1,21 +1,22 @@
-<div class="inner">
+{{! Maintainers - Brian Quinn}}
+<div class="narrative-inner component-inner">
     {{#if title}}
-    <div class="title">
-        <h4 class="inner">
+    <div class="narrative-title component-title">
+        <h4 class="narrative-title-inner">
             {{{title}}}
         </h4>
     </div>
     {{/if}}
     {{#if body}}
-    <div class="body">
-        <p class="inner">
+    <div class="narrative-title component-body">
+        <p class="narrative-title-inner">
             {{{body}}}
         </p>
     </div>
     {{/if}}
-    <div class="widget">
+    <div class="narrative-widget component-widget">
         
-        <div class="strapline">
+        <div class="narrative-strapline">
             <div class="header">
                 <div class="inner clearfix">
                     {{#each items}}
@@ -27,16 +28,16 @@
                     {{/each}}
                 </div>
             </div>
-            <a href="#" class="controls open" tabindex="-1">
-                <div class="icon plus">+</div>
+            <a href="#" class="narrative-popup-open" tabindex="-1">
+                <div class="icon icon-plus"></div>
             </a>
         </div>
         
-        <div class="slide">
+        <div class="narrative-slide-container">
    
-            <div class="popup">
+            <div class="narrative-popup">
                 <div class="inner">
-                    <div class="toolbar">
+                    <div class="narrative-toolbar">
                         <div class="inner clearfix">
                             {{#each items}}
                             <div class="title">
@@ -45,44 +46,44 @@
                                 </h5>
                             </div>
                             {{/each}}
-                            <a href="#" class="close">
-                                <div class="icon close">-</div>
+                            <a href="#" class="narrative-popup-close">
+                                <div class="icon icon-cross"></div>
                             </a>
                         </div>
                     </div>
                     {{#each items}}
-                    <div class="content">
-                        <p class="inner">
+                    <div class="narrative-content">
+                        <div class="inner">
                             {{{body}}}  
-                        </p> 
+                        </div> 
                     </div>
                     {{/each}}
                 </div>
             </div>
   
             {{#unless mobile}}
-            <a href="#" class="controls left">
-                <div class="icon arrow-l">Left</div>
+            <a href="#" class="controls narrative-control-left">
+                <div class="icon icon-controls-left"></div>
             </a>
-            <a href="#" class="controls right">
-                <div class="icon arrow-r">Right</div>
+            <a href="#" class="controls narrative-control-right">
+                <div class="icon icon-controls-right"></div>
             </a>
             {{/unless}}
-            <div class="slider clearfix">
+            <div class="narrative-slider clearfix">
                 {{#each items}}
-                <div class="graphic">
+                <div class="narrative-graphic">
                     <img src="{{graphic.src}}" alt="{{graphic.alt}}" title="{{{graphic.title}}}"/>
                 </div>
                 {{/each}}
             </div>
-            <div class="indicators">
+            <div class="narrative-indicators">
                 {{#each items}}
                 <div class="button progress" tabindex="-1"></div>
                 {{/each}}
             </div>
         </div>
         {{#unless mobile}}
-        <div class="content">
+        <div class="narrative-content">
             <div class="inner">
                 {{#each items}}
                 <div class="item">
@@ -92,9 +93,9 @@
                         </h5>
                     </div>
                     <div class="body">
-                        <p class="inner">
+                        <div class="inner">
                             {{{body}}}
-                        </p> 
+                        </div> 
                     </div>
                 </div>
                 {{/each}}
