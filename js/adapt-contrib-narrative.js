@@ -32,16 +32,16 @@ define(function(require) {
         },
         setupNarrative: function() {
             if (!Adapt.device.touch) {
-                this.model.set('navigate', true);
+                this.model.set('_navigate', true);
                 this.$el.addClass('desktop');
             } else {
-                this.model.set('navigate', false);
+                this.model.set('_navigate', false);
                 this.$el.addClass('mobile');
             }            
 
             var slideCount = this.$('.narrative-graphic', this.$el).length;
             var isSmallScreen = (Adapt.device.screenSize == 'small') ? true : false;
-            this.model.set('itemCount', slideCount);
+            this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
             this.$('.narrative-widget .narrative-slide-container .narrative-indicators .button').first().addClass('selected');        
@@ -49,8 +49,8 @@ define(function(require) {
             this.$('.narrative-widget .narrative-graphic').first().addClass('visited');       
             this.$('.narrative-widget .narrative-content .item').hide().first().show(); 
 
-            this.model.set('stage', 0);
-            this.model.set('active', true);
+            this.model.set('_stage', 0);
+            this.model.set('_active', true);
 
             this.toggleStrapline(isSmallScreen);
 
@@ -58,7 +58,7 @@ define(function(require) {
             this.evaluateCompletion();
         },
         toggleStrapline: function(show) {
-            var stage = this.model.get('stage');
+            var stage = this.model.get('_stage');
 
             if (show) {
                 this.$('.narrative-strapline').show();
@@ -72,42 +72,42 @@ define(function(require) {
             }
         },
         calculateWidths: function() {
-            if (this.model.get('mobile') || Adapt.device.screenSize == 'small') {
+            if (this.model.get('_mobile') || Adapt.device.screenSize == 'small') {
                 this.$('.narrative-slide-container').width('100%');
             } else {
                 this.$('.narrative-slide-container').width('60%');
             }
 
             var slideWidth = this.$('.narrative-slide-container').width();
-            var slideCount = this.model.get('itemCount');
+            var slideCount = this.model.get('_itemCount');
             var extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right'));
 
             this.$('.narrative-slider .narrative-graphic').width(slideWidth)
             this.$('.narrative-slider').width((slideWidth + extraMargin) * slideCount);
 
             // Get the current stage
-            var stage = this.model.get('stage');
+            var stage = this.model.get('_stage');
             var margin = (stage * slideWidth) * -1;
 
             this.$('.narrative-slider').css('margin-left', margin);
         },
         resizeControl: function() {
             if (Adapt.device.screenSize == 'small') {
-                this.model.set('mobile', true);
+                this.model.set('_mobile', true);
                 this.$el.addClass('mobile');
                 this.$el.removeClass('desktop');
             }
             else {
-                this.model.set('mobile', false);
+                this.model.set('_mobile', false);
                 this.$el.addClass('desktop');
                 this.$el.removeClass('mobile');
             }
 
             this.calculateWidths();
-            this.toggleStrapline(this.model.get('mobile'));
+            this.toggleStrapline(this.model.get('_mobile'));
         },
         reRender: function() {
-            if (this.model.get('component') == 'hotgraphic' && (Adapt.device.screenSize != 'small')) {
+            if (this.model.get('_component') == 'hotgraphic' && (Adapt.device.screenSize != 'small')) {
                 new Adapt.hotgraphic({model:this.model, $parent:this.$parent}).render();
                 this.remove();
             } else {
@@ -119,13 +119,13 @@ define(function(require) {
         },
         preRender: function () {
             if (Adapt.device.screenSize != 'small') {
-                this.model.set('mobile', false);
+                this.model.set('_mobile', false);
             } else {
-                this.model.set('mobile', true);
+                this.model.set('_mobile', true);
             }
             
             if (Adapt.device.touch == false) {
-                this.model.set('navigate', true);
+                this.model.set('_navigate', true);
             }
         },
         setup: function() {
@@ -135,20 +135,20 @@ define(function(require) {
         },
         navigateClick: function (event) {
             event.preventDefault();
-            if (!this.model.get('active')) return;
+            if (!this.model.get('_active')) return;
 
             var extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
             var strapLineSize = this.$('.narrative-strapline .title').width();
 
-            var stage = this.model.get('stage');
-            var itemCount = this.model.get('itemCount');
+            var stage = this.model.get('_stage');
+            var itemCount = this.model.get('_itemCount');
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 if (stage < itemCount - 1) {
                     stage++;
                     this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
-                    if (!this.model.get('mobile')) {
+                    if (!this.model.get('_mobile')) {
                         this.$('.narrative-graphic').eq(stage).addClass('visited');
                         this.evaluateCompletion();
                     }
@@ -163,21 +163,21 @@ define(function(require) {
                     this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
                 }
             }
-            this.model.set('stage', stage);
+            this.model.set('_stage', stage);
 
             this.changeStage();
         },
         navigateTouch: function (event) {
             event.preventDefault();
-            if (!this.model.get('active')) return;
+            if (!this.model.get('_active')) return;
             var that = this,
                 xOrigPos = event.originalEvent.touches[0]['pageX'],
                 startPos = parseInt(this.$('.narrative-slider').css('margin-left')),
                 xPos = event.originalEvent.touches[0]['pageX'],
-                stage = this.model.get('stage'),
+                stage = this.model.get('_stage'),
                 extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right')),
                 movementSize = this.$('.narrative-slide-container').width() + extraMargin,
-                narrativeSize = this.model.get('itemCount'),
+                narrativeSize = this.model.get('_itemCount'),
                 strapLineSize = this.$('.narrative-strapline .title').width(),
                 move;
 
@@ -235,7 +235,7 @@ define(function(require) {
                     }
                 }
                 
-                that.model.set({'stage':stage});
+                that.model.set('_stage', stage);
 
                 $('.narrative-widget .narrative-content .item', that.$el).hide();
                 $('.narrative-widget .narrative-content .item', that.$el).eq(stage).show();
@@ -243,7 +243,7 @@ define(function(require) {
             });
         },
         changeStage: function() {
-            var stage = this.model.get('stage');
+            var stage = this.model.get('_stage');
             this.evaluateNavigation();
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
@@ -255,13 +255,13 @@ define(function(require) {
             this.$('.header .inner .title').eq(stage).show();
         },
         evaluateNavigation: function() {
-            if (this.model.get('navigate') == false) {
+            if (this.model.get('_navigate') == false) {
                 this.$('.narrative-control-left').hide();
                 this.$('.narrative-control-right').hide();
                 return;
             }
-            var currentStage = this.model.get('stage');
-            var itemCount = this.model.get('itemCount');
+            var currentStage = this.model.get('_stage');
+            var itemCount = this.model.get('_itemCount');
 
             if (currentStage == 0) {
                 this.$('.narrative-control-left').hide();      
@@ -277,23 +277,23 @@ define(function(require) {
             } 
         },
         evaluateCompletion: function() {
-            if (this.$('.visited').length == this.model.get('itemCount')) {
+            if (this.$('.visited').length == this.model.get('_itemCount')) {
                 this.setCompletionStatus();
             }
         },
         openNarrative: function (event) {
             event.preventDefault();
-            this.model.set('active', false);
+            this.model.set('_active', false);
 
             var outerMargin = parseFloat(this.$('.narrative-popup > .inner').css('margin'));
             var innerPadding = parseFloat(this.$('.narrative-popup > .inner').css('padding'));
             var toolBarHeight = this.$('.narrative-popup > .inner .narrative-toolbar').height();
             
-            this.$('.narrative-slider .narrative-graphic').eq(this.model.get('stage')).addClass('visited');
+            this.$('.narrative-slider .narrative-graphic').eq(this.model.get('_stage')).addClass('visited');
             this.$('.narrative-popup .narrative-toolbar .title').hide();
-            this.$('.narrative-popup .narrative-toolbar .title').eq(this.model.get('stage')).show();
+            this.$('.narrative-popup .narrative-toolbar .title').eq(this.model.get('_stage')).show();
             this.$('.narrative-popup .narrative-content').hide();
-            this.$('.narrative-popup .narrative-content').eq(this.model.get('stage')).show();
+            this.$('.narrative-popup .narrative-content').eq(this.model.get('_stage')).show();
             this.$('.narrative-popup > .inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
             this.$('.narrative-popup').show();
             this.$('.narrative-popup .narrative-content').css('height', (this.$('.narrative-popup > .inner').height() - toolBarHeight));
@@ -302,7 +302,7 @@ define(function(require) {
         },
         closeNarrative: function (event) {
             event.preventDefault();
-            this.model.set('active', true);
+            this.model.set('_active', true);
 
             this.$('.narrative-popup-close').blur();
             this.$('.narrative-popup').hide();
