@@ -61,14 +61,14 @@
                 </div>
             </div>
   
-            {{#unless _mobile}}
+            {{#if _navigate}}
             <a href="#" class="controls narrative-control-left">
                 <div class="icon icon-controls-left"></div>
             </a>
             <a href="#" class="controls narrative-control-right">
                 <div class="icon icon-controls-right"></div>
             </a>
-            {{/unless}}
+            {{/if}}
             <div class="narrative-slider clearfix">
                 {{#each items}}
                 <div class="narrative-graphic">

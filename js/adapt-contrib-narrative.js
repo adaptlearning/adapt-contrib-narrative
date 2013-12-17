@@ -13,12 +13,6 @@ define(function(require) {
         postRender: function() {
             this.setReadyStatus();
         },        
-        init: function () {
-            this.$el.addClass('clearfix');
-            this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
-            this.listenTo(Adapt, 'device:change', this.reRender, this);
-            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
-        },
         events: function () {
             return Adapt.device.touch == true ? {
                 'touchstart .narrative-slider' : 'navigateTouch',
@@ -104,6 +98,7 @@ define(function(require) {
             }
 
             this.calculateWidths();
+            this.evaluateNavigation();
             this.toggleStrapline(this.model.get('_mobile'));
         },
         reRender: function() {
@@ -111,13 +106,13 @@ define(function(require) {
                 new Adapt.hotgraphic({model:this.model, $parent:this.$parent}).render();
                 this.remove();
             } else {
-                this.preRender();
+                this.detectScreen();
                 this.render();
                 this.resizeControl();
                 this.delegateEvents();
             }
         },
-        preRender: function () {
+        detectScreen: function() {
             if (Adapt.device.screenSize != 'small') {
                 this.model.set('_mobile', false);
             } else {
@@ -126,7 +121,19 @@ define(function(require) {
             
             if (Adapt.device.touch == false) {
                 this.model.set('_navigate', true);
+            } else {
+                this.model.set('_navigate', false);
             }
+        },
+        preRender: function () {
+            this.$el.addClass('clearfix');
+            this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
+            this.listenTo(Adapt, 'device:change', this.reRender, this);
+            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
+
+            this.detectScreen();
+
+            this.setup();
         },
         setup: function() {
             this.$('.narrative-slider').imageready(_.bind(function(){
@@ -139,7 +146,7 @@ define(function(require) {
 
             var extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
-            var strapLineSize = this.$('.narrative-strapline .title').width();
+            var strapLineSize = this.$('.narrative-straplikne .title').width();
 
             var stage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
@@ -259,22 +266,27 @@ define(function(require) {
                 this.$('.narrative-control-left').hide();
                 this.$('.narrative-control-right').hide();
                 return;
-            }
+            } 
+
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
 
+
             if (currentStage == 0) {
-                this.$('.narrative-control-left').hide();      
-            } 
+                this.$('.narrative-control-left').hide();
 
-            if (currentStage == (itemCount - 1)) {
-                this.$('.narrative-control-right').hide();      
-            }
-
-            if (currentStage != 0 && currentStage < (itemCount - 1)) {
+                if (itemCount > 1) {
+                    this.$('.narrative-control-right').show();
+                }
+            } else {
                 this.$('.narrative-control-left').show();
-                this.$('.narrative-control-right').show(); 
-            } 
+
+                if (currentStage == itemCount - 1) {
+                    this.$('.narrative-control-right').hide();
+                } else {
+                    this.$('.narrative-control-right').show();
+                }
+            }
         },
         evaluateCompletion: function() {
             if (this.$('.visited').length == this.model.get('_itemCount')) {
