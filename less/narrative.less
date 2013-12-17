@@ -34,7 +34,7 @@
 
     .narrative-progress {
         background-color: @transparency;
-        border: 1px solid @dark-color;
+        border: 1px solid @inverted-background-color;
         border-radius: 50%;
         display: inline-block;
         height: 8px;
@@ -43,7 +43,7 @@
         width: 8px;
 
         &.selected {
-            background-color: @dark-color;
+            background-color: @inverted-background-color;
         }
     }    
 
@@ -69,14 +69,14 @@
     }  
 
     .narrative-popup {
-        background-color: @dark-color;
+        background-color: @inverted-background-color;
         display: none;
         height: 100%;
         left: 0;
         position: fixed;
         top: 0;
         width: 100%;
-        z-index: 300;
+        z-index: 1000;
         &-open {
             float: right;
         }
