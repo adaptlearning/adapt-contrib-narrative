@@ -6,7 +6,7 @@
     "Brian Quinn <brian@learningpool.com>",
     "Daryl Hedley <darylhedley@hotmail.com>"
   ],
-  "description": "",
+  "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",
   "keywords": [
     "adapt-plugin",
