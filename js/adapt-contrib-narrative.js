@@ -33,15 +33,15 @@ define(function(require) {
                 this.$el.addClass('mobile');
             }            
 
-            var slideCount = this.$('.narrative-graphic', this.$el).length;
+            var slideCount = this.$('.narrative-slider-graphic', this.$el).length;
             var isSmallScreen = (Adapt.device.screenSize == 'small') ? true : false;
             this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
             this.$('.narrative-progress').first().addClass('selected');        
             this.$('.narrative-slide-container').css('overflow-x', 'hidden');
-            this.$('.narrative-graphic').first().addClass('visited');       
-            this.$('.narrative-content .item').hide().first().show(); 
+            this.$('.narrative-slider-graphic').first().addClass('visited');       
+            this.$('.narrative-content-item').hide().first().show(); 
 
             this.model.set('_stage', 0);
             this.model.set('_active', true);
@@ -56,8 +56,8 @@ define(function(require) {
 
             if (show) {
                 this.$('.narrative-strapline').show();
-                this.$('.header .inner .title').hide();
-                this.$('.header .inner .title').eq(stage).show();
+                this.$('.narrative-strapline-title').hide();
+                this.$('narrative-strapline-title').eq(stage).show();
                 this.$('.narrative-content').hide();
             }
             else {
@@ -74,9 +74,9 @@ define(function(require) {
 
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
-            var extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right'));
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
 
-            this.$('.narrative-slider .narrative-graphic').width(slideWidth)
+            this.$('.narrative-slider-graphic').width(slideWidth)
             this.$('.narrative-slider').width((slideWidth + extraMargin) * slideCount);
 
             // Get the current stage
@@ -144,9 +144,9 @@ define(function(require) {
             event.preventDefault();
             if (!this.model.get('_active')) return;
 
-            var extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right'));
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
-            var strapLineSize = this.$('.narrative-straplikne .title').width();
+            var strapLineSize = this.$('.narrative-strapline-title').width();
 
             var stage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
@@ -156,7 +156,7 @@ define(function(require) {
                     stage++;
                     this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
                     if (!this.model.get('_mobile')) {
-                        this.$('.narrative-graphic').eq(stage).addClass('visited');
+                        this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
                         this.evaluateCompletion();
                     }
                 } 
@@ -182,10 +182,10 @@ define(function(require) {
                 startPos = parseInt(this.$('.narrative-slider').css('margin-left')),
                 xPos = event.originalEvent.touches[0]['pageX'],
                 stage = this.model.get('_stage'),
-                extraMargin = parseInt(this.$('.narrative-graphic').css('margin-right')),
+                extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
                 movementSize = this.$('.narrative-slide-container').width() + extraMargin,
                 narrativeSize = this.model.get('_itemCount'),
-                strapLineSize = this.$('.narrative-strapline .title').width(),
+                strapLineSize = this.$('.narrative-strapline-title').width(),
                 move;
 
             var onFirst = (stage == 0) ? true : false;
@@ -227,7 +227,7 @@ define(function(require) {
                     if (stage < narrativeSize - 1) {
                         stage++;
                         $('.narrative-slider', that.$el).animate({'margin-left': - (movementSize * stage)});
-                        $('.narrative-strapline .header > .inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
+                        $('.narrative-strapline-header-inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
                     } else {
                         $('.narrative-slider', that.$el).animate({'margin-left': -(movementSize*stage)}, 400,'easeOutBack');
                     }
@@ -236,7 +236,7 @@ define(function(require) {
                     if (stage > 0) {
                         stage--;
                         $('.narrative-slider', that.$el).animate({'margin-left': - (movementSize * stage)});
-                        $('.narrative-strapline .header > .inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
+                        $('.narrative-strapline-header-inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
                     } else {
                         $('.narrative-slider', that.$el).animate({'margin-left': -(movementSize*stage)}, 400, 'easeOutBack');
                     }
@@ -244,9 +244,9 @@ define(function(require) {
                 
                 that.model.set('_stage', stage);
 
-                $('.narrative-widget .narrative-content .item', that.$el).hide();
-                $('.narrative-widget .narrative-content .item', that.$el).eq(stage).show();
-                $('.narrative-narrative-progress', that.$el).removeClass('selected').eq(stage).addClass('selected');
+                $('.narrative-content-item', that.$el).hide();
+                $('.narrative-content-item', that.$el).eq(stage).show();
+                $('.narrative-progress', that.$el).removeClass('selected').eq(stage).addClass('selected');
             });
         },
         changeStage: function() {
@@ -254,12 +254,12 @@ define(function(require) {
             this.evaluateNavigation();
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
-            this.$('.narrative-graphic').children('.controls').attr('tabindex', -1);
-            this.$('.narrative-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-widget .narrative-content .item').hide();
-            this.$('.narrative-widget .narrative-content .item').eq(stage).show();
-            this.$('.header .inner .title').hide();
-            this.$('.header .inner .title').eq(stage).show();
+            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
+            this.$('.narrative-content-item').hide();
+            this.$('.narrative-content-item').eq(stage).show();
+            this.$('.narrative-strapline-title').hide();
+            this.$('.narrative-strapline-title').eq(stage).show();
         },
         evaluateNavigation: function() {
             if (this.model.get('_navigate') == false) {
@@ -297,18 +297,18 @@ define(function(require) {
             event.preventDefault();
             this.model.set('_active', false);
 
-            var outerMargin = parseFloat(this.$('.narrative-popup > .inner').css('margin'));
-            var innerPadding = parseFloat(this.$('.narrative-popup > .inner').css('padding'));
-            var toolBarHeight = this.$('.narrative-popup > .inner .narrative-toolbar').height();
+            var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
+            var innerPadding = parseFloat(this.$('.narrative-popup-inner').css('padding'));
+            var toolBarHeight = this.$('.narrative-toolbar').height();
             
-            this.$('.narrative-slider .narrative-graphic').eq(this.model.get('_stage')).addClass('visited');
-            this.$('.narrative-popup .narrative-toolbar .title').hide();
-            this.$('.narrative-popup .narrative-toolbar .title').eq(this.model.get('_stage')).show();
-            this.$('.narrative-popup .narrative-content').hide();
-            this.$('.narrative-popup .narrative-content').eq(this.model.get('_stage')).show();
-            this.$('.narrative-popup > .inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
+            this.$('.narrative-slider-graphic').eq(this.model.get('_stage')).addClass('visited');
+            this.$('.narrative-toolbar-title').hide();
+            this.$('.narrative-toolbar-title').eq(this.model.get('_stage')).show();
+            this.$('.narrative-popup-content').hide();
+            this.$('.narrative-popup-content').eq(this.model.get('_stage')).show();
+            this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
             this.$('.narrative-popup').show();
-            this.$('.narrative-popup .narrative-content').css('height', (this.$('.narrative-popup > .inner').height() - toolBarHeight));
+            this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
 
             this.evaluateCompletion();
         },
