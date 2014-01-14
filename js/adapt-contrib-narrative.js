@@ -19,7 +19,7 @@ define(function(require) {
                 'touchstart .narrative-popup-open' : 'openNarrative',
                 'click .narrative-popup-close' : 'closeNarrative'
                 }:{
-                'click .controls' : 'navigateClick',
+                'click .narrative-controls' : 'navigateClick',
                 'click .narrative-popup-open' : 'openNarrative',
                 'click .narrative-popup-close' : 'closeNarrative'
             }
@@ -38,10 +38,10 @@ define(function(require) {
             this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
-            this.$('.narrative-widget .narrative-slide-container .narrative-indicators .button').first().addClass('selected');        
-            this.$('.narrative-widget .narrative-slide-container').css('overflow-x', 'hidden');
-            this.$('.narrative-widget .narrative-graphic').first().addClass('visited');       
-            this.$('.narrative-widget .narrative-content .item').hide().first().show(); 
+            this.$('.narrative-progress').first().addClass('selected');        
+            this.$('.narrative-slide-container').css('overflow-x', 'hidden');
+            this.$('.narrative-graphic').first().addClass('visited');       
+            this.$('.narrative-content .item').hide().first().show(); 
 
             this.model.set('_stage', 0);
             this.model.set('_active', true);

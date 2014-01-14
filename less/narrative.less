@@ -33,8 +33,8 @@
     }
 
     .narrative-progress {
-        background-color: @transparency;
-        border: 1px solid @inverted-background-color;
+        background-color: @background-color;
+        border: @border;
         border-radius: 50%;
         display: inline-block;
         height: 8px;
@@ -43,7 +43,7 @@
         width: 8px;
 
         &.selected {
-            background-color: @inverted-background-color;
+            background-color: @primary-color;
         }
     }    
 
@@ -99,25 +99,25 @@
         position: relative;
     }
 
-    .narrative-strapline .header {
+    .narrative-strapline-header {
         height: 100%;
         overflow: hidden;
         position: absolute;
     }
 
-    .narrative-strapline .header .inner {
+    .narrative-strapline-header-inner {
     }
 
-    .narrative-strapline .header .title {
+    .narrative-strapline-title {
         float: left;
         line-height: 48px;
     }
 
-    .narrative-strapline .header .title .inner {
+    .narrative-strapline-title-inner {
         padding-left: 20px;
     }
 
-    .narrative-strapline .controls {
+/*    .narrative-strapline .controls {
         display: block;
         height: 48px;
         position: absolute;
@@ -132,13 +132,13 @@
                 color: @secondary-color;    
             }
         }
-    }
+    }*/
 
-    .icon-cross {
+    /*.icon-cross {
         color: @primary-color;
-    }
+    }*/
 
-    .narrative-slide-container .controls {
+    .narrative-controls {
         display: block;
         height: 48px;
         margin-top: -24px;
@@ -169,19 +169,21 @@
             }
         }
 
-        .title {
-            float: left;
-            width: 80%;
-        }
+        
     }
 
-    .narrative-popup .inner > .narrative-content {
+    .narrative-toolbar-title {
+        float: left;
+        width: 80%;
+    }
+
+    .narrative-popup-inner .narrative-content {
         float: left;
         width: 100%;
         margin-left: 3%;
     }
 
-    .narrative-popup > .inner {
+    .narrative-popup-inner {
         background-color: #FFFFFF;
         border: 1px solid #FBFBFB;
         margin: 10px;
@@ -189,7 +191,7 @@
         position: relative;
         height: 100%;
 
-        &.content {
+        .content {
             overflow-y: auto;
         }
     }

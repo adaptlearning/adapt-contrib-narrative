@@ -15,11 +15,11 @@
     <div class="narrative-widget component-widget">
         
         <div class="narrative-strapline">
-            <div class="header">
-                <div class="inner clearfix">
+            <div class="narrative-strapline-header">
+                <div class="narrative-strapline-header-inner clearfix">
                     {{#each items}}
-                    <div class="title">
-                        <h5 class="inner">
+                    <div class="narrative-strapline-title">
+                        <h5 class="narrative-strapline-title-inner">
                            {{{strapline}}} 
                         </h5>
                     </div>
@@ -34,12 +34,12 @@
         <div class="narrative-slide-container">
    
             <div class="narrative-popup">
-                <div class="inner">
+                <div class="narrative-popup-inner">
                     <div class="narrative-toolbar">
-                        <div class="inner clearfix">
+                        <div class="narrative-toolbar-inner clearfix">
                             {{#each items}}
-                            <div class="title">
-                                <h5 class="inner">
+                            <div class="narrative-toolbar-title">
+                                <h5 class="narrative-toolbar-inner">
                                     {{{title}}}
                                 </h5>
                             </div>
@@ -51,7 +51,7 @@
                     </div>
                     {{#each items}}
                     <div class="narrative-content">
-                        <div class="inner">
+                        <div class="narrative-content-inner">
                             {{{body}}}  
                         </div> 
                     </div>
@@ -60,10 +60,10 @@
             </div>
   
             {{#if _navigate}}
-            <a href="#" class="controls narrative-control-left">
+            <a href="#" class="narrative-controls narrative-control-left">
                 <div class="icon icon-controls-left"></div>
             </a>
-            <a href="#" class="controls narrative-control-right">
+            <a href="#" class="narrative-controls narrative-control-right">
                 <div class="icon icon-controls-right"></div>
             </a>
             {{/if}}
@@ -76,21 +76,21 @@
             </div>
             <div class="narrative-indicators">
                 {{#each items}}
-                <div class="button progress" tabindex="-1"></div>
+                <div class="narrative-progress"></div>
                 {{/each}}
             </div>
         </div>
         <div class="narrative-content">
-            <div class="inner">
+            <div class="narrative-content-inner">
                 {{#each items}}
-                <div class="item">
-                    <div class="title">
-                        <h5 class="inner">
+                <div class="narrative-content-item">
+                    <div class="narrative-content-title">
+                        <h5 class="narrative-content-title-inner">
                            {{{title}}} 
                         </h5>
                     </div>
-                    <div class="body">
-                        <div class="inner">
+                    <div class="narrative-content-body">
+                        <div class="narrative-content-body-inner">
                             {{{body}}}
                         </div> 
                     </div>
