@@ -8,8 +8,10 @@
     </div>
     {{/if}}
     {{#if body}}
-    <div class="narrative-title component-body">
-        {{{body}}}
+    <div class="narrative-body component-body">
+        <div class="narrative-body-inner component-body-inner">
+            {{{body}}}
+        </div>
     </div>
     {{/if}}
     <div class="narrative-widget component-widget">
@@ -35,11 +37,11 @@
    
             <div class="narrative-popup">
                 <div class="narrative-popup-inner">
-                    <div class="narrative-toolbar">
-                        <div class="narrative-toolbar-inner clearfix">
+                    <div class="narrative-popup-toolbar">
+                        <div class="narrative-popup-toolbar-inner clearfix">
                             {{#each items}}
-                            <div class="narrative-toolbar-title">
-                                <h5 class="narrative-toolbar-inner">
+                            <div class="narrative-popup-toolbar-title">
+                                <h5 class="narrative-popup-toolbar-inner">
                                     {{{title}}}
                                 </h5>
                             </div>
@@ -59,14 +61,13 @@
                 </div>
             </div>
   
-            {{#if _navigate}}
             <a href="#" class="narrative-controls narrative-control-left">
                 <div class="icon icon-controls-left"></div>
             </a>
             <a href="#" class="narrative-controls narrative-control-right">
                 <div class="icon icon-controls-right"></div>
             </a>
-            {{/if}}
+            
             <div class="narrative-slider clearfix">
                 {{#each items}}
                 <div class="narrative-slider-graphic">
@@ -80,6 +81,7 @@
                 {{/each}}
             </div>
         </div>
+
         <div class="narrative-content">
             <div class="narrative-content-inner">
                 {{#each items}}
@@ -98,5 +100,6 @@
                 {{/each}}
             </div>
         </div>
+
     </div>    
 </div>
