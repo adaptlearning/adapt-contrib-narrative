@@ -1,4 +1,4 @@
-define(function() {
+define(function(require) {
 
     describe('My fake test', function() {
         
