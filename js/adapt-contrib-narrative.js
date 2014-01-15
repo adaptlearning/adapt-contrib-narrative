@@ -1,7 +1,7 @@
 /*
 * adapt-contrib-narrative
 * License - http://github.com/adaptlearning/adapt_framework/LICENSE
-* Maintainers - Brian Quinn <brian@learningpool.com>
+* Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Heldey <darylhedley@hotmail.com>
 */
 define(function(require) {
 
