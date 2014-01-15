@@ -1,7 +1,7 @@
 {
   "name": "adapt-contrib-narrative",
   "version": "0.0.1",
-  "description": "A component that displays an image gallery with accompanying text",
+  "description": "An narrative component",
   "main": "",
   "scripts": {
     "test": "./node_modules/.bin/karma start --single-run --browsers PhantomJS"
