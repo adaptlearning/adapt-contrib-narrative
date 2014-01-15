@@ -24,7 +24,6 @@ define(function(require) {
         },
 
         preRender: function () {
-            // done
             this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
             this.listenTo(Adapt, 'device:change', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
@@ -32,7 +31,6 @@ define(function(require) {
         },
 
         setDeviceSize: function() {
-            // done
             if (Adapt.device.screenSize === 'large') {
                 this.$el.addClass('desktop').removeClass('mobile');
                 this.model.set('_isDesktop', true);
@@ -43,14 +41,12 @@ define(function(require) {
         },
 
         postRender: function() {
-            // done
             this.$('.narrative-slider').imageready(_.bind(function(){
                 this.setReadyStatus();
             }, this));
         }, 
 
         setupNarrative: function() {
-            // done
             this.setDeviceSize();
             var slideCount = this.$('.narrative-slider-graphic', this.$el).length;
             this.model.set('_itemCount', slideCount);
@@ -58,8 +54,8 @@ define(function(require) {
 
             this.$('.narrative-progress').first().addClass('selected');
             this.$('.narrative-slider-graphic').first().addClass('visited');       
-            this.$('.narrative-content-item').hide().first().show();
-            this.$('.narrative-strapline-title').hide().first().show();
+            this.$('.narrative-content-item').addClass('narrative-hidden').first().removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').first().removeClass('narrative-hidden');
 
             this.model.set('_stage', 0);
             this.model.set('_active', true);
@@ -69,7 +65,6 @@ define(function(require) {
         },
 
         calculateWidths: function() {
-            // done
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
@@ -84,7 +79,6 @@ define(function(require) {
         },
 
         resizeControl: function() {
-            // done
             this.setDeviceSize();
             this.calculateWidths();
             this.evaluateNavigation();
@@ -218,49 +212,46 @@ define(function(require) {
                 
                 that.model.set('_stage', stage);
 
-                $('.narrative-content-item', that.$el).hide();
-                $('.narrative-content-item', that.$el).eq(stage).show();
+                $('.narrative-content-item', that.$el).addClass('narrative-hidden');
+                $('.narrative-content-item', that.$el).eq(stage).removeClass('narrative-hidden');
                 $('.narrative-progress', that.$el).removeClass('selected').eq(stage).addClass('selected');
             }, this));
         },*/
 
         changeStage: function() {
-            // done
             var stage = this.model.get('_stage');
             this.evaluateNavigation();
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-content-item').hide().eq(stage).show();
-            this.$('.narrative-strapline-title').hide().eq(stage).show();
+            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
         },
 
         evaluateNavigation: function() {
-            // done
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
 
             if (currentStage == 0) {
-                this.$('.narrative-control-left').hide();
+                this.$('.narrative-control-left').addClass('narrative-hidden');
 
                 if (itemCount > 1) {
-                    this.$('.narrative-control-right').show();
+                    this.$('.narrative-control-right').removeClass('narrative-hidden');
                 }
             } else {
-                this.$('.narrative-control-left').show();
+                this.$('.narrative-control-left').removeClass('narrative-hidden');
 
                 if (currentStage == itemCount - 1) {
-                    this.$('.narrative-control-right').hide();
+                    this.$('.narrative-control-right').addClass('narrative-hidden');
                 } else {
-                    this.$('.narrative-control-right').show();
+                    this.$('.narrative-control-right').removeClass('narrative-hidden');
                 }
             }
 
         },
         evaluateCompletion: function() {
             if (this.$('.visited').length == this.model.get('_itemCount')) {
-                console.log('narrative complete');
                 this.setCompletionStatus();
             }
         },
@@ -271,12 +262,12 @@ define(function(require) {
             var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
             var innerPadding = parseFloat(this.$('.narrative-popup-inner').css('padding'));
             var toolBarHeight = this.$('.narrative-toolbar').height();
-            
+
             this.$('.narrative-slider-graphic').eq(this.model.get('_stage')).addClass('visited');
-            this.$('.narrative-popup-toolbar-title').hide().eq(this.model.get('_stage')).show();
-            this.$('.narrative-popup-content').hide().eq(this.model.get('_stage')).show();
+            this.$('.narrative-popup-toolbar-title').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
+            this.$('.narrative-popup-content').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
             this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
-            this.$('.narrative-popup').show();
+            this.$('.narrative-popup').removeClass('narrative-hidden');
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
 
         },
@@ -285,7 +276,7 @@ define(function(require) {
             this.model.set('_active', true);
 
             this.$('.narrative-popup-close').blur();
-            this.$('.narrative-popup').hide();
+            this.$('.narrative-popup').addClass('narrative-hidden');
             this.evaluateCompletion();
         }
     });
