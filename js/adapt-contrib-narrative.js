@@ -12,7 +12,7 @@ define(function(require) {
         
         events: function () {
             return Adapt.device.touch == true ? {
-               /* 'touchstart .narrative-slider' : 'navigateTouch',*/
+                'touchstart .narrative-slider' : 'navigateTouch',
                 'touchstart .narrative-popup-open' : 'openNarrative',
                 'click .narrative-popup-close' : 'closeNarrative',
                 'click .narrative-controls' : 'navigateClick',
@@ -119,12 +119,12 @@ define(function(require) {
                 this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
                 if (this.model.get('_isDesktop')) {
                     this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
-                    this.evaluateCompletion();
                 }
             } 
             else {
                 return;
             }
+
             this.setStage(stage);
             this.changeStage();
         },
@@ -134,6 +134,7 @@ define(function(require) {
                 stage--;
                 this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
             }
+
             this.setStage(stage);
             this.changeStage();
         },
@@ -142,85 +143,75 @@ define(function(require) {
             this.model.set('_stage', stage);
         },
 
-        /*navigateTouch: function (event) {
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            $('.narrative-slider', el).animate({'margin-left': - (movementSize * stage)});
+            $('.narrative-strapline-header-inner', el).animate({'margin-left': - (strapLineSize * stage)});
+
+            if (this.model.get('_isDesktop')) {
+                this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
+            }
+            
+            this.setStage(stage);
+            this.changeStage();
+        },
+
+        navigateTouch: function(event) {
             event.preventDefault();
             if (!this.model.get('_active')) return;
-            var that = this,
-                xOrigPos = event.originalEvent.touches[0]['pageX'],
-                startPos = parseInt(this.$('.narrative-slider').css('margin-left')),
-                xPos = event.originalEvent.touches[0]['pageX'],
-                stage = this.model.get('_stage'),
-                extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
-                movementSize = this.$('.narrative-slide-container').width() + extraMargin,
-                narrativeSize = this.model.get('_itemCount'),
-                strapLineSize = this.$('.narrative-strapline-title').width(),
-                move;
 
+            var that = this;
+            var xOrigPos = event.originalEvent.touches[0]['pageX'];
+            var startPos = parseInt(this.$('.narrative-slider').css('margin-left'));
+            var stage = this.model.get('_stage');
+            var narrativeSize = this.model.get('_itemCount');
+            var move;
+            var xPos;
             var onFirst = (stage == 0) ? true : false;
             var onLast = (stage == narrativeSize - 1) ? true : false;
+            var swipeLeft = false;
+            var swipeRight = false;
 
             this.$('.narrative-slider').on('touchmove', _.bind(function(event) {
                 event.preventDefault();
                 xPos = event.originalEvent.touches[0]['pageX'];
+                swipeLeft = (xOrigPos > xPos) ? true : false;
+                swipeRight = (xOrigPos < xPos) ? true : false;
 
                 // Ensure the user does not scroll beyond the bounds
-                // of the narrative
-                /*if (onFirst && (xOrigPos < xPos)) {
-                    return;
+                if (onFirst && swipeRight || onLast && swipeLeft) return;
+                
+                if (swipeRight && !onLast || swipeLeft && !onFirst) {
+                    move = (xPos + startPos) - xOrigPos;  
                 }
-                if (onLast && (xOrigPos > xPos)) {
-                    return;
-                }*/
-
-                /*if (xPos < xOrigPos) {
-                    if (stage < narrativeSize - 1) {
-                        move = (xPos + startPos) - xOrigPos;
-                    } else {
-                        move = (xPos - xOrigPos)/4 + (startPos);
-                    }
-                }
-                if (xPos > xOrigPos) {
-                    if (stage > 0) {
-                        move = (xPos + startPos) - xOrigPos;
-                    } else {
-                        move = (xPos - xOrigPos)/4 + (startPos);
-                    }
+                else {
+                    move = (xPos - xOrigPos)/4 + (startPos);
                 }
 
                 this.$('.narrative-slider').css('margin-left', move);
             }, this));
+
             this.$('.narrative-slider').one('touchend', _.bind(function (event) {
                 $('.narrative-slider', that.$el).unbind('touchmove');
-                if (xPos < xOrigPos) {
-                    if (stage < narrativeSize - 1) {
-                        stage++;
-                        $('.narrative-slider', that.$el).animate({'margin-left': - (movementSize * stage)});
-                        $('.narrative-strapline-header-inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
-                    } else {
-                        $('.narrative-slider', that.$el).animate({'margin-left': -(movementSize*stage)}, 400);
-                    }
-                }
-                if (xPos > xOrigPos) {
-                    if (stage > 0) {
-                        stage--;
-                        $('.narrative-slider', that.$el).animate({'margin-left': - (movementSize * stage)});
-                        $('.narrative-strapline-header-inner', that.$el).animate({'margin-left': - (strapLineSize * stage)});
-                    } else {
-                        $('.narrative-slider', that.$el).animate({'margin-left': -(movementSize*stage)}, 400);
-                    }
+
+                if (swipeRight || swipeLeft) {
+                    if (swipeLeft && !onLast) stage++;
+                    if (swipeRight && !onFirst) stage--;
+                } else {
+                    return;
                 }
                 
-                that.model.set('_stage', stage);
-
-                $('.narrative-content-item', that.$el).addClass('narrative-hidden');
-                $('.narrative-content-item', that.$el).eq(stage).removeClass('narrative-hidden');
-                $('.narrative-progress', that.$el).removeClass('selected').eq(stage).addClass('selected');
+                that.navigateSwipe(that.$el, stage);
             }, this));
-        },*/
+        },
 
         changeStage: function() {
             var stage = this.model.get('_stage');
             this.evaluateNavigation();
+            this.evaluateCompletion();
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
@@ -250,11 +241,15 @@ define(function(require) {
             }
 
         },
+
         evaluateCompletion: function() {
-            if (this.$('.visited').length == this.model.get('_itemCount')) {
-                this.setCompletionStatus();
+            if (!this.model.get('_isComplete')) {
+                if (this.$('.visited').length == this.model.get('_itemCount')) {
+                    this.setCompletionStatus();
+                }                
             }
         },
+
         openNarrative: function (event) {
             event.preventDefault();
             this.model.set('_active', false);
@@ -271,6 +266,7 @@ define(function(require) {
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
 
         },
+
         closeNarrative: function (event) {
             event.preventDefault();
             this.model.set('_active', true);
