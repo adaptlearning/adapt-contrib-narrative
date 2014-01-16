@@ -243,10 +243,9 @@ define(function(require) {
         },
 
         evaluateCompletion: function() {
-            if (!this.model.get('_isComplete')) {
-                if (this.$('.visited').length == this.model.get('_itemCount')) {
-                    this.setCompletionStatus();
-                }                
+            if (this.$('.visited').length == this.model.get('_itemCount')) {
+                console.log('complete');
+                this.setCompletionStatus();
             }
         },
 
