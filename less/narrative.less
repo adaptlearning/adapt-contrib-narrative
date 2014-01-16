@@ -1,31 +1,52 @@
-.narrative-component {
-    
-    .narrative-control-left {
-        left: 0;
+.narrative-component {    
+
+    &.desktop { 
+        .narrative-slide-container {
+            float: left;
+            margin-right: 3%;
+            width: 60%;
+        }
+        .narrative-slider-graphic {
+            margin-right: 0;
+            width:60%;
+        }
+        .narrative-strapline {
+            display:none;
+        }
     }
 
-    .narrative-control-right {
-        right: 0;
+    .narrative-content {
+        float: left;
+        width: 36%;
+        background: @inverted-background-color;
+        color: @inverted-foreground-color;
     }
- 
+
+    .narrative-content-inner {
+        padding:20px;
+    }
+
+    &.mobile {
+        .narrative-content {
+            display:none;
+        }
+    }
+
+    .narrative-slide-container {
+        width: 100%;
+        position: relative;
+        overflow-x: hidden;
+        float: left;
+    }  
+
+    .narrative-slider-graphic {
+        float: left;
+        position: relative;
+    }
+
     .narrative-item-title {
         position:relative;
         display:block;
-        text-decoration: none;
-    }
-
-    .narrative-item-title-inner {
-        padding:14px 14px 14px 42px;
-        color:@primary-color;
-    }
-
-    .narrative-item-body {
-        display:none;
-        border-top: 1px solid #b9b9b9;
-    }
-
-    .narrative-item-body-inner {
-        padding:14px;
     }
 
     .narrative-indicators {
@@ -33,173 +54,125 @@
     }
 
     .narrative-progress {
-        background-color: @transparency;
-        border: 1px solid @inverted-background-color;
-        border-radius: 50%;
+        width: (@icon-size/3);
+        height: (@icon-size/3);
         display: inline-block;
-        height: 8px;
-        margin: 1px;
-        padding: 0;
-        width: 8px;
-
+        background-color: @background-color;
+        border: @border;
+        border-radius: 50%;
+        margin: 1px;        
         &.selected {
-            background-color: @inverted-background-color;
+            background-color: @primary-color;
         }
-    }    
-
-    .desktop .narrative-slide-container {
-        float: left;
-        margin-right: 3%;
-        width: 60%;
     }
 
-    .desktop .narrative-graphic {
-        margin-right: 0;
+    .narrative-controls {
+        display: block;
+        width: (@icon-size*2);
+        height: (@icon-size*2);
+        position: absolute;
+        top: 50%;
+        margin-top: -(@icon-size);
+        z-index: 10;
+        text-decoration: none;
+        background-color:@button-color;
+        &:hover {
+            background-color:@button-hover-color;
+            .icon {
+                color:@button-text-hover-color;
+            }
+        }
+        .icon {
+            margin: (@icon-size/2);;
+            color:@button-text-color;
+        }
     }
 
-    .component-widget {
-        width: 100%;
-    }
-
-    .narrative-slide-container {
-        position: relative;
-        width: 100%;
-        overflow-x: hidden;
-        float: left;
-    }  
-
-    .narrative-popup {
-        background-color: @inverted-background-color;
-        display: none;
-        height: 100%;
+    .narrative-control-left {
         left: 0;
-        position: fixed;
-        top: 0;
-        width: 100%;
-        z-index: 500;
-        &-open {
-            float: right;
-        }
-        &-close {
-            float: right;
-            text-decoration: none;
-        }
     }
 
-    .narrative-graphic {
-        float: left;
-        margin-right: 5px;
-        position: relative;
+    .narrative-control-right {
+        right: 0;
     }
 
     .narrative-strapline {
-        background-color: @primary-color;
-        color: #FFFFFF;
-        height: 48px;
+        background-color: @inverted-background-color;
+        color: @inverted-foreground-color;
+        height: (@icon-size*2);
         position: relative;
     }
 
-    .narrative-strapline .header {
+    .narrative-strapline-header {
         height: 100%;
         overflow: hidden;
         position: absolute;
     }
 
-    .narrative-strapline .header .inner {
-    }
-
-    .narrative-strapline .header .title {
+    .narrative-strapline-title {
         float: left;
-        line-height: 48px;
+        line-height: (@icon-size*2);
     }
 
-    .narrative-strapline .header .title .inner {
-        padding-left: 20px;
+    .narrative-strapline-title-inner {
+        padding-left: (@icon-size/2);
     }
 
-    .narrative-strapline .controls {
-        display: block;
-        height: 48px;
-        position: absolute;
-        right: 0;
-        width: 48px;
-
-        .icon {
-            display: block;
-            margin: 12px;
-
-            &:hover {
-                color: @secondary-color;    
-            }
-        }
-    }
-
-    .icon-cross {
-        color: @primary-color;
-    }
-
-    .narrative-slide-container .controls {
-        display: block;
-        height: 48px;
-        margin-top: -24px;
-        position: absolute;
-        top: 50%;
-        width: 48px;
-        z-index: 10;
-
-        .icon {
-            margin: 12px;
-        }
-    }
-
-    .narrative-content {
-        float: left;
-        width: 36%;
-        margin-left: 3%;
-    }
-
-    
-    .narrative-toolbar {
-        .close {
-            display: inline-block;
-            float: right;
-            color: @primary-color;
-            a {
-                text-decoration: none;
-            }
-        }
-
-        .title {
-            float: left;
-            width: 80%;
-        }
-    }
-
-    .narrative-popup .inner > .narrative-content {
-        float: left;
+    .narrative-popup {
         width: 100%;
-        margin-left: 3%;
+        height: 100%;
+        display: block;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 500;
+        background-color: @inverted-background-color;
+        color: @inverted-foreground-color;
+        border:@border;
     }
 
-    .narrative-popup > .inner {
-        background-color: #FFFFFF;
-        border: 1px solid #FBFBFB;
-        margin: 10px;
-        padding: 10px;
-        position: relative;
-        height: 100%;
+    .narrative-popup-inner {
+        padding:@item-padding;
+    }
 
-        &.content {
-            overflow-y: auto;
+    .narrative-popup-toolbar-title {
+        margin-bottom: 10px;
+        float: left;
+        width: 80%;
+    }
+
+    .narrative-popup-content {
+        overflow-y: auto;
+    }
+
+    .narrative-popup-open {
+        display: block;
+        float: right;
+        text-decoration: none;
+        margin-right: (@icon-size/2);
+        margin-top: (@icon-size/2);
+        .icon {
+            color: @inverted-foreground-color;
+            &:hover {
+                color: lighten(@inverted-background-color, 30%);
+            }
         }
     }
 
-    .narrative-popup h5 {
-        font-size: 19px;
-        margin-bottom: 10px;
+    .narrative-popup-close {
+        display: inline-block;
+        float: right;
+        color: @primary-color;
+        .icon {
+            color:@inverted-foreground-color;
+            &:hover {
+                color:lighten(@inverted-background-color, 30%);
+            }
+        }
     }
-}
 
-div.narrative-slide-container > a, div.narrative-strapline > a, div.title > a {
-    text-decoration: none
+    .narrative-hidden {
+        display:none;
+    }
+
 }
