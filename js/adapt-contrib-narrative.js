@@ -244,7 +244,6 @@ define(function(require) {
 
         evaluateCompletion: function() {
             if (this.$('.visited').length == this.model.get('_itemCount')) {
-                console.log('complete');
                 this.setCompletionStatus();
             }
         },
