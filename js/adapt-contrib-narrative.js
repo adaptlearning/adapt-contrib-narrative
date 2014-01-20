@@ -52,16 +52,17 @@ define(function(require) {
             this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
-            this.$('.narrative-progress').first().addClass('selected');
-            this.$('.narrative-slider-graphic').first().addClass('visited');       
-            this.$('.narrative-content-item').addClass('narrative-hidden').first().removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').first().removeClass('narrative-hidden');
+            // this.$('.narrative-slider-graphic').first().addClass('visited');       
+            // this.$('.narrative-content-item').addClass('narrative-hidden').first().removeClass('narrative-hidden');
+            // this.$('.narrative-strapline-title').addClass('narrative-hidden').first().removeClass('narrative-hidden');
 
-            this.model.set('_stage', 0);
             this.model.set('_active', true);
 
-            this.evaluateNavigation();
-            this.evaluateCompletion();
+            if (this.model.get('_stage')) {
+                this.setStage(this.model.get('_stage'));
+            } else {
+                this.setStage(0);
+            }
         },
 
         calculateWidths: function() {
@@ -126,7 +127,6 @@ define(function(require) {
             }
 
             this.setStage(stage);
-            this.changeStage();
         },
 
         navigateLeft: function(stage, movementSize) {
@@ -136,11 +136,23 @@ define(function(require) {
             }
 
             this.setStage(stage);
-            this.changeStage();
         },
 
         setStage: function(stage) {
             this.model.set('_stage', stage);
+
+            // Set the visited attribute
+            var currentItem = this.model.get('items')[stage];
+            currentItem.visited = true;
+
+            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
+            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+
+            this.evaluateNavigation();
+            this.evaluateCompletion();
         },
 
         navigateSwipe: function(el, stage) {
@@ -156,7 +168,6 @@ define(function(require) {
             }
             
             this.setStage(stage);
-            this.changeStage();
         },
 
         navigateTouch: function(event) {
@@ -208,18 +219,6 @@ define(function(require) {
             }, this));
         },
 
-        changeStage: function() {
-            var stage = this.model.get('_stage');
-            this.evaluateNavigation();
-            this.evaluateCompletion();
-
-            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
-            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
-            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-        },
-
         evaluateNavigation: function() {
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
@@ -243,7 +242,7 @@ define(function(require) {
         },
 
         evaluateCompletion: function() {
-            if (this.$('.visited').length == this.model.get('_itemCount')) {
+            if (this.$('.visited').length == this.model.get('items').length) {
                 this.setCompletionStatus();
             }
         },
