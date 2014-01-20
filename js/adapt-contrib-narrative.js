@@ -52,10 +52,6 @@ define(function(require) {
             this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
-            // this.$('.narrative-slider-graphic').first().addClass('visited');       
-            // this.$('.narrative-content-item').addClass('narrative-hidden').first().removeClass('narrative-hidden');
-            // this.$('.narrative-strapline-title').addClass('narrative-hidden').first().removeClass('narrative-hidden');
-
             this.model.set('_active', true);
 
             if (this.model.get('_stage')) {
@@ -121,21 +117,18 @@ define(function(require) {
                 if (this.model.get('_isDesktop')) {
                     this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
                 }
-            } 
-            else {
-                return;
-            }
 
-            this.setStage(stage);
+                this.setStage(stage);
+            }            
         },
 
         navigateLeft: function(stage, movementSize) {
             if (stage > 0) {
                 stage--;
                 this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
-            }
 
-            this.setStage(stage);
+                this.setStage(stage);
+            }            
         },
 
         setStage: function(stage) {
@@ -261,7 +254,6 @@ define(function(require) {
             this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
             this.$('.narrative-popup').removeClass('narrative-hidden');
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
-
         },
 
         closeNarrative: function (event) {
@@ -270,6 +262,7 @@ define(function(require) {
 
             this.$('.narrative-popup-close').blur();
             this.$('.narrative-popup').addClass('narrative-hidden');
+            
             this.evaluateCompletion();
         }
     });
