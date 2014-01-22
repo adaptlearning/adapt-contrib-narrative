@@ -159,15 +159,6 @@ define(function(require) {
             var strapLineSize = this.$('.narrative-strapline-title').width();
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
 
-            $('.narrative-slider', el).animate({'margin-left': - (movementSize * stage)});
-            $('.narrative-strapline-header-inner', el).animate({'margin-left': - (strapLineSize * stage)});
-
-            if (this.model.get('_isDesktop')) {
-                this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
-            }
-            
-            this.setStage(stage);
-
             // Set the visited attribute
             var currentItem = this.model.get('items')[stage];
             currentItem.visited = true;
