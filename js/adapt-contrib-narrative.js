@@ -52,16 +52,13 @@ define(function(require) {
             this.model.set('_itemCount', slideCount);
             this.calculateWidths();
 
-            this.$('.narrative-progress').first().addClass('selected');
-            this.$('.narrative-slider-graphic').first().addClass('visited');       
-            this.$('.narrative-content-item').addClass('narrative-hidden').first().removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').first().removeClass('narrative-hidden');
-
-            this.model.set('_stage', 0);
             this.model.set('_active', true);
 
-            this.evaluateNavigation();
-            this.evaluateCompletion();
+            if (this.model.get('_stage')) {
+                this.setStage(this.model.get('_stage'));
+            } else {
+                this.setStage(0);
+            }
         },
 
         calculateWidths: function() {
@@ -120,27 +117,41 @@ define(function(require) {
                 if (this.model.get('_isDesktop')) {
                     this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
                 }
-            } 
-            else {
-                return;
-            }
 
-            this.setStage(stage);
-            this.changeStage();
+                this.setStage(stage);
+            }            
         },
 
         navigateLeft: function(stage, movementSize) {
             if (stage > 0) {
                 stage--;
                 this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
-            }
 
-            this.setStage(stage);
-            this.changeStage();
+                this.setStage(stage);
+            }            
         },
 
         setStage: function(stage) {
             this.model.set('_stage', stage);
+        },
+
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            // Set the visited attribute
+            var currentItem = this.model.get('items')[stage];
+            currentItem.visited = true;
+
+            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
+            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+
+            this.evaluateNavigation();
+            this.evaluateCompletion();
         },
 
         navigateSwipe: function(el, stage) {
@@ -156,7 +167,7 @@ define(function(require) {
             }
             
             this.setStage(stage);
-            this.changeStage();
+
         },
 
         navigateTouch: function(event) {
@@ -208,18 +219,6 @@ define(function(require) {
             }, this));
         },
 
-        changeStage: function() {
-            var stage = this.model.get('_stage');
-            this.evaluateNavigation();
-            this.evaluateCompletion();
-
-            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
-            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
-            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-        },
-
         evaluateNavigation: function() {
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
@@ -243,7 +242,7 @@ define(function(require) {
         },
 
         evaluateCompletion: function() {
-            if (this.$('.visited').length == this.model.get('_itemCount')) {
+            if (this.$('.visited').length == this.model.get('items').length) {
                 this.setCompletionStatus();
             }
         },
@@ -262,7 +261,6 @@ define(function(require) {
             this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
             this.$('.narrative-popup').removeClass('narrative-hidden');
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
-
         },
 
         closeNarrative: function (event) {
@@ -271,6 +269,7 @@ define(function(require) {
 
             this.$('.narrative-popup-close').blur();
             this.$('.narrative-popup').addClass('narrative-hidden');
+            
             this.evaluateCompletion();
         }
     });
