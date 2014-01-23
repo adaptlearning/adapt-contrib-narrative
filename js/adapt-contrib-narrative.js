@@ -144,6 +144,31 @@ define(function(require) {
 
         setStage: function(stage) {
             this.model.set('_stage', stage);
+        },
+
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            // Set the visited attribute
+            var currentItem = this.model.get('items')[stage];
+            currentItem.visited = true;
+
+            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
+            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+
+            this.evaluateNavigation();
+            this.evaluateCompletion();
+        },
+
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
 
             // Set the visited attribute
             var currentItem = this.model.get('items')[stage];
@@ -172,6 +197,7 @@ define(function(require) {
             }
             
             this.setStage(stage);
+            
         },
 
         navigateTouch: function(event) {
