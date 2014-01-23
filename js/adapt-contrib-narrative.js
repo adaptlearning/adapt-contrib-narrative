@@ -25,7 +25,7 @@ define(function(require) {
 
         preRender: function () {
             this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
-            this.listenTo(Adapt, 'device:change', this.reRender, this);
+            this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.setDeviceSize();
         },
@@ -82,14 +82,25 @@ define(function(require) {
         },
 
         reRender: function() {
-            if (this.model.get('_component') == 'hotgraphic' && (Adapt.device.screenSize != 'medium')) {
-                new Adapt.hotgraphic({model:this.model, $parent:this.$parent}).render();
-                this.remove();
-            } else {
-                this.render();
-                this.resizeControl();
-                this.delegateEvents();
+            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize != 'small') {
+                this.replaceWithHotgraphic();
             }
+        },
+
+        replaceWithHotgraphic: function () {
+            var Hotgraphic = require('components/adapt-contrib-hotgraphic/js/adapt-contrib-hotgraphic');
+            var model = this.prepareHotgraphicModel();
+            var newHotgraphic = new Hotgraphic({model:model, $parent: this.options.$parent});
+            this.options.$parent.append(newHotgraphic.$el);
+            Adapt.trigger('device:resize');
+            this.remove();
+        },
+
+        prepareHotgraphicModel: function() {
+          var model = this.model;
+          model.set('_component', 'hotgraphic');
+          model.set('body', model.get('originalBody'));
+          return model;
         },
 
         navigateClick: function (event) {
@@ -269,4 +280,6 @@ define(function(require) {
     
     Adapt.register("narrative", Narrative);
     
+    return Narrative;
+
 });
