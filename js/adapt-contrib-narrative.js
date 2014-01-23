@@ -245,8 +245,14 @@ define(function(require) {
 
         },
 
+        getVisitedItems: function() {
+          return _.filter(this.model.get('items'), function(item) {
+            return item.visited;
+          });
+        },
+
         evaluateCompletion: function() {
-            if (this.$('.visited').length == this.model.get('items').length) {
+            if (this.getVisitedItems().length == this.model.get('items').length) {
                 this.setCompletionStatus();
             }
         },
