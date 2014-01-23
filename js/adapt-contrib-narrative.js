@@ -84,10 +84,6 @@ define(function(require) {
         reRender: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize != 'small') {
                 this.replaceWithHotgraphic();
-            } else {
-                this.render();
-                this.resizeControl();
-                this.delegateEvents();
             }
         },
 
