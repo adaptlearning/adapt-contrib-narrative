@@ -5,8 +5,8 @@
 */
 define(function(require) {
 
-	var ComponentView = require("coreViews/componentView");
-	var Adapt = require("coreJS/adapt");
+    var ComponentView = require("coreViews/componentView");
+    var Adapt = require("coreJS/adapt");
 
     var Narrative = ComponentView.extend({
         
@@ -144,12 +144,6 @@ define(function(require) {
 
         setStage: function(stage) {
             this.model.set('_stage', stage);
-        },
-
-        navigateSwipe: function(el, stage) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
-            var strapLineSize = this.$('.narrative-strapline-title').width();
-            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
 
             // Set the visited attribute
             var currentItem = this.model.get('items')[stage];
@@ -163,6 +157,21 @@ define(function(require) {
 
             this.evaluateNavigation();
             this.evaluateCompletion();
+        },
+
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            $('.narrative-slider', el).animate({'margin-left': - (movementSize * stage)});
+            $('.narrative-strapline-header-inner', el).animate({'margin-left': - (strapLineSize * stage)});
+
+            if (this.model.get('_isDesktop')) {
+                this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
+            }
+            
+            this.setStage(stage);
         },
 
         navigateSwipe: function(el, stage) {
