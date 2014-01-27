@@ -108,7 +108,7 @@
         overflow: hidden;
         position: relative;
         padding: 5px 0;
-        margin-right: (@icon-size + 10);
+        // margin-right: (@icon-size + 10);
     }
 
     .narrative-strapline-title {
@@ -150,10 +150,12 @@
     .narrative-popup-open {
         display: block;
         position: absolute;
-        top:7px;
-        right:5px;
+        top:0;
+        right:0;
         text-decoration: none;
         z-index: 500;
+        background-color: @inverted-background-color;
+        padding: 8px;
         .icon {
             color: @inverted-foreground-color;
             &:hover {

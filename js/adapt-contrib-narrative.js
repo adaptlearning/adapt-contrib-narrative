@@ -9,22 +9,24 @@ define(function(require) {
     var Adapt = require("coreJS/adapt");
 
     var Narrative = ComponentView.extend({
+            
+        animateSliderToIndex: function(itemIndex) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
+                movementSize = this.$('.narrative-slide-container').width()+extraMargin,
+                strapLineSize = this.$('.narrative-strapline-title').width();
+            
+            this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
+            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(strapLineSize * itemIndex)});
+        },
         
-        events: function () {
-            return Adapt.device.touch == true ? {
-                'touchstart .narrative-slider' : 'navigateTouch',
-                'touchstart .narrative-popup-open' : 'openNarrative',
-                'click .narrative-popup-close' : 'closeNarrative',
-                'click .narrative-controls' : 'navigateClick',
-            }:{
-                'click .narrative-controls' : 'navigateClick',
-                'click .narrative-popup-open' : 'openNarrative',
-                'click .narrative-popup-close' : 'closeNarrative'
-            }
+        events: {
+            'touchstart .narrative-slider':'onTouchNavigationStarted',
+            'click .narrative-popup-open':'openPopup',
+            'click .narrative-popup-close':'closePopup',
+            'click .narrative-controls':'onNavigationClicked'
         },
 
         preRender: function () {
-            this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.setDeviceSize();
@@ -44,13 +46,13 @@ define(function(require) {
             this.$('.narrative-slider').imageready(_.bind(function(){
                 this.setReadyStatus();
             }, this));
+            this.setupNarrative();
         }, 
 
         setupNarrative: function() {
+            _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
-            var slideCount = this.$('.narrative-slider-graphic', this.$el).length;
-            this.model.set('_itemCount', slideCount);
-            this.calculateWidths();
+            this.model.set('_itemCount', this.model.get('items').length);
 
             this.model.set('_active', true);
 
@@ -59,22 +61,109 @@ define(function(require) {
             } else {
                 this.setStage(0);
             }
+            this.calculateWidths();
         },
 
         calculateWidths: function() {
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
+            var extraMargin = marginRight === "" ? 0 : parseInt(marginRight);
+            var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
 
             this.$('.narrative-slider-graphic').width(slideWidth)
-            this.$('.narrative-slider').width((slideWidth + extraMargin) * slideCount);
+            this.$('.narrative-strapline-header').width(slideWidth);
+            this.$('.narrative-strapline-title').width(slideWidth);
+            
+            this.$('.narrative-slider').width(fullSlideWidth);
+            this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
 
             var stage = this.model.get('_stage');
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css('margin-left', margin);
+
+            this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
         },
 
+        constrainStage: function(stage) {
+            if (stage > this.model.get('items').length - 1) {
+                stage = this.model.get('items').length - 1;
+            } else if (stage < 0) {
+                stage = 0;
+            }
+            return stage;
+        },
+        
+        constrainXPosition: function(previousLeft, newLeft, deltaX) {
+            if (newLeft > 0 && deltaX > 0) {
+                newLeft = previousLeft + (deltaX / (newLeft * 0.1));
+            }
+            var finalItemLeft = this.model.get('_finalItemLeft'); 
+            if (newLeft < -finalItemLeft && deltaX < 0) {
+                var distance = Math.abs(newLeft + finalItemLeft);
+                newLeft = previousLeft + (deltaX / (distance * 0.1));
+            }
+            return newLeft;
+        },
+        
+        getNearestItemIndex: function() {
+            var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left')),
+                graphicWidth = this.$('.narrative-slider-graphic').width(),
+                absolutePosition = currentPosition / graphicWidth,
+                stage = this.model.get('_stage'),
+                relativePosition = stage - Math.abs(absolutePosition);
+            
+            if(relativePosition < -0.3) {
+                stage++;
+            } else if (relativePosition > 0.3) {
+                stage--;
+            }
+            
+            return this.constrainStage(stage);
+        },
+        
+        moveElement: function($element, deltaX) {
+            var previousLeft = parseInt($element.css('margin-left')),
+                newLeft = previousLeft + deltaX;
+            
+            newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
+
+            $element.css('margin-left', newLeft + 'px');
+        },
+        
+        onTouchNavigationStarted: function(event) {
+            event.preventDefault();
+            if (!this.model.get('_active')) return;
+            
+            this.$('.narrative-slider').stop();
+            this.$('.narrative-strapline-header-inner').stop();
+            
+            this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
+            this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
+            
+            this.$('.narrative-slider').on('touchmove', this.onTouchMove);
+            this.$('.narrative-slider').one('touchend', this.onTouchEnd);
+        },
+
+        onTouchEnd: function(event) {
+            var nextItemIndex = this.getNearestItemIndex();
+            this.setStage(nextItemIndex);
+            
+            this.$('.narrative-slider').off('touchmove', this.onTouchMove);
+        },
+
+        onTouchMove: function(event) {
+            var currentX = event.originalEvent.touches[0]['pageX'],
+                previousX = this.model.get('_currentX'),
+                deltaX = currentX - previousX;
+            
+            this.moveElement(this.$('.narrative-slider'), deltaX);
+            this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
+            
+            this.model.set('_currentX', currentX);
+        },
+        
         resizeControl: function() {
             this.setDeviceSize();
             this.calculateWidths();
@@ -103,43 +192,21 @@ define(function(require) {
           return model;
         },
 
-        navigateClick: function (event) {
+        onNavigationClicked: function(event) {
             event.preventDefault();
+            
             if (!this.model.get('_active')) return;
-
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
-            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
-
-            var stage = this.model.get('_stage');
-            var itemCount = this.model.get('_itemCount');
-
+            
+            var stage = this.model.get('_stage'),
+                numberOfItems = this.model.get('_itemCount');
+            
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                this.navigateRight(stage, itemCount, movementSize);
-            }
-            if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                this.navigateLeft(stage, movementSize);
-            }
-        },
-
-        navigateRight: function(stage, itemCount, movementSize) {
-            if (stage < itemCount - 1) {
                 stage++;
-                this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
-                if (this.model.get('_isDesktop')) {
-                    this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
-                }
-
-                this.setStage(stage);
-            }            
-        },
-
-        navigateLeft: function(stage, movementSize) {
-            if (stage > 0) {
+            } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
-                this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
-
-                this.setStage(stage);
-            }            
+            }
+            stage = (stage + numberOfItems) % numberOfItems;
+            this.setStage(stage);
         },
 
         setStage: function(stage) {
@@ -153,73 +220,11 @@ define(function(require) {
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
 
             this.evaluateNavigation();
             this.evaluateCompletion();
-        },
 
-        navigateSwipe: function(el, stage) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
-            var strapLineSize = this.$('.narrative-strapline-title').width();
-            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
-
-            $('.narrative-slider', el).animate({'margin-left': - (movementSize * stage)});
-
-            if (this.model.get('_isDesktop')) {
-                this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
-            }
-
-            this.setStage(stage);
-        },
-
-        navigateTouch: function(event) {
-            event.preventDefault();
-            if (!this.model.get('_active')) return;
-
-            var that = this;
-            var xOrigPos = event.originalEvent.touches[0]['pageX'];
-            var startPos = parseInt(this.$('.narrative-slider').css('margin-left'));
-            var stage = this.model.get('_stage');
-            var narrativeSize = this.model.get('_itemCount');
-            var move;
-            var xPos;
-            var onFirst = (stage == 0) ? true : false;
-            var onLast = (stage == narrativeSize - 1) ? true : false;
-            var swipeLeft = false;
-            var swipeRight = false;
-
-            this.$('.narrative-slider').on('touchmove', _.bind(function(event) {
-                event.preventDefault();
-                xPos = event.originalEvent.touches[0]['pageX'];
-                swipeLeft = (xOrigPos > xPos) ? true : false;
-                swipeRight = (xOrigPos < xPos) ? true : false;
-
-                // Ensure the user does not scroll beyond the bounds
-                if (onFirst && swipeRight || onLast && swipeLeft) return;
-                
-                if (swipeRight && !onLast || swipeLeft && !onFirst) {
-                    move = (xPos + startPos) - xOrigPos;  
-                }
-                else {
-                    move = (xPos - xOrigPos)/4 + (startPos);
-                }
-
-                this.$('.narrative-slider').css('margin-left', move);
-            }, this));
-
-            this.$('.narrative-slider').one('touchend', _.bind(function (event) {
-                $('.narrative-slider', that.$el).unbind('touchmove');
-
-                if (swipeRight || swipeLeft) {
-                    if (swipeLeft && !onLast) stage++;
-                    if (swipeRight && !onFirst) stage--;
-                } else {
-                    return;
-                }
-                
-                that.navigateSwipe(that.$el, stage);
-            }, this));
+            this.animateSliderToIndex(stage);
         },
 
         evaluateNavigation: function() {
@@ -256,7 +261,7 @@ define(function(require) {
             }
         },
 
-        openNarrative: function (event) {
+        openPopup: function (event) {
             event.preventDefault();
             this.model.set('_active', false);
 
@@ -272,7 +277,7 @@ define(function(require) {
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
         },
 
-        closeNarrative: function (event) {
+        closePopup: function (event) {
             event.preventDefault();
             this.model.set('_active', true);
 
