@@ -99,14 +99,16 @@
     .narrative-strapline {
         background-color: @inverted-background-color;
         color: @inverted-foreground-color;
-        height: (@icon-size*2);
+        height: auto;
         position: relative;
     }
 
     .narrative-strapline-header {
         height: 100%;
         overflow: hidden;
-        position: absolute;
+        position: relative;
+        padding: 5px 0;
+        margin-right: (@icon-size + 10);
     }
 
     .narrative-strapline-title {
@@ -147,10 +149,11 @@
 
     .narrative-popup-open {
         display: block;
-        float: right;
+        position: absolute;
+        top:7px;
+        right:5px;
         text-decoration: none;
-        margin-right: (@icon-size/2);
-        margin-top: (@icon-size/2);
+        z-index: 500;
         .icon {
             color: @inverted-foreground-color;
             &:hover {
