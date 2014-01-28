@@ -82,7 +82,7 @@ define(function(require) {
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize != 'small') {
+            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
             }
         },
