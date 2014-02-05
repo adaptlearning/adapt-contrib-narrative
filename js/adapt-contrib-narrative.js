@@ -15,7 +15,7 @@ define(function(require) {
                 'touchstart .narrative-slider' : 'navigateTouch',
                 'touchstart .narrative-popup-open' : 'openNarrative',
                 'click .narrative-popup-close' : 'closeNarrative',
-                'click .narrative-controls' : 'navigateClick',
+                'click .narrative-controls' : 'navigateClick'
             }:{
                 'click .narrative-controls' : 'navigateClick',
                 'click .narrative-popup-open' : 'openNarrative',
