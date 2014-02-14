@@ -1,19 +1,6 @@
 {{! Maintainers - Brian Quinn}}
 <div class="narrative-inner component-inner">
-    {{#if title}}
-    <div class="narrative-title component-title">
-        <h4 class="narrative-title-inner component-title-inner">
-            {{{title}}}
-        </h4>
-    </div>
-    {{/if}}
-    {{#if body}}
-    <div class="narrative-body component-body">
-        <div class="narrative-body-inner component-body-inner">
-            {{{body}}}
-        </div>
-    </div>
-    {{/if}}
+    {{> component this}}
     <div class="narrative-widget component-widget">
         
         <div class="narrative-strapline">
