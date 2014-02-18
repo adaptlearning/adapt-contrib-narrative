@@ -260,6 +260,7 @@ define(function(require) {
 
         openNarrative: function (event) {
             event.preventDefault();
+            Adapt.trigger('popup:opened');
             this.model.set('_active', false);
 
             var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
@@ -282,6 +283,7 @@ define(function(require) {
             this.$('.narrative-popup').addClass('narrative-hidden');
             
             this.evaluateCompletion();
+            Adapt.trigger('popup:closed');
         }
     });
     
