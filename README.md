@@ -3,7 +3,7 @@ adapt-contrib-narrative
 
 An Adapt core contributed narrative component that displays images with corresponding text and left and right navigation controls to progress through the narrative.
 
-The narrative control renders differently when Adapt.device.screenSize is 'small'.  In this cas the corresponding text is only available by clicking the '+' icon.
+The narrative control renders differently when Adapt.device.screenSize is 'small'.  In this case, the corresponding text is only available by clicking the '+' icon.
 
 Installation
 ------------
