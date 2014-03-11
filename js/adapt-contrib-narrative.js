@@ -262,13 +262,15 @@ define(function(require) {
 
             var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
             var innerPadding = parseFloat(this.$('.narrative-popup-inner').css('padding'));
-            var toolBarHeight = this.$('.narrative-toolbar').height();
 
             this.$('.narrative-slider-graphic').eq(this.model.get('_stage')).addClass('visited');
             this.$('.narrative-popup-toolbar-title').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
             this.$('.narrative-popup-content').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
             this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
             this.$('.narrative-popup').removeClass('narrative-hidden');
+
+            var toolBarHeight = this.$('.narrative-toolbar').height();
+            
             this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
         },
 
