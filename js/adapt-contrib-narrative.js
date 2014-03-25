@@ -9,16 +9,52 @@ define(function(require) {
     var Adapt = require("coreJS/adapt");
 
     var Narrative = ComponentView.extend({
-            
-        animateSliderToIndex: function(itemIndex) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
-                movementSize = this.$('.narrative-slide-container').width()+extraMargin,
-                strapLineSize = this.$('.narrative-strapline-title').width();
-            
-            this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
-            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(strapLineSize * itemIndex)});
+ 
+        events: {
+            'touchstart .narrative-slider':'onTouchNavigationStarted',
+            'click .narrative-popup-open':'openPopup',
+            'click .narrative-popup-close':'closePopup',
+            'click .narrative-controls':'onNavigationClicked'
         },
         
+        preRender: function () {
+            this.listenTo(Adapt, 'device:changed', this.reRender, this);
+            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
+            this.setDeviceSize();
+        },
+
+        setDeviceSize: function() {
+            if (Adapt.device.screenSize === 'large') {
+                this.$el.addClass('desktop').removeClass('mobile');
+                this.model.set('_isDesktop', true);
+            } else {
+                this.$el.addClass('mobile').removeClass('desktop');
+                this.model.set('_isDesktop', false)
+            }
+        },
+
+        postRender: function() {
+            this.$('.narrative-slider').imageready(_.bind(function(){
+                this.setReadyStatus();
+            }, this));
+            this.setupNarrative();
+        }, 
+
+        setupNarrative: function() {
+            _.bindAll(this, 'onTouchMove', 'onTouchEnd');
+            this.setDeviceSize();
+            this.model.set('_itemCount', this.model.get('items').length);
+
+            this.model.set('_active', true);
+
+            if (this.model.get('_stage')) {
+                this.setStage(this.model.get('_stage'));
+            } else {
+                this.setStage(0);
+            }
+            this.calculateWidths();
+        },
+
         calculateWidths: function() {
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
@@ -37,8 +73,46 @@ define(function(require) {
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css('margin-left', margin);
+            this.$('.narrative-strapline-header-inner').css('margin-left', margin);
 
             this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
+        },
+
+        resizeControl: function() {
+            this.setDeviceSize();
+            this.calculateWidths();
+            this.evaluateNavigation();
+        },
+
+        reRender: function() {
+            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
+                this.replaceWithHotgraphic();
+            }
+        },
+
+        replaceWithHotgraphic: function () {
+            var Hotgraphic = require('components/adapt-contrib-hotgraphic/js/adapt-contrib-hotgraphic');
+            var model = this.prepareHotgraphicModel();
+            var newHotgraphic = new Hotgraphic({model:model, $parent: this.options.$parent});
+            this.options.$parent.append(newHotgraphic.$el);
+            Adapt.trigger('device:resize');
+            this.remove();
+        },
+
+        prepareHotgraphicModel: function() {
+          var model = this.model;
+          model.set('_component', 'hotgraphic');
+          model.set('body', model.get('originalBody'));
+          return model;
+        },
+
+        animateSliderToIndex: function(itemIndex) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
+                movementSize = this.$('.narrative-slide-container').width()+extraMargin,
+                strapLineSize = this.$('.narrative-strapline-title').width();
+            
+            this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
+            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(strapLineSize * itemIndex)});
         },
 
         closePopup: function (event) {
@@ -50,6 +124,27 @@ define(function(require) {
             
             this.evaluateCompletion();
         },
+
+
+        setStage: function(stage) {
+            this.model.set('_stage', stage);
+
+            // Set the visited attribute
+            var currentItem = this.model.get('items')[stage];
+            currentItem.visited = true;
+
+            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
+            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+
+            this.evaluateNavigation();
+            this.evaluateCompletion();
+
+            this.animateSliderToIndex(stage);
+        },
+
         
         constrainStage: function(stage) {
             if (stage > this.model.get('items').length - 1) {
@@ -70,12 +165,6 @@ define(function(require) {
                 newLeft = previousLeft + (deltaX / (distance * 0.1));
             }
             return newLeft;
-        },
-        
-        evaluateCompletion: function() {
-            if (this.getVisitedItems().length == this.model.get('items').length) {
-                this.setCompletionStatus();
-            }
         },
 
         evaluateNavigation: function() {
@@ -100,13 +189,6 @@ define(function(require) {
 
         },
 
-        events: {
-            'touchstart .narrative-slider':'onTouchNavigationStarted',
-            'click .narrative-popup-open':'openPopup',
-            'click .narrative-popup-close':'closePopup',
-            'click .narrative-controls':'onNavigationClicked'
-        },
-
         getNearestItemIndex: function() {
             var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left')),
                 graphicWidth = this.$('.narrative-slider-graphic').width(),
@@ -127,6 +209,12 @@ define(function(require) {
           return _.filter(this.model.get('items'), function(item) {
             return item.visited;
           });
+        },
+
+        evaluateCompletion: function() {
+            if (this.getVisitedItems().length == this.model.get('items').length) {
+                this.setCompletionStatus();
+            }
         },
 
         moveElement: function($element, deltaX) {
@@ -201,91 +289,8 @@ define(function(require) {
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
             
             this.model.set('_currentX', currentX);
-        },
-        
-        prepareHotgraphicModel: function() {
-          var model = this.model;
-          model.set('_component', 'hotgraphic');
-          model.set('body', model.get('originalBody'));
-          return model;
-        },
-
-        preRender: function () {
-            this.listenTo(Adapt, 'device:changed', this.reRender, this);
-            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
-            this.setDeviceSize();
-        },
-
-        postRender: function() {
-            this.$('.narrative-slider').imageready(_.bind(function(){
-                this.setReadyStatus();
-            }, this));
-            this.setupNarrative();
-        }, 
-
-        resizeControl: function() {
-            this.setDeviceSize();
-            this.calculateWidths();
-            this.evaluateNavigation();
-        },
-
-        reRender: function() {
-            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize != 'small') {
-                this.replaceWithHotgraphic();
-            }
-        },
-
-        replaceWithHotgraphic: function () {
-            var Hotgraphic = require('components/adapt-contrib-hotgraphic/js/adapt-contrib-hotgraphic');
-            var model = this.prepareHotgraphicModel();
-            var newHotgraphic = new Hotgraphic({model:model, $parent: this.options.$parent});
-            this.options.$parent.append(newHotgraphic.$el);
-            Adapt.trigger('device:resize');
-            this.remove();
-        },
-
-        setDeviceSize: function() {
-            if (Adapt.device.screenSize === 'large') {
-                this.$el.addClass('desktop').removeClass('mobile');
-                this.model.set('_isDesktop', true);
-            } else {
-                this.$el.addClass('mobile').removeClass('desktop');
-                this.model.set('_isDesktop', false)
-            }
-        },
-
-        setStage: function(stage) {
-            this.model.set('_stage', stage);
-
-            // Set the visited attribute
-            var currentItem = this.model.get('items')[stage];
-            currentItem.visited = true;
-
-            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
-            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
-            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-
-            this.evaluateNavigation();
-            this.evaluateCompletion();
-
-            this.animateSliderToIndex(stage);
-        },
-
-        setupNarrative: function() {
-            _.bindAll(this, 'onTouchMove', 'onTouchEnd');
-            this.setDeviceSize();
-            this.model.set('_itemCount', this.model.get('items').length);
-
-            this.model.set('_active', true);
-
-            if (this.model.get('_stage')) {
-                this.setStage(this.model.get('_stage'));
-            } else {
-                this.setStage(0);
-            }
-            this.calculateWidths();
         }
+        
     });
     
     Adapt.register("narrative", Narrative);
