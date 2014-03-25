@@ -13,7 +13,7 @@ define(function(require) {
         events: {
             'touchstart .narrative-slider':'onTouchNavigationStarted',
             'click .narrative-popup-open':'openPopup',
-            'click .narrative-popup-close':'closePopup',
+            'click .notify-popup-icon-close':'closePopup',
             'click .narrative-controls':'onNavigationClicked'
         },
         
@@ -118,12 +118,13 @@ define(function(require) {
 
         closePopup: function (event) {
             event.preventDefault();
-            this.model.set('_active', true);
+            Adapt.trigger('popup:closed');
+            /*this.model.set('_active', true);
 
             this.$('.narrative-popup-close').blur();
             this.$('.narrative-popup').addClass('narrative-hidden');
             
-            this.evaluateCompletion();
+            this.evaluateCompletion();*/
         },
 
 
@@ -131,14 +132,14 @@ define(function(require) {
             this.model.set('_stage', stage);
 
             // Set the visited attribute
-            var currentItem = this.model.get('items')[stage];
+            var currentItem = this.getCurrentItem(stage);
             currentItem.visited = true;
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            
+
             this.evaluateNavigation();
             this.evaluateCompletion();
 
@@ -204,6 +205,10 @@ define(function(require) {
             
             return this.constrainStage(stage);
         },
+
+        getCurrentItem: function(index) {
+            return this.model.get('items')[index];
+        },
         
         getVisitedItems: function() {
           return _.filter(this.model.get('items'), function(item) {
@@ -228,18 +233,14 @@ define(function(require) {
         
         openPopup: function (event) {
             event.preventDefault();
-            this.model.set('_active', false);
+            var currentItem = this.getCurrentItem(this.model.get('_stage')),
+                popupObject = {
+                    title: currentItem.title,
+                    body: currentItem.body
+                };
 
-            var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
-            var innerPadding = parseFloat(this.$('.narrative-popup-inner').css('padding'));
-            var toolBarHeight = this.$('.narrative-toolbar').height();
-
-            this.$('.narrative-slider-graphic').eq(this.model.get('_stage')).addClass('visited');
-            this.$('.narrative-popup-toolbar-title').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
-            this.$('.narrative-popup-content').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
-            this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
-            this.$('.narrative-popup').removeClass('narrative-hidden');
-            this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
+            Adapt.trigger('notify:popup', popupObject);
+            Adapt.trigger('popup:opened');
         },
 
         onNavigationClicked: function(event) {
