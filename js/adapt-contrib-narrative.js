@@ -61,10 +61,12 @@ define(function(require) {
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
             var extraMargin = marginRight === "" ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
+            var iconWidth = this.$('.narrative-popup-open').outerWidth();
 
             this.$('.narrative-slider-graphic').width(slideWidth)
             this.$('.narrative-strapline-header').width(slideWidth);
             this.$('.narrative-strapline-title').width(slideWidth);
+            this.$('.narrative-strapline-title-inner').width(slideWidth - iconWidth);
 
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
@@ -108,11 +110,10 @@ define(function(require) {
 
         animateSliderToIndex: function(itemIndex) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
-                movementSize = this.$('.narrative-slide-container').width()+extraMargin,
-                strapLineSize = this.$('.narrative-strapline-title').width();
+                movementSize = this.$('.narrative-slide-container').width()+extraMargin;
             
             this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
-            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(strapLineSize * itemIndex)});
+            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(movementSize * itemIndex)});
         },
 
         closePopup: function (event) {
@@ -137,7 +138,6 @@ define(function(require) {
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
 
             this.evaluateNavigation();
             this.evaluateCompletion();
