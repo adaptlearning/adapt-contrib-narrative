@@ -138,7 +138,7 @@ define(function(require) {
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-
+            
             this.evaluateNavigation();
             this.evaluateCompletion();
 
