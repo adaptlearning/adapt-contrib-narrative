@@ -8,6 +8,8 @@
   ],
   "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",
+  "displayName" : "Narrative",
+  "component" : "narrative",
   "keywords": [
     "adapt-plugin",
     "adapt-component"
