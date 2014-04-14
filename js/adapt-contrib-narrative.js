@@ -97,8 +97,10 @@ define(function(require) {
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new Hotgraphic({model:model, $parent: this.options.$parent});
             this.options.$parent.append(newHotgraphic.$el);
-            Adapt.trigger('device:resize');
             this.remove();
+            _.defer(function(){
+                Adapt.trigger('device:resize');
+            });
         },
 
         prepareHotgraphicModel: function() {
@@ -290,6 +292,7 @@ define(function(require) {
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
             
             this.model.set('_currentX', currentX);
+            Adapt.trigger('popup:closed');
         }
         
     });
