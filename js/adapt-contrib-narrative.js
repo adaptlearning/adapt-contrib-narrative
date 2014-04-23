@@ -148,7 +148,7 @@ define(function(require) {
             this.model.set('_stage', stage);
 
             // Set the visited attribute
-            var currentItem = this.model.get('items')[stage];
+            var currentItem = this.model.get('_items')[stage];
             currentItem.visited = true;
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
@@ -247,13 +247,13 @@ define(function(require) {
         },
 
         getVisitedItems: function() {
-          return _.filter(this.model.get('items'), function(item) {
+          return _.filter(this.model.get('_items'), function(item) {
             return item.visited;
           });
         },
 
         evaluateCompletion: function() {
-            if (this.getVisitedItems().length == this.model.get('items').length) {
+            if (this.getVisitedItems().length == this.model.get('_items').length) {
                 this.setCompletionStatus();
             }
         },
