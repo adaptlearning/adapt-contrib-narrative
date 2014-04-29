@@ -7,11 +7,11 @@
         "_component": "narrative",
         "title": "Narrative",
         "body": "This is optional body text. Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.",
-        "items": [
+        "_items": [
             {
                 "title": "Narrative stage 1 title",
                 "body": "This is display text 1. If viewing on desktop or tablet, this text will appear to the right of the image. On mobile, you’ll need to select the plus icon to reveal this text.",
-                "graphic": {
+                "_graphic": {
                     "src": "course/en/images/image-slider-1.jpg",
                     "alt": "First graphic",
                     "title": "Second graphic"
@@ -21,7 +21,7 @@
             {
                 "title": "Narrative stage 2 title",
                 "body": "This is display text 2.",
-                "graphic": {
+                "_graphic": {
                     "src": "course/en/images/image-slider-2.jpg",
                     "alt": "Second graphic",
                     "title": "Second graphic"
@@ -31,7 +31,7 @@
             {
                 "title": "Narrative stage 3 title",
                 "body": "This is display text 3.",
-                "graphic": {
+                "_graphic": {
                     "src": "course/en/images/image-slider-3.jpg",
                     "alt": "Third graphic",
                     "title": "Third graphic"

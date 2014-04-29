@@ -9,15 +9,22 @@ define(function(require) {
     var Adapt = require("coreJS/adapt");
 
     var Narrative = ComponentView.extend({
- 
-        events: {
-            'touchstart .narrative-slider':'onTouchNavigationStarted',
-            'click .narrative-popup-open':'openPopup',
-            'click .notify-popup-icon-close':'closePopup',
-            'click .narrative-controls':'onNavigationClicked'
-        },
         
+        events: function () {
+            return Adapt.device.touch == true ? {
+                'touchstart .narrative-slider' : 'navigateTouch',
+                'touchstart .narrative-popup-open' : 'openNarrative',
+                'click .narrative-popup-close' : 'closeNarrative',
+                'click .narrative-controls' : 'navigateClick'
+            }:{
+                'click .narrative-controls' : 'navigateClick',
+                'click .narrative-popup-open' : 'openNarrative',
+                'click .narrative-popup-close' : 'closeNarrative'
+            }
+        },
+
         preRender: function () {
+            this.listenTo(Adapt, 'pageView:ready', this.setupNarrative, this);
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.setDeviceSize();
@@ -37,13 +44,13 @@ define(function(require) {
             this.$('.narrative-slider').imageready(_.bind(function(){
                 this.setReadyStatus();
             }, this));
-            this.setupNarrative();
         }, 
 
         setupNarrative: function() {
-            _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
-            this.model.set('_itemCount', this.model.get('items').length);
+            var slideCount = this.$('.narrative-slider-graphic', this.$el).length;
+            this.model.set('_itemCount', slideCount);
+            this.calculateWidths();
 
             this.model.set('_active', true);
 
@@ -52,32 +59,20 @@ define(function(require) {
             } else {
                 this.setStage(0);
             }
-            this.calculateWidths();
         },
 
         calculateWidths: function() {
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
-            var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
-            var extraMargin = marginRight === "" ? 0 : parseInt(marginRight);
-            var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
-            var iconWidth = this.$('.narrative-popup-open').outerWidth();
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
 
             this.$('.narrative-slider-graphic').width(slideWidth)
-            this.$('.narrative-strapline-header').width(slideWidth);
-            this.$('.narrative-strapline-title').width(slideWidth);
-            this.$('.narrative-strapline-title-inner').width(slideWidth - iconWidth);
-
-            this.$('.narrative-slider').width(fullSlideWidth);
-            this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
+            this.$('.narrative-slider').width((slideWidth + extraMargin) * slideCount);
 
             var stage = this.model.get('_stage');
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css('margin-left', margin);
-            this.$('.narrative-strapline-header-inner').css('margin-left', margin);
-
-            this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
         },
 
         resizeControl: function() {
@@ -110,64 +105,123 @@ define(function(require) {
           return model;
         },
 
-        animateSliderToIndex: function(itemIndex) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
-                movementSize = this.$('.narrative-slide-container').width()+extraMargin;
-            
-            this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
-            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(movementSize * itemIndex)});
-        },
-
-        closePopup: function (event) {
+        navigateClick: function (event) {
             event.preventDefault();
-            Adapt.trigger('popup:closed');
-            /*this.model.set('_active', true);
+            if (!this.model.get('_active')) return;
 
-            this.$('.narrative-popup-close').blur();
-            this.$('.narrative-popup').addClass('narrative-hidden');
-            
-            this.evaluateCompletion();*/
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            var stage = this.model.get('_stage');
+            var itemCount = this.model.get('_itemCount');
+
+            if ($(event.currentTarget).hasClass('narrative-control-right')) {
+                this.navigateRight(stage, itemCount, movementSize);
+            }
+            if ($(event.currentTarget).hasClass('narrative-control-left')) {
+                this.navigateLeft(stage, movementSize);
+            }
         },
 
+        navigateRight: function(stage, itemCount, movementSize) {
+            if (stage < itemCount - 1) {
+                stage++;
+                this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
+                if (this.model.get('_isDesktop')) {
+                    this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
+                }
+
+                this.setStage(stage);
+            }            
+        },
+
+        navigateLeft: function(stage, movementSize) {
+            if (stage > 0) {
+                stage--;
+                this.$('.narrative-slider').stop().animate({'margin-left': - (movementSize * stage)});
+
+                this.setStage(stage);
+            }            
+        },
 
         setStage: function(stage) {
             this.model.set('_stage', stage);
 
             // Set the visited attribute
-            var currentItem = this.getCurrentItem(stage);
+            var currentItem = this.model.get('_items')[stage];
             currentItem.visited = true;
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-strapline-title').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
 
             this.evaluateNavigation();
             this.evaluateCompletion();
-
-            this.animateSliderToIndex(stage);
         },
 
-        
-        constrainStage: function(stage) {
-            if (stage > this.model.get('items').length - 1) {
-                stage = this.model.get('items').length - 1;
-            } else if (stage < 0) {
-                stage = 0;
+        navigateSwipe: function(el, stage) {
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var strapLineSize = this.$('.narrative-strapline-title').width();
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+
+            $('.narrative-slider', el).animate({'margin-left': - (movementSize * stage)});
+
+            if (this.model.get('_isDesktop')) {
+                this.$('.narrative-slider-graphic').eq(stage).addClass('visited');
             }
-            return stage;
+
+            this.setStage(stage);
         },
-        
-        constrainXPosition: function(previousLeft, newLeft, deltaX) {
-            if (newLeft > 0 && deltaX > 0) {
-                newLeft = previousLeft + (deltaX / (newLeft * 0.1));
-            }
-            var finalItemLeft = this.model.get('_finalItemLeft'); 
-            if (newLeft < -finalItemLeft && deltaX < 0) {
-                var distance = Math.abs(newLeft + finalItemLeft);
-                newLeft = previousLeft + (deltaX / (distance * 0.1));
-            }
-            return newLeft;
+
+        navigateTouch: function(event) {
+            event.preventDefault();
+            if (!this.model.get('_active')) return;
+
+            var that = this;
+            var xOrigPos = event.originalEvent.touches[0]['pageX'];
+            var startPos = parseInt(this.$('.narrative-slider').css('margin-left'));
+            var stage = this.model.get('_stage');
+            var narrativeSize = this.model.get('_itemCount');
+            var move;
+            var xPos;
+            var onFirst = (stage == 0) ? true : false;
+            var onLast = (stage == narrativeSize - 1) ? true : false;
+            var swipeLeft = false;
+            var swipeRight = false;
+
+            this.$('.narrative-slider').on('touchmove', _.bind(function(event) {
+                event.preventDefault();
+                xPos = event.originalEvent.touches[0]['pageX'];
+                swipeLeft = (xOrigPos > xPos) ? true : false;
+                swipeRight = (xOrigPos < xPos) ? true : false;
+
+                // Ensure the user does not scroll beyond the bounds
+                if (onFirst && swipeRight || onLast && swipeLeft) return;
+                
+                if (swipeRight && !onLast || swipeLeft && !onFirst) {
+                    move = (xPos + startPos) - xOrigPos;  
+                }
+                else {
+                    move = (xPos - xOrigPos)/4 + (startPos);
+                }
+
+                this.$('.narrative-slider').css('margin-left', move);
+            }, this));
+
+            this.$('.narrative-slider').one('touchend', _.bind(function (event) {
+                $('.narrative-slider', that.$el).unbind('touchmove');
+
+                if (swipeRight || swipeLeft) {
+                    if (swipeLeft && !onLast) stage++;
+                    if (swipeRight && !onFirst) stage--;
+                } else {
+                    return;
+                }
+                
+                that.navigateSwipe(that.$el, stage);
+            }, this));
         },
 
         evaluateNavigation: function() {
@@ -192,109 +246,45 @@ define(function(require) {
 
         },
 
-        getNearestItemIndex: function() {
-            var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left')),
-                graphicWidth = this.$('.narrative-slider-graphic').width(),
-                absolutePosition = currentPosition / graphicWidth,
-                stage = this.model.get('_stage'),
-                relativePosition = stage - Math.abs(absolutePosition);
-            
-            if(relativePosition < -0.3) {
-                stage++;
-            } else if (relativePosition > 0.3) {
-                stage--;
-            }
-            
-            return this.constrainStage(stage);
-        },
-
-        getCurrentItem: function(index) {
-            return this.model.get('items')[index];
-        },
-        
         getVisitedItems: function() {
-          return _.filter(this.model.get('items'), function(item) {
+          return _.filter(this.model.get('_items'), function(item) {
             return item.visited;
           });
         },
 
         evaluateCompletion: function() {
-            if (this.getVisitedItems().length == this.model.get('items').length) {
+            if (this.getVisitedItems().length == this.model.get('_items').length) {
                 this.setCompletionStatus();
             }
         },
 
-        moveElement: function($element, deltaX) {
-            var previousLeft = parseInt($element.css('margin-left')),
-                newLeft = previousLeft + deltaX;
-            
-            newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
-
-            $element.css('margin-left', newLeft + 'px');
-        },
-        
-        openPopup: function (event) {
+        openNarrative: function (event) {
             event.preventDefault();
-            var currentItem = this.getCurrentItem(this.model.get('_stage')),
-                popupObject = {
-                    title: currentItem.title,
-                    body: currentItem.body
-                };
-
-            Adapt.trigger('notify:popup', popupObject);
             Adapt.trigger('popup:opened');
+            this.model.set('_active', false);
+
+            var outerMargin = parseFloat(this.$('.narrative-popup-inner').css('margin'));
+            var innerPadding = parseFloat(this.$('.narrative-popup-inner').css('padding'));
+            var toolBarHeight = this.$('.narrative-toolbar').height();
+
+            this.$('.narrative-slider-graphic').eq(this.model.get('_stage')).addClass('visited');
+            this.$('.narrative-popup-toolbar-title').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
+            this.$('.narrative-popup-content').addClass('narrative-hidden').eq(this.model.get('_stage')).removeClass('narrative-hidden');
+            this.$('.narrative-popup-inner').css('height', $(window).height() - (outerMargin * 2) - (innerPadding * 2));
+            this.$('.narrative-popup').removeClass('narrative-hidden');
+            this.$('.narrative-popup-content').css('height', (this.$('.narrative-popup-inner').height() - toolBarHeight));
         },
 
-        onNavigationClicked: function(event) {
+        closeNarrative: function (event) {
             event.preventDefault();
-            
-            if (!this.model.get('_active')) return;
-            
-            var stage = this.model.get('_stage'),
-                numberOfItems = this.model.get('_itemCount');
-            
-            if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                stage++;
-            } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                stage--;
-            }
-            stage = (stage + numberOfItems) % numberOfItems;
-            this.setStage(stage);
-        },
+            this.model.set('_active', true);
 
-        onTouchNavigationStarted: function(event) {
-            event.preventDefault();
-            if (!this.model.get('_active')) return;
+            this.$('.narrative-popup-close').blur();
+            this.$('.narrative-popup').addClass('narrative-hidden');
             
-            this.$('.narrative-slider').stop();
-            this.$('.narrative-strapline-header-inner').stop();
-            
-            this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
-            this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
-            
-            this.$('.narrative-slider').on('touchmove', this.onTouchMove);
-            this.$('.narrative-slider').one('touchend', this.onTouchEnd);
-        },
-
-        onTouchEnd: function(event) {
-            var nextItemIndex = this.getNearestItemIndex();
-            this.setStage(nextItemIndex);
-            
-            this.$('.narrative-slider').off('touchmove', this.onTouchMove);
-        },
-
-        onTouchMove: function(event) {
-            var currentX = event.originalEvent.touches[0]['pageX'],
-                previousX = this.model.get('_currentX'),
-                deltaX = currentX - previousX;
-            
-            this.moveElement(this.$('.narrative-slider'), deltaX);
-            this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
-            
-            this.model.set('_currentX', currentX);
+            this.evaluateCompletion();
             Adapt.trigger('popup:closed');
         }
-        
     });
     
     Adapt.register("narrative", Narrative);
