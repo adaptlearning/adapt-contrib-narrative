@@ -1,6 +1,6 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "An narrative component",
   "main": "",
   "scripts": {
@@ -16,7 +16,7 @@
     "url": "https://github.com/adaptlearning/adapt-contrib-narrative/issues"
   },
   "devDependencies": {
-    "karma": "~0.9",
+    "karma": "~0.10",
     "karma-mocha": "*",
     "karma-expect": "*"
   }
