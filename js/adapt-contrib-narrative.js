@@ -43,7 +43,7 @@ define(function(require) {
         setupNarrative: function() {
             _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
-            this.model.set('_itemCount', this.model.get('items').length);
+            this.model.set('_itemCount', this.model.get('_items').length);
 
             this.model.set('_active', true);
 
@@ -150,8 +150,8 @@ define(function(require) {
 
         
         constrainStage: function(stage) {
-            if (stage > this.model.get('items').length - 1) {
-                stage = this.model.get('items').length - 1;
+            if (stage > this.model.get('_items').length - 1) {
+                stage = this.model.get('_items').length - 1;
             } else if (stage < 0) {
                 stage = 0;
             }
@@ -209,17 +209,17 @@ define(function(require) {
         },
 
         getCurrentItem: function(index) {
-            return this.model.get('items')[index];
+            return this.model.get('_items')[index];
         },
         
         getVisitedItems: function() {
-          return _.filter(this.model.get('items'), function(item) {
+          return _.filter(this.model.get('_items'), function(item) {
             return item.visited;
           });
         },
 
         evaluateCompletion: function() {
-            if (this.getVisitedItems().length == this.model.get('items').length) {
+            if (this.getVisitedItems().length == this.model.get('_items').length) {
                 this.setCompletionStatus();
             }
         },
