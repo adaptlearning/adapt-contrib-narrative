@@ -57,13 +57,12 @@
         width: (@icon-size/3);
         height: (@icon-size/3);
         display: inline-block;
-        background-color: @background-color;
-        border: @border;
+        background-color: @item-color;
+        border: @item-border;
         border-radius: 50%;
         margin: 1px;        
         &.selected {
-            background-color: @primary-color;
-        }
+            background-color: @item-text-color;        }
     }
 
     .narrative-controls {
@@ -83,7 +82,7 @@
             }
         }
         .icon {
-            margin: (@icon-size/2);;
+            margin: (@icon-size/2);
             color:@button-text-color;
         }
     }
@@ -108,7 +107,6 @@
         overflow: hidden;
         position: relative;
         padding: 5px 0;
-        margin-right: (@icon-size + 10);
     }
 
     .narrative-strapline-title {
@@ -118,58 +116,24 @@
 
     .narrative-strapline-title-inner {
         padding-left: (@icon-size/2);
-    }
-
-    .narrative-popup {
-        width: 100%;
-        height: 100%;
-        display: block;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 500;
-        background-color: @inverted-background-color;
-        color: @inverted-foreground-color;
-        border:@border;
-    }
-
-    .narrative-popup-inner {
-        padding:@item-padding;
-    }
-
-    .narrative-popup-toolbar-title {
-        margin-bottom: 10px;
-        float: left;
-        width: 80%;
-    }
-
-    .narrative-popup-content {
-        overflow-y: auto;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
     }
 
     .narrative-popup-open {
         display: block;
         position: absolute;
-        top:7px;
-        right:5px;
+        top:0;
+        right:0;
         text-decoration: none;
-        z-index: 500;
+        z-index: 5;
+        background-color: @inverted-background-color;
+        padding: @item-padding;
         .icon {
             color: @inverted-foreground-color;
             &:hover {
                 color: lighten(@inverted-background-color, 30%);
-            }
-        }
-    }
-
-    .narrative-popup-close {
-        display: inline-block;
-        float: right;
-        color: @primary-color;
-        .icon {
-            color:@inverted-foreground-color;
-            &:hover {
-                color:lighten(@inverted-background-color, 30%);
             }
         }
     }

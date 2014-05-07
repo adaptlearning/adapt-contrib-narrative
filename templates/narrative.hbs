@@ -1,25 +1,12 @@
 {{! Maintainers - Brian Quinn}}
 <div class="narrative-inner component-inner">
-    {{#if title}}
-    <div class="narrative-title component-title">
-        <h4 class="narrative-title-inner component-title-inner">
-            {{{title}}}
-        </h4>
-    </div>
-    {{/if}}
-    {{#if body}}
-    <div class="narrative-body component-body">
-        <div class="narrative-body-inner component-body-inner">
-            {{{body}}}
-        </div>
-    </div>
-    {{/if}}
+    {{> component this}}
     <div class="narrative-widget component-widget">
         
         <div class="narrative-strapline">
             <div class="narrative-strapline-header">
                 <div class="narrative-strapline-header-inner clearfix">
-                    {{#each items}}
+                    {{#each _items}}
                     <div class="narrative-strapline-title">
                         <h5 class="narrative-strapline-title-inner">
                            {{{strapline}}} 
@@ -34,32 +21,6 @@
         </div>
         
         <div class="narrative-slide-container">
-   
-            <div class="narrative-popup narrative-hidden">
-                <div class="narrative-popup-inner">
-                    <div class="narrative-popup-toolbar">
-                        <div class="narrative-popup-toolbar-inner clearfix">
-                            {{#each items}}
-                            <div class="narrative-popup-toolbar-title">
-                                <h5 class="narrative-popup-toolbar-inner">
-                                    {{{title}}}
-                                </h5>
-                            </div>
-                            {{/each}}
-                            <a href="#" class="narrative-popup-close">
-                                <div class="icon icon-cross"></div>
-                            </a>
-                        </div>
-                    </div>
-                    {{#each items}}
-                    <div class="narrative-popup-content">
-                        <div class="narrative-popup-content-inner">
-                            {{{body}}}  
-                        </div> 
-                    </div>
-                    {{/each}}
-                </div>
-            </div>
   
             <a href="#" class="narrative-controls narrative-control-left">
                 <div class="icon icon-controls-left"></div>
@@ -69,14 +30,14 @@
             </a>
             
             <div class="narrative-slider clearfix">
-                {{#each items}}
+                {{#each _items}}
                 <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}">
-                    <img src="{{graphic.src}}" alt="{{graphic.alt}}" title="{{{graphic.title}}}"/>
+                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}" title="{{{_graphic.title}}}"/>
                 </div>
                 {{/each}}
             </div>
             <div class="narrative-indicators">
-                {{#each items}}
+                {{#each _items}}
                 <div class="narrative-progress"></div>
                 {{/each}}
             </div>
@@ -84,7 +45,7 @@
 
         <div class="narrative-content">
             <div class="narrative-content-inner">
-                {{#each items}}
+                {{#each _items}}
                 <div class="narrative-content-item">
                     <div class="narrative-content-title">
                         <h5 class="narrative-content-title-inner">
