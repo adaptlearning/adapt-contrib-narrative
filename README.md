@@ -70,7 +70,7 @@ This setting is for the title attribute on the image.
 
 ####strapline
 
-A strapline should be entered. This which is displayed when Adapt.device.screenSize is 'small' and is shown as a title above the image.
+A strapline should be entered. This is displayed when Adapt.device.screenSize is 'small' and is shown as a title above the image.
 
 ##Limitations
  
