@@ -4,35 +4,36 @@
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
   "properties":{
-    "items": {
+    "_items": {
       "type":"array",
       "required":false,
       "items":
         {
         "type":"object",
+        "required":false,
         "properties":{
-          "body": {
-            "type":"string"
-          },
-          "graphic": {
+          "_graphic": {
             "type":"object",
             "properties":{
               "alt": {
-                "type":"string"
+                "type":"string",
               },
               "src": {
-                "type":"string"
+                "type":"string",
               },
               "title": {
-                "type":"string"
+                "type":"string",
               }
             }
           },
+          "body": {
+            "type":"string",
+          },
           "strapline": {
-            "type":"string"
+            "type":"string",
           },
           "title": {
-            "type":"string"
+            "type":"string",
           }
         }
       }
