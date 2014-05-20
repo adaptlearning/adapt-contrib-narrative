@@ -16,24 +16,24 @@
             "type":"object",
             "properties":{
               "alt": {
-                "type":"string",
+                "type":"string"
               },
               "src": {
-                "type":"string",
+                "type":"string"
               },
               "title": {
-                "type":"string",
+                "type":"string"
               }
             }
           },
           "body": {
-            "type":"string",
+            "type":"string"
           },
           "strapline": {
-            "type":"string",
+            "type":"string"
           },
           "title": {
-            "type":"string",
+            "type":"string"
           }
         }
       }
