@@ -58,11 +58,15 @@
         height: (@icon-size/3);
         display: inline-block;
         background-color: @item-color;
-        border: @item-border;
+        border:1px solid @foreground-color;
+        & when (@item-border-width = 1px) {
+            border: @item-border;
+        }
         border-radius: 50%;
         margin: 1px;        
         &.selected {
-            background-color: @item-text-color;        }
+            background-color: @item-text-color;        
+        }
     }
 
     .narrative-controls {
