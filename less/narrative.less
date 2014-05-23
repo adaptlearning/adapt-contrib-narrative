@@ -107,18 +107,17 @@
     }
 
     .narrative-strapline-header {
-        height: 100%;
         overflow: hidden;
         position: relative;
-        padding: 5px 0;
     }
 
     .narrative-strapline-title {
         float: left;
-        line-height: (@icon-size*2);
     }
 
     .narrative-strapline-title-inner {
+        height: (@item-padding-top + @item-padding-bottom + @icon-size);
+        line-height: (@item-padding-top + @item-padding-bottom + @icon-size);
         padding-left: (@icon-size/2);
         text-overflow: ellipsis;
         white-space: nowrap;
