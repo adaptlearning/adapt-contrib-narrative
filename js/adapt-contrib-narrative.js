@@ -264,16 +264,16 @@ define(function(require) {
 
         onTouchNavigationStarted: function(event) {
             event.preventDefault();
-            if (!this.model.get('_active')) return;
+            //if (!this.model.get('_active')) return;
             
-            this.$('.narrative-slider').stop();
+            /*this.$('.narrative-slider').stop();
             this.$('.narrative-strapline-header-inner').stop();
             
             this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
             this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
             
             this.$('.narrative-slider').on('touchmove', this.onTouchMove);
-            this.$('.narrative-slider').one('touchend', this.onTouchEnd);
+            this.$('.narrative-slider').one('touchend', this.onTouchEnd);*/
         },
 
         onTouchEnd: function(event) {
