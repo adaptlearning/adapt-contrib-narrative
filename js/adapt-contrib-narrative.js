@@ -263,7 +263,7 @@ define(function(require) {
         },
 
         onTouchNavigationStarted: function(event) {
-            event.preventDefault();
+            //event.preventDefault();
             //if (!this.model.get('_active')) return;
             
             /*this.$('.narrative-slider').stop();
