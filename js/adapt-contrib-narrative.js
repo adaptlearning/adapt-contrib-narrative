@@ -176,15 +176,20 @@ define(function(require) {
 
             if (currentStage == 0) {
                 this.$('.narrative-control-left').addClass('narrative-hidden');
+                $('.narrative-control-right').focus();
+
 
                 if (itemCount > 1) {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
+                    $('.narrative-control-right').focus();
                 }
             } else {
                 this.$('.narrative-control-left').removeClass('narrative-hidden');
+                    //$('.narrative-control-left').focus();
 
                 if (currentStage == itemCount - 1) {
                     this.$('.narrative-control-right').addClass('narrative-hidden');
+                    $('.narrative-control-left').focus();
                 } else {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
                 }
