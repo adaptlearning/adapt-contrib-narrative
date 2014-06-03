@@ -185,7 +185,7 @@ define(function(require) {
                 }
             } else {
                 this.$('.narrative-control-left').removeClass('narrative-hidden');
-                     $('.narrative-control-left').focus();
+                    //$('.narrative-control-left').focus();
 
                 if (currentStage == itemCount - 1) {
                     this.$('.narrative-control-right').addClass('narrative-hidden');
