@@ -173,23 +173,17 @@ define(function(require) {
         evaluateNavigation: function() {
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
-
             if (currentStage == 0) {
                 this.$('.narrative-control-left').addClass('narrative-hidden');
-                $('.narrative-control-right').focus();
-
 
                 if (itemCount > 1) {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
-                    $('.narrative-control-right').focus();
                 }
             } else {
                 this.$('.narrative-control-left').removeClass('narrative-hidden');
-                    //$('.narrative-control-left').focus();
 
                 if (currentStage == itemCount - 1) {
                     this.$('.narrative-control-right').addClass('narrative-hidden');
-                    $('.narrative-control-left').focus();
                 } else {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
                 }
@@ -260,8 +254,14 @@ define(function(require) {
             
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
+                if (stage == numberOfItems-1) {
+                    $('.narrative-control-left').focus();
+                }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
+                if (stage == 0) {
+                    $('.narrative-control-right').focus();
+                }
             }
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
