@@ -66,7 +66,6 @@ define(function(require) {
             this.$('.narrative-slider-graphic').width(slideWidth)
             this.$('.narrative-strapline-header').width(slideWidth);
             this.$('.narrative-strapline-title').width(slideWidth);
-            this.$('.narrative-strapline-title-inner').width(slideWidth - iconWidth);
 
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
