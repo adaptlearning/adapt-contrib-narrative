@@ -9,14 +9,14 @@ define(function(require) {
     var Adapt = require("coreJS/adapt");
 
     var Narrative = ComponentView.extend({
- 
+
         events: {
             'touchstart .narrative-slider':'onTouchNavigationStarted',
             'click .narrative-popup-open':'openPopup',
             'click .notify-popup-icon-close':'closePopup',
             'click .narrative-controls':'onNavigationClicked'
         },
-        
+
         preRender: function () {
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
@@ -38,7 +38,7 @@ define(function(require) {
                 this.setReadyStatus();
             }, this));
             this.setupNarrative();
-        }, 
+        },
 
         setupNarrative: function() {
             _.bindAll(this, 'onTouchMove', 'onTouchEnd');
@@ -48,7 +48,7 @@ define(function(require) {
             this.model.set('_active', true);
 
             if (this.model.get('_stage')) {
-                this.setStage(this.model.get('_stage'));
+                this.setStage(this.model.get('_stage'), true);
             } else {
                 this.setStage(0);
             }
@@ -66,7 +66,6 @@ define(function(require) {
             this.$('.narrative-slider-graphic').width(slideWidth)
             this.$('.narrative-strapline-header').width(slideWidth);
             this.$('.narrative-strapline-title').width(slideWidth);
-            this.$('.narrative-strapline-title-inner').width(slideWidth - iconWidth);
 
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
@@ -110,12 +109,17 @@ define(function(require) {
           return model;
         },
 
-        animateSliderToIndex: function(itemIndex) {
+        moveSliderToIndex: function(itemIndex, animate) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
                 movementSize = this.$('.narrative-slide-container').width()+extraMargin;
-            
-            this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
-            this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(movementSize * itemIndex)});
+
+            if(animate) {
+                this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
+                this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(movementSize * itemIndex)});
+            } else {
+                this.$('.narrative-slider').css({'margin-left': -(movementSize * itemIndex)});
+                this.$('.narrative-strapline-header-inner').css({'margin-left': -(movementSize * itemIndex)});
+            }
         },
 
         closePopup: function (event) {
@@ -125,12 +129,12 @@ define(function(require) {
 
             this.$('.narrative-popup-close').blur();
             this.$('.narrative-popup').addClass('narrative-hidden');
-            
+
             this.evaluateCompletion();*/
         },
 
 
-        setStage: function(stage) {
+        setStage: function(stage,initial) {
             this.model.set('_stage', stage);
 
             // Set the visited attribute
@@ -145,10 +149,10 @@ define(function(require) {
             this.evaluateNavigation();
             this.evaluateCompletion();
 
-            this.animateSliderToIndex(stage);
+            this.moveSliderToIndex(stage, !initial);
         },
 
-        
+
         constrainStage: function(stage) {
             if (stage > this.model.get('_items').length - 1) {
                 stage = this.model.get('_items').length - 1;
@@ -157,12 +161,12 @@ define(function(require) {
             }
             return stage;
         },
-        
+
         constrainXPosition: function(previousLeft, newLeft, deltaX) {
             if (newLeft > 0 && deltaX > 0) {
                 newLeft = previousLeft + (deltaX / (newLeft * 0.1));
             }
-            var finalItemLeft = this.model.get('_finalItemLeft'); 
+            var finalItemLeft = this.model.get('_finalItemLeft');
             if (newLeft < -finalItemLeft && deltaX < 0) {
                 var distance = Math.abs(newLeft + finalItemLeft);
                 newLeft = previousLeft + (deltaX / (distance * 0.1));
@@ -173,7 +177,6 @@ define(function(require) {
         evaluateNavigation: function() {
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
-
             if (currentStage == 0) {
                 this.$('.narrative-control-left').addClass('narrative-hidden');
 
@@ -198,20 +201,20 @@ define(function(require) {
                 absolutePosition = currentPosition / graphicWidth,
                 stage = this.model.get('_stage'),
                 relativePosition = stage - Math.abs(absolutePosition);
-            
+
             if(relativePosition < -0.3) {
                 stage++;
             } else if (relativePosition > 0.3) {
                 stage--;
             }
-            
+
             return this.constrainStage(stage);
         },
 
         getCurrentItem: function(index) {
             return this.model.get('_items')[index];
         },
-        
+
         getVisitedItems: function() {
           return _.filter(this.model.get('_items'), function(item) {
             return item.visited;
@@ -227,12 +230,12 @@ define(function(require) {
         moveElement: function($element, deltaX) {
             var previousLeft = parseInt($element.css('margin-left')),
                 newLeft = previousLeft + deltaX;
-            
+
             newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
 
             $element.css('margin-left', newLeft + 'px');
         },
-        
+
         openPopup: function (event) {
             event.preventDefault();
             var currentItem = this.getCurrentItem(this.model.get('_stage')),
@@ -247,16 +250,22 @@ define(function(require) {
 
         onNavigationClicked: function(event) {
             event.preventDefault();
-            
+
             if (!this.model.get('_active')) return;
-            
+
             var stage = this.model.get('_stage'),
                 numberOfItems = this.model.get('_itemCount');
-            
+
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
+                if (stage == numberOfItems-1) {
+                    this.$('.narrative-control-left').focus();
+                }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
+                if (stage == 0) {
+                    this.$('.narrative-control-right').focus();
+                }
             }
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
@@ -265,13 +274,13 @@ define(function(require) {
         onTouchNavigationStarted: function(event) {
             //event.preventDefault();
             //if (!this.model.get('_active')) return;
-            
+
             /*this.$('.narrative-slider').stop();
             this.$('.narrative-strapline-header-inner').stop();
-            
+
             this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
             this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
-            
+
             this.$('.narrative-slider').on('touchmove', this.onTouchMove);
             this.$('.narrative-slider').one('touchend', this.onTouchEnd);*/
         },
@@ -279,7 +288,7 @@ define(function(require) {
         onTouchEnd: function(event) {
             var nextItemIndex = this.getNearestItemIndex();
             this.setStage(nextItemIndex);
-            
+
             this.$('.narrative-slider').off('touchmove', this.onTouchMove);
         },
 
@@ -287,18 +296,18 @@ define(function(require) {
             var currentX = event.originalEvent.touches[0]['pageX'],
                 previousX = this.model.get('_currentX'),
                 deltaX = currentX - previousX;
-            
+
             this.moveElement(this.$('.narrative-slider'), deltaX);
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
-            
+
             this.model.set('_currentX', currentX);
             Adapt.trigger('popup:closed');
         }
-        
+
     });
-    
+
     Adapt.register("narrative", Narrative);
-    
+
     return Narrative;
 
 });

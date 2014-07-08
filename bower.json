@@ -1,10 +1,15 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "authors": [
     "Brian Quinn <brian@learningpool.com>",
     "Daryl Hedley <darylhedley@hotmail.com>"
+  ],
+  "displayName" : "Narrative",
+  "component" : "narrative",
+  "assetFields" : [
+    "_items[]._graphic.src"
   ],
   "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",
