@@ -44,7 +44,11 @@ Each item represents one narrative slide and contains values for `text`, `_shoul
 
 ####title
 
-This value is the title for this narrative element.
+This value is the title for this narrative element. This is mandatory, but will not be displayed.
+
+####displayTitle
+
+This value is the displayed title for this narrative element. This is optional and will be displayed.
 
 ####body
 
