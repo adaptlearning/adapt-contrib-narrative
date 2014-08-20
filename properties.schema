@@ -4,36 +4,59 @@
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
   "properties":{
+    "_buttons": {
+      "type":"object",
+      "required":false,
+      "title": "",
+      "properties":{
+        "next": {
+          "type":"string",
+          "title": "Forward button label"
+        },
+        "previous": {
+          "type":"string",
+          "title": "Back button label"
+        }
+      }
+    },
     "_items": {
       "type":"array",
       "required":false,
+      "title": "Narrative screens",
       "items":
         {
         "type":"object",
         "required":false,
         "properties":{
+          "title": {
+            "type":"string",
+            "title": "Narrative display title"
+          },
+          "body": {
+            "type":"string",
+            "title": "Narrative main text"
+          },
           "_graphic": {
             "type":"object",
+            "title": "Narrative graphic",
             "properties":{
               "alt": {
-                "type":"string"
+                "type":"string",
+                "title": "Alternative text"
               },
               "src": {
-                "type":"string"
+                "type":"string",
+                "title": "Select graphic"
               },
               "title": {
-                "type":"string"
+                "type":"string",
+                "title": "Graphic title"
               }
             }
           },
-          "body": {
-            "type":"string"
-          },
           "strapline": {
-            "type":"string"
-          },
-          "title": {
-            "type":"string"
+            "type":"string",
+            "title": "Narrative strapline"
           }
         }
       }
