@@ -259,12 +259,12 @@ define(function(require) {
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
                 if (stage == numberOfItems-1) {
-                    $('.narrative-control-left').focus();
+                    this.$('.narrative-control-left').focus();
                 }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
                 if (stage == 0) {
-                    $('.narrative-control-right').focus();
+                    this.$('.narrative-control-right').focus();
                 }
             }
             stage = (stage + numberOfItems) % numberOfItems;
