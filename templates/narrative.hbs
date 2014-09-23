@@ -1,5 +1,5 @@
 {{! Maintainers - Brian Quinn}}
-<div class="narrative-inner component-inner">
+<div class="narrative-inner component-inner" role="region" aria-label="{{_accessibility._ariaRegions.narrative}}">
     {{> component this}}
     <div class="narrative-widget component-widget">
         
@@ -22,17 +22,17 @@
         
         <div class="narrative-slide-container">
   
-            <a href="#" class="narrative-controls narrative-control-left" alt="{{_buttons.previous}}">
+            <a href="#" class="narrative-controls narrative-control-left" role="button" aria-label="{{_accessibility._ariaLabels.previous}}">
                 <div class="icon icon-controls-left"></div>
             </a>
-            <a href="#" class="narrative-controls narrative-control-right" alt="{{_buttons.next}}">
+            <a href="#" class="narrative-controls narrative-control-right" role="button" aria-label="{{_accessibility._ariaLabels.next}}">
                 <div class="icon icon-controls-right"></div>
             </a>
             
             <div class="narrative-slider clearfix">
                 {{#each _items}}
                 <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}">
-                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}" title="{{{_graphic.title}}}"/>
+                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}"/>
                 </div>
                 {{/each}}
             </div>
