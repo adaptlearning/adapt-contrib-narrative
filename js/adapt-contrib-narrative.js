@@ -32,7 +32,7 @@ define(function(require) {
                 this.model.set('_isDesktop', false)
             }
         },
-
+        
         postRender: function() {
             this.$('.narrative-slider').imageready(_.bind(function(){
                 this.setReadyStatus();
@@ -43,6 +43,10 @@ define(function(require) {
         setupNarrative: function() {
             _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
+        	this.model.set('_marginDir', 'left');
+            if(Adapt.config.get('_defaultDirection')=='rtl'){
+            	this.model.set('_marginDir', 'right');
+            }
             this.model.set('_itemCount', this.model.get('_items').length);
 
             this.model.set('_active', true);
@@ -73,8 +77,8 @@ define(function(require) {
             var stage = this.model.get('_stage');
             var margin = -(stage * slideWidth);
 
-            this.$('.narrative-slider').css('margin-left', margin);
-            this.$('.narrative-strapline-header-inner').css('margin-left', margin);
+            this.$('.narrative-slider').css(('margin-'+this.model.get('_marginDir')), margin);
+            this.$('.narrative-strapline-header-inner').css(('margin-'+this.model.get('_marginDir')), margin);
 
             this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
         },
@@ -112,13 +116,15 @@ define(function(require) {
         moveSliderToIndex: function(itemIndex, animate) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
                 movementSize = this.$('.narrative-slide-container').width()+extraMargin;
-
+			var marginDir={};
             if(animate) {
-                this.$('.narrative-slider').stop().animate({'margin-left': -(movementSize * itemIndex)});
-                this.$('.narrative-strapline-header-inner').stop(true, true).animate({'margin-left': -(movementSize * itemIndex)});
+				marginDir['margin-'+this.model.get('_marginDir')]=-(movementSize * itemIndex);
+                this.$('.narrative-slider').stop().animate(marginDir);
+                this.$('.narrative-strapline-header-inner').stop(true, true).animate(marginDir);
             } else {
-                this.$('.narrative-slider').css({'margin-left': -(movementSize * itemIndex)});
-                this.$('.narrative-strapline-header-inner').css({'margin-left': -(movementSize * itemIndex)});
+            	marginDir['margin-'+this.model.get('_marginDir')]=-(movementSize * itemIndex);
+                this.$('.narrative-slider').css(marginDir);
+                this.$('.narrative-strapline-header-inner').css(marginDir);
             }
         },
 
@@ -232,8 +238,7 @@ define(function(require) {
                 newLeft = previousLeft + deltaX;
 
             newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
-
-            $element.css('margin-left', newLeft + 'px');
+            $element.css(('margin-'+this.model.get('_marginDir')), newLeft + 'px');
         },
 
         openPopup: function (event) {
