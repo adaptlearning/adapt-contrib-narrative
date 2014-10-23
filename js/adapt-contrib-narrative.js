@@ -264,12 +264,12 @@ define(function(require) {
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
                 if (stage == numberOfItems-1) {
-                    this.$('.narrative-control-left').focus();
+                    this.$('.narrative-control-left').focusNoScroll();
                 }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
                 if (stage == 0) {
-                    this.$('.narrative-control-right').focus();
+                    this.$('.narrative-control-right').focusNoScroll();
                 }
             }
             stage = (stage + numberOfItems) % numberOfItems;
