@@ -109,7 +109,8 @@ define(function(require) {
         prepareHotgraphicModel: function() {
           var model = this.model;
           model.set('_component', 'hotgraphic');
-          model.set('body', model.get('originalBody'));
+          model.set('body', model.get('originalBody')); 
+          model.set('instruction', model.get('originalInstruction'));
           return model;
         },
 
