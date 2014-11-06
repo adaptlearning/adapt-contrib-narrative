@@ -274,12 +274,12 @@ define(function(require) {
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
                 if (stage == numberOfItems-1) {
-                    this.$('.narrative-control-left').focus();
+                    this.$('.narrative-control-left').focusNoScroll();
                 }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
                 if (stage == 0) {
-                    this.$('.narrative-control-right').focus();
+                    this.$('.narrative-control-right').focusNoScroll();
                 }
             }
             stage = (stage + numberOfItems) % numberOfItems;
@@ -322,6 +322,14 @@ define(function(require) {
     });
 
     Adapt.register("narrative", Narrative);
+
+    //2014-10-17: Accessibility focus fix to prevent page jumping between tabbing
+    if ($.fn.focusNoScroll === undefined) $.fn.focusNoScroll = function(){
+      var y = $(window).scrollTop();
+      this[0].focus();
+      window.scrollTo(null, y);
+      return this; //chainability
+    };
 
     return Narrative;
 
