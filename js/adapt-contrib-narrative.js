@@ -1,6 +1,6 @@
 /*
 * adapt-contrib-narrative
-* License - http://github.com/adaptlearning/adapt_framework/LICENSE
+* License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
 * Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Heldey <darylhedley@hotmail.com>
 */
 define(function(require) {
@@ -20,6 +20,7 @@ define(function(require) {
         preRender: function () {
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
+            this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
             this.setDeviceSize();
         },
 
@@ -32,7 +33,7 @@ define(function(require) {
                 this.model.set('_isDesktop', false)
             }
         },
-        
+
         postRender: function() {
             this.$('.narrative-slider').imageready(_.bind(function(){
                 this.setReadyStatus();
@@ -67,7 +68,7 @@ define(function(require) {
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
             var iconWidth = this.$('.narrative-popup-open').outerWidth();
 
-            this.$('.narrative-slider-graphic').width(slideWidth)
+            this.$('.narrative-slider-graphic').width(slideWidth);
             this.$('.narrative-strapline-header').width(slideWidth);
             this.$('.narrative-strapline-title').width(slideWidth);
 
@@ -93,6 +94,10 @@ define(function(require) {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
             }
+        },
+
+        closeNotify: function () {
+            this.evaluateCompletion()
         },
 
         replaceWithHotgraphic: function () {
@@ -140,13 +145,14 @@ define(function(require) {
             this.evaluateCompletion();*/
         },
 
-
         setStage: function(stage,initial) {
             this.model.set('_stage', stage);
 
-            // Set the visited attribute
-            var currentItem = this.getCurrentItem(stage);
-            currentItem.visited = true;
+            if(this.model.get('_isDesktop')) {
+                // Set the visited attribute for large screen devices
+                var currentItem = this.getCurrentItem(stage);
+                currentItem.visited = true;
+            }
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
@@ -249,6 +255,9 @@ define(function(require) {
                     title: currentItem.title,
                     body: currentItem.body
                 };
+
+            // Set the visited attribute for small and medium screen devices
+            currentItem.visited = true;
 
             Adapt.trigger('notify:popup', popupObject);
             Adapt.trigger('popup:opened');
