@@ -52,7 +52,6 @@ define(function(require) {
             if (isResetOnRevisit) {
                 this.model.set({
                     _isEnabled: true,
-                    _isCorrect: false,
                     _isComplete: false,
                     _stage: 0
                 });
