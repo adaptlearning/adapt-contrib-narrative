@@ -4,59 +4,72 @@
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
   "properties":{
-    "_buttons": {
-      "type":"object",
-      "required":false,
-      "title": "",
-      "properties":{
-        "next": {
-          "type":"string",
-          "title": "Forward button label"
-        },
-        "previous": {
-          "type":"string",
-          "title": "Back button label"
-        }
-      }
+    "instruction": {
+      "type": "string",
+      "required": false,
+      "default": "",
+      "inputType": "Text",
+      "validators": [],
+      "help": "This is the instruction text"
     },
     "_items": {
       "type":"array",
       "required":false,
-      "title": "Narrative screens",
-      "items":
-        {
+      "title": "Narrative items",
+      "items": {
         "type":"object",
         "required":false,
         "properties":{
           "title": {
             "type":"string",
-            "title": "Narrative display title"
+            "required": false,
+            "default": "",
+            "title": "Narrative display title",
+            "inputType": "Text",
+            "validators": [],
+            "help": ""
           },
           "body": {
             "type":"string",
-            "title": "Narrative main text"
+            "required": false,
+            "default": "",
+            "title": "Narrative main text",
+            "inputType": "TextArea",
+            "validators": [],
+            "help": ""
           },
           "_graphic": {
             "type":"object",
             "title": "Narrative graphic",
             "properties":{
-              "alt": {
-                "type":"string",
-                "title": "Alternative text"
-              },
               "src": {
                 "type":"string",
-                "title": "Select graphic"
+                "required": true,
+                "default": "",
+                "title": "Select Graphic",
+                "inputType": "Asset:image",
+                "validators": ["required"],
+                "help": ""
               },
-              "title": {
+              "alt": {
                 "type":"string",
-                "title": "Graphic title"
+                "required": false,
+                "default": "",
+                "title": "Alternative Text",
+                "inputType": "Text",
+                "validators": [],
+                "help": ""
               }
             }
           },
           "strapline": {
             "type":"string",
-            "title": "Narrative strapline"
+            "required": true,
+            "default": "",
+            "title": "Narrative strapline",
+            "inputType": "Text",
+            "validators": ["required"],
+            "help": ""
           }
         }
       }
