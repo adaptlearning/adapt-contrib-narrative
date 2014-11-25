@@ -1,27 +1,30 @@
 /*
-* adapt-contrib-narrative
-* License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
-* Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Heldey <darylhedley@hotmail.com>
-*/
+ * adapt-contrib-narrative
+ * License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
+ * Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Hedley <darylhedley@hotmail.com>
+ */
 define(function(require) {
 
-    var ComponentView = require("coreViews/componentView");
-    var Adapt = require("coreJS/adapt");
+    var ComponentView = require('coreViews/componentView');
+    var Adapt = require('coreJS/adapt');
 
     var Narrative = ComponentView.extend({
 
         events: {
-            'touchstart .narrative-slider':'onTouchNavigationStarted',
-            'click .narrative-popup-open':'openPopup',
-            'click .notify-popup-icon-close':'closePopup',
-            'click .narrative-controls':'onNavigationClicked'
+            'touchstart .narrative-slider': 'onTouchNavigationStarted',
+            'click .narrative-popup-open': 'openPopup',
+            'click .notify-popup-icon-close': 'closePopup',
+            'click .narrative-controls': 'onNavigationClicked'
         },
 
-        preRender: function () {
+        preRender: function() {
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
             this.setDeviceSize();
+
+            // Checks to see if the narrative should be reset on revisit
+            this.checkIfResetOnRevisit();
         },
 
         setDeviceSize: function() {
@@ -35,18 +38,36 @@ define(function(require) {
         },
 
         postRender: function() {
-            this.$('.narrative-slider').imageready(_.bind(function(){
+            this.$('.narrative-slider').imageready(_.bind(function() {
                 this.setReadyStatus();
             }, this));
             this.setupNarrative();
         },
 
+        // Used to check if the narrative should reset on revisit
+        checkIfResetOnRevisit: function() {
+            var isResetOnRevisit = this.model.get('_isResetOnRevisit');
+
+            // If reset is enabled set defaults
+            if (isResetOnRevisit) {
+                this.model.set({
+                    _isEnabled: true,
+                    _isComplete: false,
+                    _stage: 0
+                });
+
+                _.each(this.model.get('_items'), function(item) {
+                    item.visited = false;
+                });
+            }
+        },
+
         setupNarrative: function() {
             _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
-        	this.model.set('_marginDir', 'left');
-            if(Adapt.config.get('_defaultDirection')=='rtl'){
-            	this.model.set('_marginDir', 'right');
+            this.model.set('_marginDir', 'left');
+            if (Adapt.config.get('_defaultDirection') == 'rtl') {
+                this.model.set('_marginDir', 'right');
             }
             this.model.set('_itemCount', this.model.get('_items').length);
 
@@ -64,7 +85,7 @@ define(function(require) {
             var slideWidth = this.$('.narrative-slide-container').width();
             var slideCount = this.model.get('_itemCount');
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
-            var extraMargin = marginRight === "" ? 0 : parseInt(marginRight);
+            var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
             var iconWidth = this.$('.narrative-popup-open').outerWidth();
 
@@ -78,8 +99,8 @@ define(function(require) {
             var stage = this.model.get('_stage');
             var margin = -(stage * slideWidth);
 
-            this.$('.narrative-slider').css(('margin-'+this.model.get('_marginDir')), margin);
-            this.$('.narrative-strapline-header-inner').css(('margin-'+this.model.get('_marginDir')), margin);
+            this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
+            this.$('.narrative-strapline-header-inner').css(('margin-' + this.model.get('_marginDir')), margin);
 
             this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
         },
@@ -96,59 +117,59 @@ define(function(require) {
             }
         },
 
-        closeNotify: function () {
+        closeNotify: function() {
             this.evaluateCompletion()
         },
 
-        replaceWithHotgraphic: function () {
+        replaceWithHotgraphic: function() {
             var Hotgraphic = require('components/adapt-contrib-hotgraphic/js/adapt-contrib-hotgraphic');
             var model = this.prepareHotgraphicModel();
-            var newHotgraphic = new Hotgraphic({model:model, $parent: this.options.$parent});
+            var newHotgraphic = new Hotgraphic({model: model, $parent: this.options.$parent});
             this.options.$parent.append(newHotgraphic.$el);
             this.remove();
-            _.defer(function(){
+            _.defer(function() {
                 Adapt.trigger('device:resize');
             });
         },
 
         prepareHotgraphicModel: function() {
-          var model = this.model;
-          model.set('_component', 'hotgraphic');
-          model.set('body', model.get('originalBody')); 
-          model.set('instruction', model.get('originalInstruction'));
-          return model;
+            var model = this.model;
+            model.set('_component', 'hotgraphic');
+            model.set('body', model.get('originalBody'));
+            model.set('instruction', model.get('originalInstruction'));
+            return model;
         },
 
         moveSliderToIndex: function(itemIndex, animate) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right')),
-                movementSize = this.$('.narrative-slide-container').width()+extraMargin;
-			var marginDir={};
-            if(animate) {
-				marginDir['margin-'+this.model.get('_marginDir')]=-(movementSize * itemIndex);
+            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
+            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+            var marginDir = {};
+            if (animate) {
+                marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').stop().animate(marginDir);
                 this.$('.narrative-strapline-header-inner').stop(true, true).animate(marginDir);
             } else {
-            	marginDir['margin-'+this.model.get('_marginDir')]=-(movementSize * itemIndex);
+                marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').css(marginDir);
                 this.$('.narrative-strapline-header-inner').css(marginDir);
             }
         },
 
-        closePopup: function (event) {
+        closePopup: function(event) {
             event.preventDefault();
             Adapt.trigger('popup:closed');
             /*this.model.set('_active', true);
 
-            this.$('.narrative-popup-close').blur();
-            this.$('.narrative-popup').addClass('narrative-hidden');
+             this.$('.narrative-popup-close').blur();
+             this.$('.narrative-popup').addClass('narrative-hidden');
 
-            this.evaluateCompletion();*/
+             this.evaluateCompletion();*/
         },
 
-        setStage: function(stage,initial) {
+        setStage: function(stage, initial) {
             this.model.set('_stage', stage);
 
-            if(this.model.get('_isDesktop')) {
+            if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
                 currentItem.visited = true;
@@ -209,13 +230,13 @@ define(function(require) {
         },
 
         getNearestItemIndex: function() {
-            var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left')),
-                graphicWidth = this.$('.narrative-slider-graphic').width(),
-                absolutePosition = currentPosition / graphicWidth,
-                stage = this.model.get('_stage'),
-                relativePosition = stage - Math.abs(absolutePosition);
+            var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left'));
+            var graphicWidth = this.$('.narrative-slider-graphic').width();
+            var absolutePosition = currentPosition / graphicWidth;
+            var stage = this.model.get('_stage');
+            var relativePosition = stage - Math.abs(absolutePosition);
 
-            if(relativePosition < -0.3) {
+            if (relativePosition < -0.3) {
                 stage++;
             } else if (relativePosition > 0.3) {
                 stage--;
@@ -229,32 +250,32 @@ define(function(require) {
         },
 
         getVisitedItems: function() {
-          return _.filter(this.model.get('_items'), function(item) {
-            return item.visited;
-          });
+            return _.filter(this.model.get('_items'), function(item) {
+                return item.visited;
+            });
         },
 
         evaluateCompletion: function() {
-            if (this.getVisitedItems().length == this.model.get('_items').length) {
+            if (this.getVisitedItems().length === this.model.get('_items').length) {
                 this.setCompletionStatus();
             }
         },
 
         moveElement: function($element, deltaX) {
-            var previousLeft = parseInt($element.css('margin-left')),
-                newLeft = previousLeft + deltaX;
+            var previousLeft = parseInt($element.css('margin-left'));
+            var newLeft = previousLeft + deltaX;
 
             newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
-            $element.css(('margin-'+this.model.get('_marginDir')), newLeft + 'px');
+            $element.css(('margin-' + this.model.get('_marginDir')), newLeft + 'px');
         },
 
-        openPopup: function (event) {
+        openPopup: function(event) {
             event.preventDefault();
-            var currentItem = this.getCurrentItem(this.model.get('_stage')),
-                popupObject = {
-                    title: currentItem.title,
-                    body: currentItem.body
-                };
+            var currentItem = this.getCurrentItem(this.model.get('_stage'));
+            var popupObject = {
+                title: currentItem.title,
+                body: currentItem.body
+            };
 
             // Set the visited attribute for small and medium screen devices
             currentItem.visited = true;
@@ -268,17 +289,17 @@ define(function(require) {
 
             if (!this.model.get('_active')) return;
 
-            var stage = this.model.get('_stage'),
-                numberOfItems = this.model.get('_itemCount');
+            var stage = this.model.get('_stage');
+            var numberOfItems = this.model.get('_itemCount');
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
-                if (stage == numberOfItems-1) {
+                if (stage === numberOfItems - 1) {
                     this.$('.narrative-control-left').focus();
                 }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
-                if (stage == 0) {
+                if (stage === 0) {
                     this.$('.narrative-control-right').focus();
                 }
             }
@@ -291,13 +312,13 @@ define(function(require) {
             //if (!this.model.get('_active')) return;
 
             /*this.$('.narrative-slider').stop();
-            this.$('.narrative-strapline-header-inner').stop();
+             this.$('.narrative-strapline-header-inner').stop();
 
-            this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
-            this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
+             this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
+             this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
 
-            this.$('.narrative-slider').on('touchmove', this.onTouchMove);
-            this.$('.narrative-slider').one('touchend', this.onTouchEnd);*/
+             this.$('.narrative-slider').on('touchmove', this.onTouchMove);
+             this.$('.narrative-slider').one('touchend', this.onTouchEnd);*/
         },
 
         onTouchEnd: function(event) {
@@ -308,9 +329,9 @@ define(function(require) {
         },
 
         onTouchMove: function(event) {
-            var currentX = event.originalEvent.touches[0]['pageX'],
-                previousX = this.model.get('_currentX'),
-                deltaX = currentX - previousX;
+            var currentX = event.originalEvent.touches[0]['pageX'];
+            var previousX = this.model.get('_currentX');
+            var deltaX = currentX - previousX;
 
             this.moveElement(this.$('.narrative-slider'), deltaX);
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
@@ -321,7 +342,7 @@ define(function(require) {
 
     });
 
-    Adapt.register("narrative", Narrative);
+    Adapt.register('narrative', Narrative);
 
     return Narrative;
 
