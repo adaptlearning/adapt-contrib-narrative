@@ -13,6 +13,52 @@
         .narrative-strapline {
             display:none;
         }
+
+        .narrative-content-inner {
+            .narrative-controls {
+                position:static;
+                display:none;
+                margin-top: 0px;
+                margin-bottom:10px;
+                width:auto;
+                height:auto;
+                padding:8px;
+                .icon {
+                    margin:0px;
+                }
+            }
+            .narrative-indicators {
+                display:none;
+                position: relative;
+                top: -4px;
+            }
+            .narrative-progress {
+                background-color:darken(@inverted-background-color, 10%);
+                &.selected {
+                    background-color: @item-text-color; 
+                }
+            }
+        }
+
+        .narrative-text-controls {
+            .narrative-content-inner {
+                .narrative-controls {
+                    display:inline-block;
+                }
+                .narrative-indicators {
+                    display:inline-block;
+                }
+            }
+            .narrative-slide-container {
+                .narrative-controls {
+                    display:none;
+                }
+                .narrative-indicators {
+                    display:none;
+                }
+            }
+
+        }
     }
 
     .narrative-content {
