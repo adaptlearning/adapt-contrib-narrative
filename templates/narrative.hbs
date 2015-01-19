@@ -1,7 +1,7 @@
 {{! Maintainers - Brian Quinn}}
 <div class="narrative-inner component-inner">
     {{> component this}}
-    <div class="narrative-widget component-widget">
+    <div class="narrative-widget component-widget {{#if _hasNavigationInTextArea}}narrative-text-controls{{/if}}">
         
         <div class="narrative-strapline">
             <div class="narrative-strapline-header">
@@ -45,6 +45,17 @@
 
         <div class="narrative-content">
             <div class="narrative-content-inner">
+                <a href="#" class="narrative-controls narrative-control-left">
+                    <div class="icon icon-controls-left"></div>
+                </a>
+                <div class="narrative-indicators">
+                    {{#each _items}}
+                    <div class="narrative-progress component-item-color component-item-border"></div>
+                    {{/each}}
+                </div>
+                <a href="#" class="narrative-controls narrative-control-right">
+                    <div class="icon icon-controls-right"></div>
+                </a>
                 {{#each _items}}
                 <div class="narrative-content-item">
                     <div class="narrative-content-title">
