@@ -3,6 +3,7 @@
  * License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
  * Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Hedley <darylhedley@hotmail.com>
  */
+
 define(function(require) {
 
     var ComponentView = require('coreViews/componentView');
@@ -173,12 +174,16 @@ define(function(require) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
                 currentItem.visited = true;
+                this.$('.narrative-content-item').eq(stage).a11y_focus();
+            } else {
+                this.$('.narrative-popup-open').a11y_focus();
             }
 
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            
 
             this.evaluateNavigation();
             this.evaluateCompletion();
@@ -281,7 +286,7 @@ define(function(require) {
             currentItem.visited = true;
 
             Adapt.trigger('notify:popup', popupObject);
-            Adapt.trigger('popup:opened');
+            Adapt.trigger('popup:opened', this.$el);
         },
 
         onNavigationClicked: function(event) {
@@ -333,11 +338,12 @@ define(function(require) {
             var previousX = this.model.get('_currentX');
             var deltaX = currentX - previousX;
 
+            Adapt.trigger('popup:closed');
+
             this.moveElement(this.$('.narrative-slider'), deltaX);
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
 
             this.model.set('_currentX', currentX);
-            Adapt.trigger('popup:closed');
         }
 
     });

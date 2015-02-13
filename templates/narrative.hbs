@@ -1,5 +1,5 @@
 {{! Maintainers - Brian Quinn}}
-<div class="narrative-inner component-inner" role="region" aria-label="{{_accessibility._ariaRegions.narrative}}">
+<div class="narrative-inner component-inner" role="region" aria-label="{{_globals._components._narrative.ariaRegion}}">
     {{> component this}}
     <div class="narrative-widget component-widget">
         
@@ -8,24 +8,24 @@
                 <div class="narrative-strapline-header-inner clearfix">
                     {{#each _items}}
                     <div class="narrative-strapline-title">
-                        <h5 class="narrative-strapline-title-inner">
-                           {{{strapline}}} 
-                        </h5>
+                        <div class=”narrative-strapline-title-inner accessible-text-block h5” role=”heading” aria-level=”5” tabindex=”0”>
+                            {{{strapline}}} 
+                        </div>
                     </div>
                     {{/each}}
                 </div>
             </div>
-            <a href="#" class="narrative-popup-open" tabindex="-1">
+            <a href="#" class="narrative-popup-open" tabindex="0">
                 <div class="icon icon-plus"></div>
             </a>
         </div>
         
         <div class="narrative-slide-container">
   
-            <a href="#" class="narrative-controls narrative-control-left" role="button" aria-label="{{_accessibility._ariaLabels.previous}}">
+            <a href="#" class="narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
                 <div class="icon icon-controls-left"></div>
             </a>
-            <a href="#" class="narrative-controls narrative-control-right" role="button" aria-label="{{_accessibility._ariaLabels.next}}">
+            <a href="#" class="narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
                 <div class="icon icon-controls-right"></div>
             </a>
             
@@ -48,13 +48,13 @@
                 {{#each _items}}
                 <div class="narrative-content-item">
                     <div class="narrative-content-title">
-                        <h5 class="narrative-content-title-inner">
-                           {{{title}}} 
-                        </h5>
+                        <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
+                            {{{title}}} 
+                        </div>
                     </div>
                     <div class="narrative-content-body">
                         <div class="narrative-content-body-inner">
-                            {{{body}}}
+                            {{{a11y_text body}}}
                         </div> 
                     </div>
                 </div>
