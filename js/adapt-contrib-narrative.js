@@ -3,7 +3,6 @@
  * License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
  * Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Hedley <darylhedley@hotmail.com>
  */
-
 define(function(require) {
 
     var ComponentView = require('coreViews/componentView');
@@ -183,7 +182,6 @@ define(function(require) {
             this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
             this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
-            
 
             this.evaluateNavigation();
             this.evaluateCompletion();
