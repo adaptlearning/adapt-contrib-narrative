@@ -12,7 +12,7 @@ define(function(require) {
 
         events: {
             'touchstart .narrative-slider': 'onTouchNavigationStarted',
-            'click .narrative-popup-open': 'openPopup',
+            'click .narrative-strapline-title': 'openPopup',
             'click .notify-popup-icon-close': 'closePopup',
             'click .narrative-controls': 'onNavigationClicked'
         },
@@ -140,18 +140,19 @@ define(function(require) {
             return model;
         },
 
-        moveSliderToIndex: function(itemIndex, animate) {
+        moveSliderToIndex: function(itemIndex, animate, callback) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
             var marginDir = {};
             if (animate) {
                 marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
-                this.$('.narrative-slider').stop().animate(marginDir);
-                this.$('.narrative-strapline-header-inner').stop(true, true).animate(marginDir);
+                this.$('.narrative-slider').velocity("stop", true).velocity(marginDir);
+                this.$('.narrative-strapline-header-inner').velocity("stop", true).velocity(marginDir, {complete:callback});
             } else {
                 marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').css(marginDir);
                 this.$('.narrative-strapline-header-inner').css(marginDir);
+                callback();
             }
         },
 
@@ -169,26 +170,26 @@ define(function(require) {
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
 
-            if (this.model.get('_isDesktop')) {
-                // Set the visited attribute for large screen devices
-                var currentItem = this.getCurrentItem(stage);
-                currentItem.visited = true;
-                this.$('.narrative-content-item').eq(stage).a11y_focus();
-            } else {
-                this.$('.narrative-popup-open').a11y_focus();
-            }
-
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
-            this.$('.narrative-slider-graphic').children('.controls').attr('tabindex', -1);
-            this.$('.narrative-slider-graphic').eq(stage).children('.controls').attr('tabindex', 0);
-            this.$('.narrative-content-item').addClass('narrative-hidden').eq(stage).removeClass('narrative-hidden');
+            this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
+            this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
+            this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).eq(stage).removeClass('narrative-hidden').a11y_on(true);
+            this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).eq(stage).a11y_cntrl_enabled(true);
 
             this.evaluateNavigation();
             this.evaluateCompletion();
 
-            this.moveSliderToIndex(stage, !initial);
+            this.moveSliderToIndex(stage, !initial, _.bind(function() {
+                if (this.model.get('_isDesktop')) {
+                    // Set the visited attribute for large screen devices
+                    var currentItem = this.getCurrentItem(stage);
+                    currentItem.visited = true;
+                    this.$('.narrative-content-item').eq(stage).a11y_focus();
+                } else {
+                    this.$('.narrative-popup-open').a11y_focus();
+                }
+            }, this));
         },
-
 
         constrainStage: function(stage) {
             if (stage > this.model.get('_items').length - 1) {
@@ -284,7 +285,6 @@ define(function(require) {
             currentItem.visited = true;
 
             Adapt.trigger('notify:popup', popupObject);
-            Adapt.trigger('popup:opened', this.$el);
         },
 
         onNavigationClicked: function(event) {
@@ -297,14 +297,8 @@ define(function(require) {
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
-                if (stage === numberOfItems - 1) {
-                    this.$('.narrative-control-left').focus();
-                }
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
-                if (stage === 0) {
-                    this.$('.narrative-control-right').focus();
-                }
             }
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
