@@ -122,7 +122,9 @@ define(function(require) {
         },
 
         replaceWithHotgraphic: function() {
-            var Hotgraphic = require('components/adapt-contrib-hotgraphic/js/adapt-contrib-hotgraphic');
+            if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
+            var Hotgraphic = Adapt.componentStore.hotgraphic;
+            
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new Hotgraphic({model: model, $parent: this.options.$parent});
             this.options.$parent.append(newHotgraphic.$el);
