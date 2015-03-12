@@ -38,6 +38,7 @@ define(function(require) {
         },
 
         postRender: function() {
+            this.renderState();
             this.$('.narrative-slider').imageready(_.bind(function() {
                 this.setReadyStatus();
             }, this));
