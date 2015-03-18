@@ -77,7 +77,7 @@ define(function(require) {
             if (this.model.get('_stage')) {
                 this.setStage(this.model.get('_stage'), true);
             } else {
-                this.setStage(0);
+                this.setStage(0, true);
             }
             this.calculateWidths();
         },
@@ -187,9 +187,9 @@ define(function(require) {
                     // Set the visited attribute for large screen devices
                     var currentItem = this.getCurrentItem(stage);
                     currentItem.visited = true;
-                    this.$('.narrative-content-item').eq(stage).a11y_focus();
+                    if (!initial) this.$('.narrative-content-item').eq(stage).a11y_focus();
                 } else {
-                    this.$('.narrative-popup-open').a11y_focus();
+                    if (!initial) this.$('.narrative-popup-open').a11y_focus();
                 }
             }, this));
         },
