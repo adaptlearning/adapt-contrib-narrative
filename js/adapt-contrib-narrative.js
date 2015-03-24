@@ -171,6 +171,12 @@ define(function(require) {
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
 
+            if (this.model.get('_isDesktop')) {
+                // Set the visited attribute for large screen devices
+                var currentItem = this.getCurrentItem(stage);
+                currentItem.visited = true;
+            }
+
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
@@ -182,9 +188,6 @@ define(function(require) {
 
             this.moveSliderToIndex(stage, !initial, _.bind(function() {
                 if (this.model.get('_isDesktop')) {
-                    // Set the visited attribute for large screen devices
-                    var currentItem = this.getCurrentItem(stage);
-                    currentItem.visited = true;
                     this.$('.narrative-content-item').eq(stage).a11y_focus();
                 } else {
                     this.$('.narrative-popup-open').a11y_focus();
