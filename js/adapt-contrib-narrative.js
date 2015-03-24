@@ -51,11 +51,8 @@ define(function(require) {
 
             // If reset is enabled set defaults
             if (isResetOnRevisit) {
-                this.model.set({
-                    _isEnabled: true,
-                    _isComplete: false,
-                    _stage: 0
-                });
+                this.model.reset(isResetOnRevisit);
+                this.model.set({_stage: 0});
 
                 _.each(this.model.get('_items'), function(item) {
                     item.visited = false;
