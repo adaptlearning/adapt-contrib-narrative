@@ -51,11 +51,8 @@ define(function(require) {
 
             // If reset is enabled set defaults
             if (isResetOnRevisit) {
-                this.model.set({
-                    _isEnabled: true,
-                    _isComplete: false,
-                    _stage: 0
-                });
+                this.model.reset(isResetOnRevisit);
+                this.model.set({_stage: 0});
 
                 _.each(this.model.get('_items'), function(item) {
                     item.visited = false;
@@ -173,6 +170,12 @@ define(function(require) {
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
 
+            if (this.model.get('_isDesktop')) {
+                // Set the visited attribute for large screen devices
+                var currentItem = this.getCurrentItem(stage);
+                currentItem.visited = true;
+            }
+
             this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
@@ -184,9 +187,6 @@ define(function(require) {
 
             this.moveSliderToIndex(stage, !initial, _.bind(function() {
                 if (this.model.get('_isDesktop')) {
-                    // Set the visited attribute for large screen devices
-                    var currentItem = this.getCurrentItem(stage);
-                    currentItem.visited = true;
                     if (!initial) this.$('.narrative-content-item').eq(stage).a11y_focus();
                 } else {
                     if (!initial) this.$('.narrative-popup-open').a11y_focus();
