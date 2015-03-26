@@ -19,6 +19,11 @@
         }
       }
     },
+    "mobileInstruction": {
+      "type":"string",
+      "required":false,
+      "title":"Mobile only instruction text"
+    },
     "_items": {
       "type":"array",
       "required":false,
