@@ -77,6 +77,10 @@ define(function(require) {
                 this.setStage(0, true);
             }
             this.calculateWidths();
+
+            if (Adapt.device.screenSize !== 'large' && !this.model.get('_wasHotgraphic')) {
+                this.replaceInstructions();
+            }
         },
 
         calculateWidths: function() {
@@ -105,6 +109,7 @@ define(function(require) {
 
         resizeControl: function() {
             this.setDeviceSize();
+            this.replaceInstructions();
             this.calculateWidths();
             this.evaluateNavigation();
         },
@@ -117,6 +122,14 @@ define(function(require) {
 
         closeNotify: function() {
             this.evaluateCompletion()
+        },
+
+        replaceInstructions: function() {
+            if (Adapt.device.screenSize === 'large') {
+                this.$('.narrative-instruction-inner').children('span').html(this.model.get('instruction'));
+            } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
+                this.$('.narrative-instruction-inner').children('span').html(this.model.get('mobileInstruction'));
+            }
         },
 
         replaceWithHotgraphic: function() {

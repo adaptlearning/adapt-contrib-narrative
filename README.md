@@ -36,6 +36,9 @@ You can use this setting to add custom classes to your template and LESS file.
 
 This defines the position of the component in the block. Values can be `full`, `left` or `right`. 
 
+####mobileInstruction
+
+This is optional instruction text that will be shown when viewed on mobile.
 
 ####_items
 
