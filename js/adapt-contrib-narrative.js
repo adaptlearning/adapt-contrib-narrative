@@ -117,6 +117,8 @@ define(function(require) {
         reRender: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
+            } else {
+                this.resizeControl();
             }
         },
 
