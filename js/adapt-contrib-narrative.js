@@ -90,6 +90,7 @@ define(function(require) {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
             }
+            this.resizeControl();
         },
 
         replaceWithHotgraphic: function () {
