@@ -81,6 +81,7 @@ define(function(require) {
             if (Adapt.device.screenSize !== 'large' && !this.model.get('_wasHotgraphic')) {
                 this.replaceInstructions();
             }
+            this.setupEventListeners();
         },
 
         calculateWidths: function() {
@@ -279,8 +280,8 @@ define(function(require) {
 
         evaluateCompletion: function() {
             if (this.getVisitedItems().length === this.model.get('_items').length) {
-                this.setCompletionStatus();
-            }
+                this.trigger('allItems');
+            } 
         },
 
         moveElement: function($element, deltaX) {
@@ -354,6 +355,40 @@ define(function(require) {
             this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
 
             this.model.set('_currentX', currentX);
+        },
+
+        inview: function(event, visible, visiblePartX, visiblePartY) {
+            if (visible) {
+                if (visiblePartY === 'top') {
+                    this._isVisibleTop = true;
+                } else if (visiblePartY === 'bottom') {
+                    this._isVisibleBottom = true;
+                } else {
+                    this._isVisibleTop = true;
+                    this._isVisibleBottom = true;
+                }
+
+                if (this._isVisibleTop && this._isVisibleBottom) {
+                    this.$('.component-inner').off('inview');
+                    this.setCompletionStatus();
+                }
+            }
+        },
+
+        onCompletion: function() {
+            this.setCompletionStatus();
+            if (this.completionEvent && this.completionEvent != 'inview') {
+                this.off(this.completionEvent, this);
+            }
+        },
+
+        setupEventListeners: function() {
+            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'allItems' : this.model.get('_setCompletionOn');
+            if (this.completionEvent !== 'inview') {
+                this.on(this.completionEvent, _.bind(this.onCompletion, this));
+            } else {
+                this.$('.component-widget').on('inview', _.bind(this.inview, this));
+            }
         }
 
     });
