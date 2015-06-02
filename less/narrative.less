@@ -20,6 +20,76 @@
         .narrative-strapline {
             display:none;
         }
+
+        .narrative-content-inner {
+            .narrative-controls {
+                position:static;
+                display:none;
+                margin-top: 0px;
+                margin-bottom:10px;
+                width:auto;
+                height:auto;
+                padding:8px;
+                .icon {
+                    margin:0px;
+                }
+            }
+            .narrative-indicators {
+                display:none;
+                position: relative;
+                top: -4px;
+            }
+            .narrative-progress {
+                background-color:darken(@inverted-background-color, 10%);
+                &.selected {
+                    background-color: @item-text-color; 
+                }
+            }
+        }
+
+        .narrative-text-controls {
+            .narrative-content-inner {
+                position:relative;
+
+                .narrative-controls-container {
+                    position:absolute;
+                    width:100%;
+                    left:0px;
+                    top:10px;
+                    display: block;
+                }
+                .narrative-controls {
+                    margin-bottom:0px;
+                    display:inline-block;
+                }
+                .narrative-control-left {
+                    float:left;
+                }
+                .narrative-control-right {
+                    float: right;
+                }
+                .narrative-indicators {
+                    display:block;
+                    width:100%;
+                    position:absolute;
+                    margin-top:10px;
+                    top:0px;
+                    left:0px;
+                }
+                .narrative-content-item {
+                    padding-top: 36px;
+                }
+            }
+            .narrative-slide-container {
+                .narrative-controls {
+                    display:none;
+                }
+                .narrative-indicators {
+                    display:none;
+                }
+            }
+
+        }
     }
 
     .narrative-content {
