@@ -9,7 +9,7 @@
         "displayTitle": "Narrative",
         "body": "This is optional body text. Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.",
         "instruction": "",
-		"_hasNavigationInTextArea": false,
+        "_hasNavigationInTextArea": false,
         "mobileInstruction": "This is optional instruction text that will be shown when viewed on mobile.",
         "_items": [
             {
