@@ -11,6 +11,7 @@
         "instruction": "",
         "_hasNavigationInTextArea": false,
         "mobileInstruction": "This is optional instruction text that will be shown when viewed on mobile.",
+        "_setCompletionOn":"allItems",
         "_items": [
             {
                 "title": "Narrative stage 1 title",

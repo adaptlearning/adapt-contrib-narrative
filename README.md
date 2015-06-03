@@ -40,6 +40,10 @@ This defines the position of the component in the block. Values can be `full`, `
 
 This is optional instruction text that will be shown when viewed on mobile.
 
+### Component completion
+
+The ```_setCompletionOn``` setting controls when the component is set to complete, and accepts the following values: "```inview```" and "```allItems```".
+
 ####_items
 
 Each item represents one narrative slide and contains values for `text`, `_shouldBeSelected` and `_graphic`.
