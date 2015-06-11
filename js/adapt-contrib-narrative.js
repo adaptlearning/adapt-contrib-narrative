@@ -127,9 +127,9 @@ define(function(require) {
 
         replaceInstructions: function() {
             if (Adapt.device.screenSize === 'large') {
-                this.$('.narrative-instruction-inner').children('span').html(this.model.get('instruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('instruction'));
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-                this.$('.narrative-instruction-inner').children('span').html(this.model.get('mobileInstruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction'));
             }
         },
 
@@ -179,7 +179,7 @@ define(function(require) {
                 currentItem.visited = true;
             }
 
-            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
             this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).eq(stage).removeClass('narrative-hidden').a11y_on(true);
