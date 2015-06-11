@@ -13,7 +13,6 @@ define(function(require) {
         events: {
             'click .narrative-strapline-title': 'openPopup',
             'touchend .narrative-strapline-title': 'openPopup',
-            'click .notify-popup-icon-close': 'closePopup',
             'click .narrative-controls': 'onNavigationClicked'
         },
 
@@ -169,11 +168,6 @@ define(function(require) {
                 this.$('.narrative-strapline-header-inner').css(marginDir);
                 callback();
             }
-        },
-
-        closePopup: function(event) {
-            event.preventDefault();
-            Adapt.trigger('popup:closed');
         },
 
         setStage: function(stage, initial) {
