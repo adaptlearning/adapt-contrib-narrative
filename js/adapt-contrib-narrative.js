@@ -11,9 +11,8 @@ define(function(require) {
     var Narrative = ComponentView.extend({
 
         events: {
-            'touchstart .narrative-slider': 'onTouchNavigationStarted',
             'click .narrative-strapline-title': 'openPopup',
-            'click .notify-popup-icon-close': 'closePopup',
+            'touchend .narrative-strapline-title': 'openPopup',
             'click .narrative-controls': 'onNavigationClicked'
         },
 
@@ -61,7 +60,6 @@ define(function(require) {
         },
 
         setupNarrative: function() {
-            _.bindAll(this, 'onTouchMove', 'onTouchEnd');
             this.setDeviceSize();
             this.model.set('_marginDir', 'left');
             if (Adapt.config.get('_defaultDirection') == 'rtl') {
@@ -129,9 +127,9 @@ define(function(require) {
 
         replaceInstructions: function() {
             if (Adapt.device.screenSize === 'large') {
-                this.$('.narrative-instruction-inner').children('span').html(this.model.get('instruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('instruction'));
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-                this.$('.narrative-instruction-inner').children('span').html(this.model.get('mobileInstruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction'));
             }
         },
 
@@ -172,17 +170,6 @@ define(function(require) {
             }
         },
 
-        closePopup: function(event) {
-            event.preventDefault();
-            Adapt.trigger('popup:closed');
-            /*this.model.set('_active', true);
-
-             this.$('.narrative-popup-close').blur();
-             this.$('.narrative-popup').addClass('narrative-hidden');
-
-             this.evaluateCompletion();*/
-        },
-
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
 
@@ -192,7 +179,7 @@ define(function(require) {
                 currentItem.visited = true;
             }
 
-            this.$('.narrative-progress').removeClass('selected').eq(stage).addClass('selected');
+            this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
             this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).eq(stage).removeClass('narrative-hidden').a11y_on(true);
@@ -321,40 +308,6 @@ define(function(require) {
             }
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
-        },
-
-        onTouchNavigationStarted: function(event) {
-            //event.preventDefault();
-            //if (!this.model.get('_active')) return;
-
-            /*this.$('.narrative-slider').stop();
-             this.$('.narrative-strapline-header-inner').stop();
-
-             this.model.set('_currentX', event.originalEvent.touches[0]['pageX']);
-             this.model.set('_touchStartPosition', parseInt(this.$('.narrative-slider').css('margin-left')));
-
-             this.$('.narrative-slider').on('touchmove', this.onTouchMove);
-             this.$('.narrative-slider').one('touchend', this.onTouchEnd);*/
-        },
-
-        onTouchEnd: function(event) {
-            var nextItemIndex = this.getNearestItemIndex();
-            this.setStage(nextItemIndex);
-
-            this.$('.narrative-slider').off('touchmove', this.onTouchMove);
-        },
-
-        onTouchMove: function(event) {
-            var currentX = event.originalEvent.touches[0]['pageX'];
-            var previousX = this.model.get('_currentX');
-            var deltaX = currentX - previousX;
-
-            Adapt.trigger('popup:closed');
-
-            this.moveElement(this.$('.narrative-slider'), deltaX);
-            this.moveElement(this.$('.narrative-strapline-header-inner'), deltaX);
-
-            this.model.set('_currentX', currentX);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
