@@ -237,7 +237,6 @@
         }
         &:focus .focus-rect {
             position: absolute;
-            outline: @focus-outline;
             right: extract(@focus-outline, 1);
             bottom: extract(@focus-outline, 1);
             top: extract(@focus-outline, 1);
@@ -284,4 +283,10 @@
         display:none;
     }
 
+}
+
+.no-touch {
+    .narrative-strapline-title:focus .focus-rect {
+        outline: @focus-outline;
+    }
 }
