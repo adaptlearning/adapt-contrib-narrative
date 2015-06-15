@@ -285,8 +285,30 @@
 
 }
 
-.no-touch {
-    .narrative-strapline-title:focus .focus-rect {
-        outline: @focus-outline;
+
+html.accessibility { 
+
+    .narrative-control-left:focus, .narrative-control-left.focus {
+        left: extract(@focus-outline, 1);
+        .dir-rtl & {
+            left: inherit;
+            right: extract(@focus-outline, 1);
+        }
     }
+
+    .narrative-control-right:focus, .narrative-control-right.focus {
+        right: extract(@focus-outline, 1);
+        .dir-rtl & {
+            right: inherit;
+            left: extract(@focus-outline, 1);
+        }
+    }
+
+
+    &.no-touch {
+        .narrative-strapline-title:focus .focus-rect {
+            outline: @focus-outline;
+        }
+    }
+
 }
