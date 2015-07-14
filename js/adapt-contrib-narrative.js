@@ -138,8 +138,9 @@ define(function(require) {
             var Hotgraphic = Adapt.componentStore.hotgraphic;
             
             var model = this.prepareHotgraphicModel();
-            var newHotgraphic = new Hotgraphic({model: model, $parent: this.options.$parent});
-            this.options.$parent.append(newHotgraphic.$el);
+            var newHotgraphic = new Hotgraphic({ model: model });
+
+            $("." + this.model.get("_parentId")).append(newHotgraphic.$el);
             this.remove();
             _.defer(function() {
                 Adapt.trigger('device:resize');
