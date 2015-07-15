@@ -12,7 +12,6 @@ define(function(require) {
 
         events: {
             'click .narrative-strapline-title': 'openPopup',
-            'touchend .narrative-strapline-title': 'openPopup',
             'click .narrative-controls': 'onNavigationClicked'
         },
 
