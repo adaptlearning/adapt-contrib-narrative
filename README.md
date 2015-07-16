@@ -2,7 +2,7 @@
 
 An Adapt core contributed narrative component that displays images with corresponding text and left and right navigation controls to progress through the narrative.
 
-The narrative control renders differently when Adapt.device.screenSize is 'small'.  In this case the corresponding body text is only available by clicking the '+' icon.
+The narrative control renders differently when Adapt.device.screenSize is 'small'. In this case the corresponding body text is only available by clicking the '+' icon.
 
 ##Installation
 
@@ -20,7 +20,7 @@ Once installed, the component can be used to create a narrative control comprise
 
 ##Settings overview
 
-For example JSON format, see [example.json](https://github.com/adaptlearning/adapt-contrib-narrative/blob/master/example.json). A description of the core settings can be found at: [Core model attributes](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes).
+For example JSON format, see [example.json](example.json). A description of the core settings can be found at: [Core model attributes](https://github.com/adaptlearning/adapt_framework/wiki/Core-model-attributes).
 
 Further settings for this component are:
 
