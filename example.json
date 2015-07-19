@@ -18,8 +18,7 @@
                 "body": "This is display text 1. If viewing on desktop or tablet, this text will appear to the right of the image. On mobile, you’ll need to select the plus icon to reveal this text.",
                 "_graphic": {
                     "src": "course/en/images/image-slider-1.jpg",
-                    "alt": "First graphic",
-                    "title": "First graphic"
+                    "alt": "First graphic"
                 },
                 "strapline": "Here is the first..."
             },
@@ -28,8 +27,7 @@
                 "body": "This is display text 2.",
                 "_graphic": {
                     "src": "course/en/images/image-slider-2.jpg",
-                    "alt": "Second graphic",
-                    "title": "Second graphic"
+                    "alt": "Second graphic"
                 },
                 "strapline": "Now comes the second..."
             },
@@ -38,8 +36,7 @@
                 "body": "This is display text 3.",
                 "_graphic": {
                     "src": "course/en/images/image-slider-3.jpg",
-                    "alt": "Third graphic",
-                    "title": "Third graphic"
+                    "alt": "Third graphic"
                 },
                 "strapline": "Third here!"
             }
