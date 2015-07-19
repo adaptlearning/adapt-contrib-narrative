@@ -94,15 +94,6 @@
                 "inputType": "Text",
                 "validators": [],
                 "help": "Alternative text for this items image"
-              },
-              "title": {
-                "type":"string",
-                "required": false,
-                "default": "",
-                "title": "Graphic title",
-                "inputType": "Text",
-                "validators": [],
-                "help": "This setting is for the title attribute on the image"
               }
             }
           },
