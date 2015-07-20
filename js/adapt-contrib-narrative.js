@@ -80,6 +80,17 @@ define(function(require) {
                 this.replaceInstructions();
             }
             this.setupEventListeners();
+            
+            // if hasNavigationInTextArea set margin left 
+            var hasNavigationInTextArea = this.model.get('_hasNavigationInTextArea');
+            if (hasNavigationInTextArea == true) {
+                var indicatorWidth = this.$('.narrative-indicators').width();
+                var marginLeft = indicatorWidth / 2;
+                
+                this.$('.narrative-indicators').css({
+                    marginLeft: '-' + marginLeft + 'px'
+                });
+            }
         },
 
         calculateWidths: function() {
