@@ -3,9 +3,9 @@
     &.desktop { 
         .narrative-slide-container {
             float: left;
-		    .dir-rtl & {
-		        float: right;
-		    }
+            .dir-rtl & {
+                float: right;
+            }
             margin-right: 3%;
             .dir-rtl & {
                 margin-right: inherit;
@@ -61,6 +61,9 @@
                 .narrative-controls {
                     margin-bottom:0px;
                     display:inline-block;
+                    &.narrative-hidden {
+                        display:none;
+                    }
                 }
                 .narrative-control-left {
                     float:left;
@@ -69,12 +72,12 @@
                     float: right;
                 }
                 .narrative-indicators {
-                    display:block;
-                    width:100%;
-                    position:absolute;
-                    margin-top:10px;
-                    top:0px;
-                    left:0px;
+                    display: inline-block;
+                    width: auto;
+                    position: absolute;
+                    margin-top: 10px;
+                    top: 0px;
+                    left: 50%;
                 }
                 .narrative-content-item {
                     padding-top: 36px;
@@ -220,10 +223,10 @@
             position: absolute;
             top: 0;
             right: 0;
-			.dir-rtl & {
-				right: inherit;
-				left: 0;
-			}
+            .dir-rtl & {
+                right: inherit;
+                left: 0;
+            }
             padding: 10px;
             color: @button-text-color;
         }
@@ -250,8 +253,8 @@
         padding-left: (@icon-size/2);
         padding-right: (@item-padding-left + @item-padding-right + @icon-size);
         .dir-rtl & {
-	        padding-right: (@icon-size/2);
-	        padding-left: (@item-padding-left + @item-padding-right + @icon-size);
+            padding-right: (@icon-size/2);
+            padding-left: (@item-padding-left + @item-padding-right + @icon-size);
         }
         text-overflow: ellipsis;
         white-space: nowrap;
