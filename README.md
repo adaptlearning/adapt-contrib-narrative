@@ -45,6 +45,8 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
+**_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom. 
+
 **_items** (array): Multiple items may be created. Each item represents one slide and contains values for the narrative (**title**, **body**), the image (**_graphic**), and the slide's header when viewed on a mobile device (**_strapLine**).
 
 >**title** (string): This value is the title for this narrative element.
