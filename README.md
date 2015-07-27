@@ -60,6 +60,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 >>**alt** (string): This text becomes the image’s `alt` attribute.
 
 >**strapline** (string): This text is displayed as a title above the image when `Adapt.device.screenSize` is `small` (i.e., when viewed on mobile devices).  
+
 <div float align=right><a href="#top">Back to Top</a></div>
 
 ## Limitations
