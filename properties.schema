@@ -3,6 +3,15 @@
   "$schema": "http://json-schema.org/draft-04/schema",
   "id": "http://jsonschema.net",
   "$ref": "http://localhost/plugins/content/component/model.schema",
+  "globals": {
+    "ariaRegion": {
+      "type": "string",
+      "required": true,
+      "default": "This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.",
+      "inputType": "Text",
+      "validators": []
+    }
+  },
   "properties":{
     "_supportedLayout": {
       "type": "string",
