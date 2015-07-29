@@ -1,8 +1,3 @@
-/*
- * adapt-contrib-narrative
- * License - http://github.com/adaptlearning/adapt_framework/blob/master/LICENSE
- * Maintainers - Brian Quinn <brian@learningpool.com>, Daryl Hedley <darylhedley@hotmail.com>
- */
 define(function(require) {
 
     var ComponentView = require('coreViews/componentView');
