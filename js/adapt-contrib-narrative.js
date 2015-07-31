@@ -144,8 +144,9 @@ define(function(require) {
             
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new Hotgraphic({ model: model });
+            var $container = $(".component-container", $("." + this.model.get("_parentId")));
 
-            $("." + this.model.get("_parentId")).append(newHotgraphic.$el);
+            $container.append(newHotgraphic.$el);
             this.remove();
             _.defer(function() {
                 Adapt.trigger('device:resize');
