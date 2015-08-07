@@ -168,7 +168,7 @@
         z-index: 10;
         text-decoration: none;
         background-color:@button-color;
-        &:hover {
+        .no-touch &:hover {
             background-color:@button-hover-color;
             .icon {
                 color:@button-text-hover-color;
@@ -230,7 +230,7 @@
             padding: 10px;
             color: @button-text-color;
         }
-        &:hover {
+        .no-touch &:hover {
             background-color: @button-hover-color;
             color: @button-text-hover-color;
             .icon {
@@ -276,7 +276,7 @@
         padding: @item-padding;
         .icon {
             color: @inverted-foreground-color;
-            &:hover {
+            .no-touch &:hover {
                 color: lighten(@inverted-background-color, 30%);
             }
         }
