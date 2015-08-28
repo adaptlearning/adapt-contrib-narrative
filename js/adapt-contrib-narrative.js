@@ -317,7 +317,7 @@ define(function(require) {
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
         },
-        onBtnClicked: function(event) {
+        onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
             this.setStage(clickedIndex);
