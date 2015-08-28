@@ -7,7 +7,8 @@ define(function(require) {
 
         events: {
             'click .narrative-strapline-title': 'openPopup',
-            'click .narrative-controls': 'onNavigationClicked'
+            'click .narrative-controls': 'onNavigationClicked',
+            'click .narrative-indicators .narrative-progress': 'onProgressClicked'
         },
 
         preRender: function() {
@@ -315,6 +316,11 @@ define(function(require) {
             }
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
+        },
+        onBtnClicked: function(event) {
+            event.preventDefault();
+            var clickedIndex = $(event.target).index();
+            this.setStage(clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
