@@ -166,7 +166,7 @@ define(function(require) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
             var marginDir = {};
-            if (animate) {
+            if (animate && !Adapt.config.get('_disableAnimation')) {
                 marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').velocity("stop", true).velocity(marginDir);
                 this.$('.narrative-strapline-header-inner').velocity("stop", true).velocity(marginDir, {complete:callback});
