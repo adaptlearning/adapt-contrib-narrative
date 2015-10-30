@@ -133,9 +133,9 @@ define(function(require) {
 
         replaceInstructions: function() {
             if (Adapt.device.screenSize === 'large') {
-                this.$('.narrative-instruction-inner').html(this.model.get('instruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction'));
+                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
             }
         },
 
@@ -166,7 +166,7 @@ define(function(require) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
             var marginDir = {};
-            if (animate) {
+            if (animate && !Adapt.config.get('_disableAnimation')) {
                 marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').velocity("stop", true).velocity(marginDir);
                 this.$('.narrative-strapline-header-inner').velocity("stop", true).velocity(marginDir, {complete:callback});

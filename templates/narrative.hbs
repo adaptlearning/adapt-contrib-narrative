@@ -25,12 +25,12 @@
                         <div class="narrative-progress component-item-color component-item-border"></div>
                         {{/each}}
                     </div>
-                    <a href="#" class="narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+                    <button class="base narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
                         <div class="icon icon-controls-left"></div>
-                    </a>
-                    <a href="#" class="narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+                    </button>
+                    <button class="base narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
                         <div class="icon icon-controls-right"></div>
-                    </a>
+                    </button>
                 </div>
             </div>
         </div>
@@ -40,13 +40,13 @@
                 <div class="narrative-strapline-header-inner clearfix">
                     <div></div>
                     {{#each _items}}
-                    <a href="#" role="button" class="narrative-strapline-title" aria-label="{{{strapline}}}">
+                    <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}">
                         <div class="narrative-strapline-title-inner accessible-text-block h5">
                             {{{strapline}}} 
                         </div>
                         <div class="icon icon-plus"></div>
                         <div class="focus-rect"></div>
-                    </a>
+                    </button>
                     {{/each}}
                 </div>
             </div>
@@ -54,17 +54,17 @@
 
         <div class="narrative-slide-container">
 
-            <a href="#" class="narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+            <button class="base narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
                 <div class="icon icon-controls-left"></div>
-            </a>
-            <a href="#" class="narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+            </button>
+            <button class="base narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
                 <div class="icon icon-controls-right"></div>
-            </a>
+            </button>
 
             <div class="narrative-slider clearfix">
                 {{#each _items}}
                 <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}">
-                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}"/>
+                    <img src="{{_graphic.src}}" aria-label="{{_graphic.alt}}" tabindex="0"/>
                 </div>
                 {{/each}}
             </div>

@@ -2,65 +2,64 @@
 
     &.desktop { 
         .narrative-slide-container {
-            float: left;
-            .dir-rtl & {
-                float: right;
-            }
+            width: 60%;
             margin-right: 3%;
+            float: left;
             .dir-rtl & {
                 margin-right: inherit;
                 margin-left: 3%;
+                float: right;
             }
-            width: 60%;
         }
+
         .narrative-slider-graphic {
             margin-right: 0;
             width:60%;
         }
+
         .narrative-strapline {
             display:none;
         }
 
         .narrative-content-inner {
             .narrative-controls {
-                position:static;
-                display:none;
+                position: static;
+                display: none;
                 margin-top: 0px;
-                margin-bottom:10px;
-                width:auto;
-                height:auto;
-                padding:8px;
+                margin-bottom: 10px;
+                width: auto;
+                height: auto;
+                padding: 8px;
                 .icon {
-                    margin:0px;
+                    margin: 0px;
                 }
             }
             .narrative-indicators {
-                display:none;
+                display: none;
                 position: relative;
                 top: -4px;
             }
             .narrative-progress {
-                background-color:darken(@inverted-background-color, 10%);
+                background-color: @item-color;
                 &.selected {
-                    background-color: @item-text-color; 
+                    background-color: @item-color-selected;
                 }
             }
         }
 
         .narrative-text-controls {
             .narrative-content-inner {
-                position:relative;
-
+                position: relative;
                 .narrative-controls-container {
-                    position:absolute;
-                    width:100%;
-                    left:0px;
-                    top:10px;
+                    position: absolute;
+                    width: 100%;
+                    left: 0px;
+                    top: 10px;
                     display: block;
-                }
+                } 
                 .narrative-controls {
-                    margin-bottom:0px;
-                    display:inline-block;
+                    margin-bottom: 0px;
+                    display: inline-block;
                     &.narrative-hidden {
                         display:none;
                     }
@@ -83,26 +82,26 @@
                     padding-top: 36px;
                 }
             }
+
             .narrative-slide-container {
                 .narrative-controls {
-                    display:none;
+                    display: none;
                 }
                 .narrative-indicators {
-                    display:none;
+                    display: none;
                 }
             }
-
         }
     }
 
     .narrative-content {
+        width: 36%;
+        background-color: @item-color;
+        color: @item-text-color;
         float: right;
         .dir-rtl & {
             float: left;
         }
-        width: 36%;
-        background: @inverted-background-color;
-        color: @inverted-foreground-color;
     }
 
     .narrative-content-inner {
@@ -126,11 +125,11 @@
     }  
 
     .narrative-slider-graphic {
+        position: relative;
         float: left;
         .dir-rtl & {
             float: right;
         }
-        position: relative;
     }
 
     .narrative-item-title {
@@ -143,19 +142,16 @@
     }
 
     .narrative-progress {
-        cursor: pointer;
         width: (@icon-size/2);
         height: (@icon-size/2);
         display: inline-block;
-        background-color: @item-color;
-        border:1px solid @foreground-color;
-        & when (@item-border-width = 1px) {
-            border: @item-border;
-        }
-        border-radius: 50%;
-        margin: 1px;        
+        margin: 1px;  
+        border:inherit;
+        border-radius: 50%; 
+        background-color: darken(@component-background-color, 10%);
+        cursor: pointer;     
         &.selected {
-            background-color: @item-text-color;        
+            background-color: @item-color;     
         }
     }
 
@@ -168,16 +164,19 @@
         margin-top: -(@icon-size*2);
         z-index: 10;
         text-decoration: none;
-        background-color:@button-color;
-        &:hover {
-            background-color:@button-hover-color;
+        background-color: @item-color;
+        .no-touch &:hover {
+            background-color: @item-color-hover;
             .icon {
-                color:@button-text-hover-color;
+                color: @item-text-color-hover;
             }
         }
         .icon {
             margin: (@icon-size/2);
-            color:@button-text-color;
+            color: @item-text-color;
+        }
+        &.narrative-hidden {
+            display: none;
         }
     }
 
@@ -210,6 +209,7 @@
     .narrative-strapline-header-inner {
         position:relative;
     }
+
     .narrative-strapline-title {
         position: relative;
         float: left;
@@ -228,14 +228,12 @@
                 right: inherit;
                 left: 0;
             }
-            padding: 10px;
-            color: @button-text-color;
         }
-        &:hover {
-            background-color: @button-hover-color;
-            color: @button-text-hover-color;
+        .no-touch &:hover {
+            background-color: @button-color-hover;
+            color: @button-text-color-hover;
             .icon {
-                color: @button-text-hover-color;
+                color: @button-text-color-hover;
             }
 
         }
@@ -253,13 +251,13 @@
         line-height: (@item-padding-top + @item-padding-bottom + @icon-size);
         padding-left: (@icon-size/2);
         padding-right: (@item-padding-left + @item-padding-right + @icon-size);
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
         .dir-rtl & {
             padding-right: (@icon-size/2);
             padding-left: (@item-padding-left + @item-padding-right + @icon-size);
         }
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        overflow: hidden;
     }
 
     .narrative-popup-open {
@@ -267,17 +265,17 @@
         position: absolute;
         top:0;
         right:0;
+        padding: @item-padding;
+        background-color: @inverted-background-color;
+        text-decoration: none;
+        z-index: 5;
         .dir-rtl & {
             right:inherit;
             left:0;
         }
-        text-decoration: none;
-        z-index: 5;
-        background-color: @inverted-background-color;
-        padding: @item-padding;
         .icon {
             color: @inverted-foreground-color;
-            &:hover {
+            .no-touch &:hover {
                 color: lighten(@inverted-background-color, 30%);
             }
         }
@@ -286,7 +284,6 @@
     .narrative-hidden {
         display:none;
     }
-
 }
 
 
@@ -314,5 +311,4 @@ html.accessibility {
             outline: @focus-outline;
         }
     }
-
 }
