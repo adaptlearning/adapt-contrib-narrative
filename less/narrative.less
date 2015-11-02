@@ -1,6 +1,6 @@
-.narrative-component {    
+.narrative-component {
 
-    &.desktop { 
+    &.desktop {
         .narrative-slide-container {
             width: 60%;
             margin-right: 3%;
@@ -56,7 +56,7 @@
                     left: 0px;
                     top: 10px;
                     display: block;
-                } 
+                }
                 .narrative-controls {
                     margin-bottom: 0px;
                     display: inline-block;
@@ -122,7 +122,7 @@
         .dir-rtl & {
             float: right;
         }
-    }  
+    }
 
     .narrative-slider-graphic {
         position: relative;
@@ -145,13 +145,13 @@
         width: (@icon-size/2);
         height: (@icon-size/2);
         display: inline-block;
-        margin: 1px;  
+        margin: 1px;
         border:inherit;
-        border-radius: 50%; 
+        border-radius: 50%;
         background-color: darken(@component-background-color, 10%);
-        cursor: pointer;     
+        cursor: pointer;
         &.selected {
-            background-color: @item-color;     
+            background-color: @item-color;
         }
     }
 
@@ -266,7 +266,7 @@
         top:0;
         right:0;
         padding: @item-padding;
-        background-color: @inverted-background-color;
+        background-color: @background-color-inverted;
         text-decoration: none;
         z-index: 5;
         .dir-rtl & {
@@ -274,9 +274,9 @@
             left:0;
         }
         .icon {
-            color: @inverted-foreground-color;
+            color: @foreground-color-inverted;
             .no-touch &:hover {
-                color: lighten(@inverted-background-color, 30%);
+                color: lighten(@background-color-inverted, 30%);
             }
         }
     }
@@ -287,7 +287,7 @@
 }
 
 
-html.accessibility { 
+html.accessibility {
 
     .narrative-control-left:focus, .narrative-control-left.focus {
         left: extract(@focus-outline, 1);
