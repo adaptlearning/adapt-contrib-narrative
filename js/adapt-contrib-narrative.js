@@ -230,7 +230,7 @@ define(function(require) {
             var currentStage = this.model.get('_stage');
             var itemCount = this.model.get('_itemCount');
             if (currentStage == 0) {
-                this.$('.narrative-control-left').addClass('narrative-hidden');
+                this.$('.narrative-controls').addClass('narrative-hidden');
 
                 if (itemCount > 1) {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
