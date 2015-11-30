@@ -184,6 +184,12 @@ define(function(require) {
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
+                
+                if(!currentItem && !this.model.get('_items').length){
+                     this.$('.component-widget').on('inview', _.bind(this.inview, this));
+                     this.$('.narrative-content-inner').addClass('display-none');
+                }
+                else
                 currentItem.visited = true;
             }
 
