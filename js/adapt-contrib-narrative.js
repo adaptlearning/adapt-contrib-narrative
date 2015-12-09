@@ -190,8 +190,6 @@ define(function(require) {
             this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
             this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
             this.$('.narrative-slider-graphic').eq(stage).children('.controls').a11y_cntrl_enabled(true);
-            this.$('.narrative-slider-graphic').children('img').a11y_cntrl_enabled(false);
-            this.$('.narrative-slider-graphic').eq(stage).children('img').a11y_cntrl_enabled(true);
             this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).eq(stage).removeClass('narrative-hidden').a11y_on(true);
             this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).eq(stage).a11y_cntrl_enabled(true);
 
