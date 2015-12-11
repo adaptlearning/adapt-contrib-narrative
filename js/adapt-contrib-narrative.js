@@ -56,7 +56,7 @@ define(function(require) {
 
         setupNarrative: function() {
             this.setDeviceSize();
-            if(!this.model.has('_items')) return;
+            if(!this.model.has('_items') || !this.model.get('_items').length) return;
             this.model.set('_marginDir', 'left');
             if (Adapt.config.get('_defaultDirection') == 'rtl') {
                 this.model.set('_marginDir', 'right');
