@@ -115,7 +115,6 @@ define(function(require) {
 
         resizeControl: function() {
             this.setDeviceSize();
-            this.replaceInstructions();
             this.calculateWidths();
             this.evaluateNavigation();
         },
