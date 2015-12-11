@@ -56,6 +56,7 @@ define(function(require) {
 
         setupNarrative: function() {
             this.setDeviceSize();
+            if(!this.model.has('_items') || !this.model.get('_items').length) return;
             this.model.set('_marginDir', 'left');
             if (Adapt.config.get('_defaultDirection') == 'rtl') {
                 this.model.set('_marginDir', 'right');
@@ -180,7 +181,6 @@ define(function(require) {
 
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
-
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
