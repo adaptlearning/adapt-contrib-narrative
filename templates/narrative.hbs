@@ -6,7 +6,7 @@
         <div class="narrative-content">
             <div class="narrative-content-inner">
                 {{#each _items}}
-                <div class="narrative-content-item">
+                <div class="narrative-content-item" aria-label="{{_graphic.alt}}">
                     <div class="narrative-content-title">
                         <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
                             {{{title}}} 
@@ -64,7 +64,7 @@
             <div class="narrative-slider clearfix">
                 {{#each _items}}
                 <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}">
-                    <img src="{{_graphic.src}}" aria-label="{{_graphic.alt}}" tabindex="0"/>
+                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}"/>
                 </div>
                 {{/each}}
             </div>
