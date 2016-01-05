@@ -95,7 +95,6 @@ define(function(require) {
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
             var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
-            var iconWidth = this.$('.narrative-popup-open').outerWidth();
 
             this.$('.narrative-slider-graphic').width(slideWidth);
             this.$('.narrative-strapline-header').width(slideWidth);
@@ -114,8 +113,9 @@ define(function(require) {
         },
 
         resizeControl: function() {
+            var wasDesktop = this.model.get('_isDesktop');
             this.setDeviceSize();
-            this.replaceInstructions();
+            if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
             this.calculateWidths();
             this.evaluateNavigation();
         },
@@ -200,7 +200,7 @@ define(function(require) {
                 if (this.model.get('_isDesktop')) {
                     if (!initial) this.$('.narrative-content-item').eq(stage).a11y_focus();
                 } else {
-                    if (!initial) this.$('.narrative-popup-open').a11y_focus();
+                    if (!initial) this.$('.narrative-strapline-title').a11y_focus();
                 }
             }, this));
         },
