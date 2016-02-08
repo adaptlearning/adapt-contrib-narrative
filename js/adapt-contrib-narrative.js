@@ -115,7 +115,7 @@ define(function(require) {
 
         resizeControl: function() {
             this.setDeviceSize();
-            this.replaceInstructions();
+            _.once(this.replaceInstructions);
             this.calculateWidths();
             this.evaluateNavigation();
         },
@@ -124,7 +124,7 @@ define(function(require) {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
             } else {
-                this.resizeControl();
+                this.replaceInstructions();
             }
         },
 
