@@ -49,7 +49,7 @@ define(function(require) {
                 this.model.set({_stage: 0});
 
                 _.each(this.model.get('_items'), function(item) {
-                    item.visited = false;
+                    item._isVisited = false;
                 });
             }
         },
@@ -185,7 +185,7 @@ define(function(require) {
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
-                currentItem.visited = true;
+                currentItem._isVisited = true;
             }
 
             this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
@@ -270,7 +270,7 @@ define(function(require) {
 
         getVisitedItems: function() {
             return _.filter(this.model.get('_items'), function(item) {
-                return item.visited;
+                return item._isVisited;
             });
         },
 
@@ -297,7 +297,7 @@ define(function(require) {
             };
 
             // Set the visited attribute for small and medium screen devices
-            currentItem.visited = true;
+            currentItem._isVisited = true;
 
             Adapt.trigger('notify:popup', popupObject);
         },
