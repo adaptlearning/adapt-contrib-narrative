@@ -1,6 +1,6 @@
 .narrative-component {
 
-    &.desktop {
+    .desktop {
         .narrative-slide-container {
             width: 60%;
             margin-right: 3%;
@@ -108,7 +108,7 @@
         padding:20px;
     }
 
-    &.mobile {
+    .mobile {
         .narrative-content {
             display:none;
         }
@@ -122,6 +122,10 @@
         .dir-rtl & {
             float: right;
         }
+    }
+
+    .narrative-slider {
+        transition: margin .7s;
     }
 
     .narrative-slider-graphic {
@@ -200,6 +204,7 @@
 
     .narrative-strapline-header-inner {
         position:relative;
+        transition: margin .7s;
     }
 
     .narrative-strapline-title {
