@@ -28,22 +28,24 @@ define([
         completionEvent: null,
 
         postInitialize: function() {
-            this.checkIfResetOnRevisit();
+            this.model.checkIfResetOnRevisit();
             this.setDeviceSize();
             this.replaceInstructions();
             this.setMarginDirection();
-            this.setInitialStage();
+            this.setStage(0, true);
             this.setUpEventListeners();
         },
 
-        checkIfResetOnRevisit: function() {
-            var isResetOnRevisit = this.model.get('_isResetOnRevisit');
+        setDeviceSize: function() {
+            this.state.set("_isDesktop", (Adapt.device.screenSize === 'large'));
+        },
 
-            // If reset is enabled set defaults
-            if (!isResetOnRevisit) return;
-                
-            this.model.checkIfResetOnRevisit();
-            this.state.set("_stage", 0);
+        replaceInstructions: function() {
+            var instruction = (Adapt.device.screenSize === 'large') ? 
+                this.model.get('instruction'):
+                this.model.get('mobileInstruction');
+
+            this.state.set("instruction", instruction);
         },
 
         setMarginDirection: function() {
@@ -51,10 +53,6 @@ define([
                 'right': 
                 'left';
             this.state.set("_marginDir", marginDirection);
-        },
-
-        setInitialStage: function() {
-            this.setStage(this.state.get("_stage") || 0, true);
         },
 
         setUpEventListeners: function() {
@@ -67,6 +65,7 @@ define([
         },
 
         setUpCompletionEvents: function() {
+
             this.completionEvent = (this.model.get('_setCompletionOn') || 'allItems');
 
             if (this.completionEvent === 'inview') {
@@ -82,18 +81,6 @@ define([
             this.replaceInstructions();
             this.calculateWidths();
             this.evaluateNavigation();
-        },
-
-        setDeviceSize: function() {
-            this.state.set("_isDesktop", (Adapt.device.screenSize === 'large'));
-        },
-
-        replaceInstructions: function() {
-            var instruction = (Adapt.device.screenSize === 'large') ? 
-                this.model.get('instruction'):
-                this.model.get('mobileInstruction');
-
-            this.state.set("instruction", instruction);
         },
 
         calculateWidths: function() {
@@ -113,7 +100,6 @@ define([
             this.state.set("_margin", margin);
         },
         
-
         checkReplaceWithHotgraphic: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
