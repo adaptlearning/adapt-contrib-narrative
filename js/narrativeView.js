@@ -142,7 +142,9 @@ define([
             this.remove();
         },
 
-        preRender: function() {
+        preRender: function(isFirstRender) {
+            if (!isFirstRender) return;
+
             this.evaluateNavigation();
         },
 
@@ -152,7 +154,9 @@ define([
             'click .narrative-indicators .narrative-progress': 'onProgressClicked'
         },
 
-        postRender: function() {
+        postRender: function(isFirstRender) {
+            if (!isFirstRender) return;
+
             this.$('.narrative-slider').imageready(_.bind(function() {
                 this.calculateWidths();
                 this.setUpNavigationInTextArea();
@@ -239,8 +243,9 @@ define([
 
             this.moveSliderToIndex(stage, !initial);
 
+            // Make sure focus is correctly placed after the stage has moved and been rerendered
             this.listenToOnce(this, "postRender", function() {
-                if (!initial) return;
+                if (initial) return;
 
                 if (this.state.get("_isDesktop")) {
                     this.$('.narrative-content-item').eq(stage).a11y_focus();

@@ -56,13 +56,6 @@
 
         <div class="narrative-slide-container">
 
-            <button class="base narrative-controls narrative-control-left {{#unless _showLeft}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}" data-button="left">
-                <div class="icon icon-controls-left"></div>
-            </button>
-            <button class="base narrative-controls narrative-control-right {{#unless _showRight}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}" data-button="right">
-                <div class="icon icon-controls-right"></div>
-            </button>
-
             <div class="narrative-slider clearfix" style="width: {{_fullSlideWidth}}; margin-{{_marginDir}}:{{_margin}}px;">
                 {{#each _items}}
                 <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}" style="width: {{../_slideWidth}};">
@@ -75,6 +68,14 @@
                 <div class="narrative-progress component-item-color component-item-border {{#if_value_equals @index ../_stage}}selected{{else}}{{/if_value_equals}}"></div>
                 {{/each}}
             </div>
+
+            <button class="base narrative-controls narrative-control-left {{#unless _showLeft}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}" data-button="left">
+                <div class="icon icon-controls-left"></div>
+            </button>
+            <button class="base narrative-controls narrative-control-right {{#unless _showRight}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}" data-button="right">
+                <div class="icon icon-controls-right"></div>
+            </button>
+            
         </div>
 
         <div class="clearfix"></div>
