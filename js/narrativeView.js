@@ -11,6 +11,7 @@ define([
             "displayTitle",
             "body",
             "title",
+            "instruction"
             "_stage",
             "_items",
             "_slideWidth",
@@ -57,7 +58,7 @@ define([
 
         setUpEventListeners: function() {
             this.listenTo(Adapt, {
-                'device:changed': this.checkReplaceWithHotgraphic,
+                'device:changed': this.onDeviceChanged,
                 'device:resize': this.resizeControl,
                 'notify:closed': this.closeNotify
             });
@@ -99,7 +100,7 @@ define([
             this.state.set("_margin", margin);
         },
         
-        checkReplaceWithHotgraphic: function() {
+        onDeviceChanged: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
                 return;
