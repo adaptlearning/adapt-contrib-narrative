@@ -89,7 +89,6 @@ define([
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
             var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
-            var iconWidth = this.$('.narrative-popup-open').outerWidth();
 
             this.state.set("_slideWidth", slideWidth+"px");
             this.state.set("_fullSlideWidth", fullSlideWidth+"px");
