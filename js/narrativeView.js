@@ -11,7 +11,7 @@ define([
             "displayTitle",
             "body",
             "title",
-            "instruction"
+            "instruction",
             "_stage",
             "_items",
             "_slideWidth",
@@ -129,8 +129,6 @@ define([
         },
 
         preRender: function(isFirstRender) {
-            if (!isFirstRender) return;
-
             this.evaluateNavigation();
         },
 
@@ -180,31 +178,18 @@ define([
             event.preventDefault();
 
             var button = $(event.currentTarget).data('button');
-
-            var stage = this.state.get("_stage");
-            var itemsCount = this.model.getItemsCount();
-
+            
             switch (button) {
             case "right":
-                stage++;
+                if (stage < lastItem) stage++;
+                else if (allowCycle) stage = 0;
                 break;
             case "left":
-                stage--;
+                if (stage > 0) stage--;
+                else if (allowCycle) stage = lastItem;
                 break;
             }
-
-            var allowCycle = this.model.get("_canCycleThroughPagination");
-            var isPreFirst = (stage < 0);
-            var isPostLast = (stage >= itemsCount);
-
-            if (isPreFirst) stage = allowCycle ?
-                itemsCount-1:
-                0;
-
-            if (isPostLast) stage = allowCycle ?
-                0:
-                itemsCount-1
-
+            
             this.setStage(stage);
         },
         
