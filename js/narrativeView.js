@@ -179,6 +179,10 @@ define([
 
             var button = $(event.currentTarget).data('button');
             
+            var stage = this.state.get("_stage");
+            var lastItem = this.model.getItemsCount()-1;
+            var allowCycle = this.model.get("_canCycleThroughPagination");
+            
             switch (button) {
             case "right":
                 if (stage < lastItem) stage++;
