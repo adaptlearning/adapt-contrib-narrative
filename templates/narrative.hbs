@@ -1,34 +1,36 @@
 {{! Maintainers - Brian Quinn}}
-<div class="narrative-inner component-inner" role="region" aria-label="{{_globals._components._narrative.ariaRegion}}">
+<div class="narrative-inner component-inner {{#if _isDesktop}}desktop{{else}}mobile{{/if}}">
+    <span class="aria-label" role="region">{{_globals._components._narrative.ariaRegion}}</span>
+    
     {{> component this}}
     <div class="narrative-widget component-widget {{#if _hasNavigationInTextArea}}narrative-text-controls{{/if}}">
 
         <div class="narrative-content">
             <div class="narrative-content-inner">
                 {{#each _items}}
-                <div class="narrative-content-item" aria-label="{{_graphic.alt}}">
-                    <div class="narrative-content-title">
-                        <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
-                            {{{title}}} 
+                    <div class="narrative-content-item {{#if_value_equals @index ../_stage}}{{else}}narrative-hidden{{/if_value_equals}}">
+                        <div class="narrative-content-title">
+                            <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
+                                {{{title}}} 
+                            </div>
+                        </div>
+                        <div class="narrative-content-body">
+                            <div class="narrative-content-body-inner">
+                                {{{a11y_text body}}}
+                            </div> 
                         </div>
                     </div>
-                    <div class="narrative-content-body">
-                        <div class="narrative-content-body-inner">
-                            {{{a11y_text body}}}
-                        </div> 
-                    </div>
-                </div>
                 {{/each}}
                 <div class="narrative-controls-container clearfix">
-                    <div class="narrative-indicators">
+                    <div class="narrative-indicators" style="margin-left: {{_indicatorsMarginLeft}};">
                         {{#each _items}}
                         <div class="narrative-progress component-item-color component-item-border"></div>
                         {{/each}}
                     </div>
-                    <button class="base narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+                    <button class="base narrative-controls narrative-control-left {{#unless _showLeft}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}" data-button="left">
                         <div class="icon icon-controls-left"></div>
                     </button>
-                    <button class="base narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+                    <button class="base narrative-controls narrative-control-right {{#unless _showRight}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}" data-button="right">
                         <div class="icon icon-controls-right"></div>
                     </button>
                 </div>
@@ -36,11 +38,11 @@
         </div>
 
         <div class="narrative-strapline">
-            <div class="narrative-strapline-header">
-                <div class="narrative-strapline-header-inner clearfix">
+            <div class="narrative-strapline-header" style="width: {{_slideWidth}};">
+                <div class="narrative-strapline-header-inner clearfix"  style="width: {{_fullSlideWidth}}; margin-{{_marginDir}}:{{_margin}}px;">
                     <div></div>
                     {{#each _items}}
-                    <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}">
+                    <button role="button" class="base narrative-strapline-title" style="width: {{../_slideWidth}};" aria-label="{{{strapline}}}" {{#if_value_equals @index ../_stage}}tabindex="0"{{else}}tabindex="-1"{{/if_value_equals}}>
                         <div class="narrative-strapline-title-inner accessible-text-block h5">
                             {{{strapline}}} 
                         </div>
@@ -54,28 +56,29 @@
 
         <div class="narrative-slide-container">
 
-            <button class="base narrative-controls narrative-control-left" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-                <div class="icon icon-controls-left"></div>
-            </button>
-            <button class="base narrative-controls narrative-control-right" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-                <div class="icon icon-controls-right"></div>
-            </button>
-
-            <div class="narrative-slider clearfix">
+            <div class="narrative-slider clearfix" style="width: {{_fullSlideWidth}}; margin-{{_marginDir}}:{{_margin}}px;">
                 {{#each _items}}
-                <div class="narrative-slider-graphic {{#if _isVisited}}visited{{/if}}">
-                    <img src="{{_graphic.src}}" alt="{{_graphic.alt}}"/>
+                <div class="narrative-slider-graphic {{#if visited}}visited{{/if}}" style="width: {{../_slideWidth}};">
+                    <img src="{{_graphic.src}}" aria-label="{{_graphic.alt}}" {{#if_value_equals @index ../_stage}}tabindex="0"{{else}}tabindex="-1"{{/if_value_equals}}/>
                 </div>
                 {{/each}}
             </div>
-            <div class="narrative-indicators">
+            <div class="narrative-indicators" style="margin-left: {{_indicatorsMarginLeft}}px;">
                 {{#each _items}}
-                <div class="narrative-progress component-item-color component-item-border"></div>
+                <div class="narrative-progress component-item-color component-item-border {{#if_value_equals @index ../_stage}}selected{{else}}{{/if_value_equals}}"></div>
                 {{/each}}
             </div>
+
+            <button class="base narrative-controls narrative-control-left {{#unless _showLeft}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.previous}}" data-button="left">
+                <div class="icon icon-controls-left"></div>
+            </button>
+            <button class="base narrative-controls narrative-control-right {{#unless _showRight}}narrative-hidden{{/unless}}" role="button" aria-label="{{_globals._accessibility._ariaLabels.next}}" data-button="right">
+                <div class="icon icon-controls-right"></div>
+            </button>
+            
         </div>
 
         <div class="clearfix"></div>
-
     </div>    
 </div>
+{{> state this}}
