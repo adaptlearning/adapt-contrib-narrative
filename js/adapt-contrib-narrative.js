@@ -182,6 +182,9 @@ define(function(require) {
 
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
+            if(this.model.get('_stage') === 0 && this.model.get('_items').length === 1) {
+                 this.$('.component-widget').on('inview', _.bind(this.inview, this));
+            }
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
