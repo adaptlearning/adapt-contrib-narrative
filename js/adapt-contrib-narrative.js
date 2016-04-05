@@ -182,9 +182,6 @@ define(function(require) {
 
         setStage: function(stage, initial) {
             this.model.set('_stage', stage);
-            if(this.model.get('_stage') === 0 && this.model.get('_items').length === 1) {
-                 this.$('.component-widget').on('inview', _.bind(this.inview, this));
-            }
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
                 var currentItem = this.getCurrentItem(stage);
@@ -355,7 +352,7 @@ define(function(require) {
 
         setupEventListeners: function() {
             this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'allItems' : this.model.get('_setCompletionOn');
-            if (this.completionEvent !== 'inview') {
+            if (this.completionEvent !== 'inview' && this.model.get('_items').length > 1) {
                 this.on(this.completionEvent, _.bind(this.onCompletion, this));
             } else {
                 this.$('.component-widget').on('inview', _.bind(this.inview, this));
