@@ -50,7 +50,7 @@
       "type":"string",
       "required":true,
       "enum": ["inview", "allItems"],
-      "default": "inview",
+      "default": "allItems",
       "title": "Set Completion of Narrative on",
       "inputType": {"type": "Select", "options":["inview", "allItems"]},
       "validators": ["required"],
@@ -109,7 +109,7 @@
           "strapline": {
             "type":"string",
             "required": true,
-            "default": "",
+            "default": "Tap on '+' for more info",
             "title": "Narrative strapline",
             "inputType": "Text",
             "validators": ["required"],
