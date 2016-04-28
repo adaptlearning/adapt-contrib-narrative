@@ -109,7 +109,7 @@
           "strapline": {
             "type":"string",
             "required": true,
-            "default": "Tap on '+' for more info",
+            "default": "Click '+' for more info",
             "title": "Narrative strapline",
             "inputType": "Text",
             "validators": ["required"],
