@@ -303,7 +303,6 @@ define(function(require) {
         },
 
         onNavigationClicked: function(event) {
-            event.preventDefault();
 
             if (!this.model.get('_active')) return;
 
