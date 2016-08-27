@@ -58,10 +58,15 @@
                     display: block;
                 }
                 .narrative-controls {
+                    width: auto;
+                    height: auto;
                     margin-bottom: 0px;
                     display: inline-block;
                     &.narrative-hidden {
                         display:none;
+                    }
+                    .icon {
+                        font-size: @icon-size;
                     }
                 }
                 .narrative-control-left {
@@ -92,6 +97,11 @@
                 }
             }
         }
+    }
+
+    .narrative-content-title {
+        margin-bottom: @title-text-margin;
+        .item-title;
     }
 
     .narrative-content {
@@ -157,14 +167,15 @@
 
     .narrative-controls {
         display: block;
-        width: (@icon-size*2);
-        height: (@icon-size*2);
+        width: (@icon-size*2.5);
+        height: (@icon-size*2.5);
         position: absolute;
         top: 50%;
         margin-top: -(@icon-size*2);
         z-index: 10;
         text-decoration: none;
         background-color: @item-color;
+
         .no-touch &:hover {
             background-color: @item-color-hover;
             .icon {
@@ -172,8 +183,10 @@
             }
         }
         .icon {
-            margin: (@icon-size/2);
+            margin: (@icon-size/1.5);
             color: @item-text-color;
+            font-size: (@icon-size * 1.25);
+            font-weight: bold;
         }
         &.narrative-hidden {
             display: none;
@@ -206,8 +219,10 @@
         position: relative;
         float: left;
         text-decoration: none;
-        background-color: @button-color;
-        color: @button-text-color;
+        background-color: @item-color;
+        color: @item-text-color;
+        .item-title;
+
         .dir-rtl & {
             float: right;
         }
@@ -216,16 +231,19 @@
             position: absolute;
             top: 0;
             right: 0;
+            color: @item-text-color;
+            padding: @item-padding-top @item-padding-right @item-padding-bottom;
+
             .dir-rtl & {
                 right: inherit;
                 left: 0;
             }
         }
         .no-touch &:hover {
-            background-color: @button-color-hover;
-            color: @button-text-color-hover;
+            background-color: @item-color-hover;
+            color: @item-text-color-hover;
             .icon {
-                color: @button-text-color-hover;
+                color: @item-text-color-hover;
             }
 
         }
@@ -241,13 +259,13 @@
     .narrative-strapline-title-inner {
         height: (@item-padding-top + @item-padding-bottom + @icon-size);
         line-height: (@item-padding-top + @item-padding-bottom + @icon-size);
-        padding-left: (@icon-size/2);
+        padding-left: (@item-padding-left);
         padding-right: (@item-padding-left + @item-padding-right + @icon-size);
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         .dir-rtl & {
-            padding-right: (@icon-size/2);
+            padding-right: (@item-padding-left);
             padding-left: (@item-padding-left + @item-padding-right + @icon-size);
         }
     }
