@@ -182,10 +182,20 @@
 
     .narrative-control-left {
         left: 0;
+        
+        .dir-rtl & {
+        	left: inherit;
+        	right: 0;
+        }
     }
 
     .narrative-control-right {
         right: 0;
+        
+        .dir-rtl & {
+            left: 0;
+            right: inherit;
+        }
     }
 
     .narrative-strapline {
