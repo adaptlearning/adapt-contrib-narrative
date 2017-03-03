@@ -59,6 +59,8 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 >>**alt** (string): This text becomes the image’s `alt` attribute.
 
+>>**attribution** (string): Optional text to be displayed as an [attribution](https://wiki.creativecommons.org/Best_practices_for_attribution). By default it is displayed below the image. Adjust positioning by modifying CSS. Text can contain HTML tags, e.g., `Copyright © 2015 by <b>Lukasz 'Severiaan' Grela</b>`  
+
 >**strapline** (string): This text is displayed as a title above the image when `Adapt.device.screenSize` is `small` (i.e., when viewed on mobile devices).  
 
 ### Accessibility  
