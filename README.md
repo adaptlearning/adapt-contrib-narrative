@@ -6,7 +6,7 @@
 
 **Narrative** displays items (or slides) that present an image and text side-by-side. Left and right navigation controls allow the learner to progress horizontally through the items. Optional text may precede it. Useful for detailing a sequential process. On mobile devices, the narrative text is collapsed above the image.
 
-[Visit the **Narrative** wiki](https://github.com/adaptlearning/adapt-contrib-narrative/wiki) for more information about its functionality and for explanations of key properties. 
+[Visit the **Narrative** wiki](https://github.com/adaptlearning/adapt-contrib-narrative/wiki) for more information about its functionality and for explanations of key properties.
 
 ## Installation
 
@@ -27,7 +27,7 @@ With the [Adapt CLI](https://github.com/adaptlearning/adapt-cli) installed, run 
 
 ## Settings Overview
 
-The attributes listed below are used in *components.json* to configure **Narrative**, and are properly formatted as JSON in [*example.json*](https://github.com/adaptlearning/adapt-contrib-narrative/blob/master/example.json). Visit the [**Narrative** wiki](https://github.com/adaptlearning/adapt-contrib-narrative/wiki) for more information about how they appear in the [authoring tool](https://github.com/adaptlearning/adapt_authoring/wiki). 
+The attributes listed below are used in *components.json* to configure **Narrative**, and are properly formatted as JSON in [*example.json*](https://github.com/adaptlearning/adapt-contrib-narrative/blob/master/example.json). Visit the [**Narrative** wiki](https://github.com/adaptlearning/adapt-contrib-narrative/wiki) for more information about how they appear in the [authoring tool](https://github.com/adaptlearning/adapt_authoring/wiki).
 
 ### Attributes
 
@@ -45,7 +45,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
-**_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom. 
+**_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom.
 
 **_items** (array): Multiple items may be created. Each item represents one slide and contains values for the narrative (**title**, **body**), the image (**_graphic**), and the slide's header when viewed on a mobile device (**_strapLine**).
 
@@ -70,7 +70,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 On mobile devices, the narrative text is collapsed above the image. It is accessed by clicking an icon (+) next the to strapline.
 
 ----------------------------
-**Version number:**  2.0.6   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
+**Version number:**  2.0.7   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a> 
 **Framework versions:** 2.0  
 **Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-narrative/graphs/contributors)    
 **Accessibility support:** WAI AA   
