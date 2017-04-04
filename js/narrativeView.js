@@ -63,16 +63,6 @@ define([
                 this.replaceInstructions();
             }
             this.setupEventListeners();
-            
-            // if hasNavigationInTextArea set margin left
-            if (this.model.get('_hasNavigationInTextArea') === true) {
-                var indicatorWidth = this.$('.narrative-indicators').width();
-                var marginLeft = indicatorWidth / 2;
-                
-                this.$('.narrative-indicators').css({
-                    marginLeft: '-' + marginLeft + 'px'
-                });
-            }
         },
 
         calculateWidths: function() {
