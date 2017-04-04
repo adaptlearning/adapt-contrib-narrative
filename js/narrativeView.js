@@ -15,6 +15,7 @@ define([
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
+            this.listenTo(this.model, 'change:_activeItem', this.onActiveItemChanged);
             this.setDeviceSize();
 
             // Checks to see if the narrative should be reset on revisit
@@ -27,7 +28,7 @@ define([
                 this.model.set('_isDesktop', true);
             } else {
                 this.$el.addClass('mobile').removeClass('desktop');
-                this.model.set('_isDesktop', false)
+                this.model.set('_isDesktop', false);
             }
         },
 
@@ -46,30 +47,16 @@ define([
             // If reset is enabled set defaults
             if (isResetOnRevisit) {
                 this.model.reset(isResetOnRevisit);
-                this.model.set({_stage: 0});
-
-                _.each(this.model.get('_items'), function(item) {
-                    item._isVisited = false;
-                });
+                this.model.set({_activeItem: 0});
+                this.model.resetItems();
             }
         },
 
         setupNarrative: function() {
             this.setDeviceSize();
             if(!this.model.has('_items') || !this.model.get('_items').length) return;
-            this.model.set('_marginDir', 'left');
-            if (Adapt.config.get('_defaultDirection') == 'rtl') {
-                this.model.set('_marginDir', 'right');
-            }
-            this.model.set('_itemCount', this.model.get('_items').length);
-
             this.model.set('_active', true);
-
-            if (this.model.get('_stage')) {
-                this.setStage(this.model.get('_stage'), true);
-            } else {
-                this.setStage(0, true);
-            }
+            this.setStage(this.model.get('_activeItem'), true);
             this.calculateWidths();
 
             if (Adapt.device.screenSize !== 'large' && !this.model.get('_wasHotgraphic')) {
@@ -77,9 +64,8 @@ define([
             }
             this.setupEventListeners();
             
-            // if hasNavigationInTextArea set margin left 
-            var hasNavigationInTextArea = this.model.get('_hasNavigationInTextArea');
-            if (hasNavigationInTextArea == true) {
+            // if hasNavigationInTextArea set margin left
+            if (this.model.get('_hasNavigationInTextArea') === true) {
                 var indicatorWidth = this.$('.narrative-indicators').width();
                 var marginLeft = indicatorWidth / 2;
                 
@@ -103,7 +89,7 @@ define([
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
 
-            var stage = this.model.get('_stage');
+            var stage = this.model.get('_activeItem');
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
@@ -129,7 +115,7 @@ define([
         },
 
         closeNotify: function() {
-            this.evaluateCompletion()
+            this.evaluateCompletion();
         },
 
         replaceInstructions: function() {
@@ -142,26 +128,20 @@ define([
 
         replaceWithHotgraphic: function() {
             if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
-            var Hotgraphic = Adapt.componentStore.hotgraphic;
             
-            var model = this.prepareHotgraphicModel();
-            var newHotgraphic = new Hotgraphic({ model: model });
+            var hotgraphicModel = Adapt.componentStore.hotgraphic.model.prototype.prepareHotgraphicModel.call(this.model);
+            var hotgraphicView = new Adapt.componentStore.hotgraphic.view({
+                model: hotgraphicModel
+            });
+            
             var $container = $(".component-container", $("." + this.model.get("_parentId")));
 
-            $container.append(newHotgraphic.$el);
+            $container.append(hotgraphicView.$el);
             this.remove();
             $.a11y_update();
             _.defer(function() {
                 Adapt.trigger('device:resize');
             });
-        },
-
-        prepareHotgraphicModel: function() {
-            var model = this.model;
-            model.set('_component', 'hotgraphic');
-            model.set('body', model.get('originalBody'));
-            model.set('instruction', model.get('originalInstruction'));
-            return model;
         },
 
         moveSliderToIndex: function(itemIndex, animate, callback) {
@@ -180,12 +160,15 @@ define([
             }
         },
 
+        onActiveItemChanged: function(model, activeItem, options) {
+            if (activeItem >= 0 && activeItem < this.model.get('_items').length)
+                this.setStage(activeItem);
+        },
+
         setStage: function(stage, initial) {
-            this.model.set('_stage', stage);
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
-                var currentItem = this.getCurrentItem(stage);
-                currentItem._isVisited = true;
+                this.model.setItemAsVisited(stage);
             }
 
             this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
@@ -206,31 +189,10 @@ define([
             }, this));
         },
 
-        constrainStage: function(stage) {
-            if (stage > this.model.get('_items').length - 1) {
-                stage = this.model.get('_items').length - 1;
-            } else if (stage < 0) {
-                stage = 0;
-            }
-            return stage;
-        },
-
-        constrainXPosition: function(previousLeft, newLeft, deltaX) {
-            if (newLeft > 0 && deltaX > 0) {
-                newLeft = previousLeft + (deltaX / (newLeft * 0.1));
-            }
-            var finalItemLeft = this.model.get('_finalItemLeft');
-            if (newLeft < -finalItemLeft && deltaX < 0) {
-                var distance = Math.abs(newLeft + finalItemLeft);
-                newLeft = previousLeft + (deltaX / (distance * 0.1));
-            }
-            return newLeft;
-        },
-
         evaluateNavigation: function() {
-            var currentStage = this.model.get('_stage');
+            var currentStage = this.model.get('_activeItem');
             var itemCount = this.model.get('_itemCount');
-            if (currentStage == 0) {
+            if (currentStage === 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
 
                 if (itemCount > 1) {
@@ -248,49 +210,15 @@ define([
 
         },
 
-        getNearestItemIndex: function() {
-            var currentPosition = parseInt(this.$('.narrative-slider').css('margin-left'));
-            var graphicWidth = this.$('.narrative-slider-graphic').width();
-            var absolutePosition = currentPosition / graphicWidth;
-            var stage = this.model.get('_stage');
-            var relativePosition = stage - Math.abs(absolutePosition);
-
-            if (relativePosition < -0.3) {
-                stage++;
-            } else if (relativePosition > 0.3) {
-                stage--;
-            }
-
-            return this.constrainStage(stage);
-        },
-
-        getCurrentItem: function(index) {
-            return this.model.get('_items')[index];
-        },
-
-        getVisitedItems: function() {
-            return _.filter(this.model.get('_items'), function(item) {
-                return item._isVisited;
-            });
-        },
-
         evaluateCompletion: function() {
-            if (this.getVisitedItems().length === this.model.get('_items').length) {
+            if (this.model.getVisitedItems().length === this.model.get('_items').length) {
                 this.trigger('allItems');
-            } 
-        },
-
-        moveElement: function($element, deltaX) {
-            var previousLeft = parseInt($element.css('margin-left'));
-            var newLeft = previousLeft + deltaX;
-
-            newLeft = this.constrainXPosition(previousLeft, newLeft, deltaX);
-            $element.css(('margin-' + this.model.get('_marginDir')), newLeft + 'px');
+            }
         },
 
         openPopup: function(event) {
             event.preventDefault();
-            var currentItem = this.getCurrentItem(this.model.get('_stage'));
+            var currentItem = this.model.getCurrentItem(this.model.get('_activeItem'));
             var popupObject = {
                 title: currentItem.title,
                 body: currentItem.body
@@ -306,7 +234,7 @@ define([
 
             if (!this.model.get('_active')) return;
 
-            var stage = this.model.get('_stage');
+            var stage = this.model.get('_activeItem');
             var numberOfItems = this.model.get('_itemCount');
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
@@ -315,13 +243,13 @@ define([
                 stage--;
             }
             stage = (stage + numberOfItems) % numberOfItems;
-            this.setStage(stage);
+            this.model.set('_activeItem', stage);
         },
         
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
-            this.setStage(clickedIndex);
+            this.model.set('_activeItem', clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
