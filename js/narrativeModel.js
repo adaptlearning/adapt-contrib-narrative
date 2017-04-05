@@ -44,9 +44,9 @@ define([
             }
         },
 
-        reset: function(type) {
+        reset: function(type, force) {
             this.set({_activeItem: 0});
-            ItemsModel.prototype.reset.call(this, type);
+            ItemsModel.prototype.reset.call(this, type, force);
         }
 
     });
