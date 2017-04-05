@@ -44,6 +44,11 @@ define([
             }
         },
 
+        reset: function(type) {
+            this.set({_activeItem: 0});
+            ItemsModel.prototype.reset.call(this, type);
+        }
+
     });
 
     return NarrativeModel;

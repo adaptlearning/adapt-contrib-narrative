@@ -43,13 +43,8 @@ define([
         // Used to check if the narrative should reset on revisit
         checkIfResetOnRevisit: function() {
             var isResetOnRevisit = this.model.get('_isResetOnRevisit');
-
             // If reset is enabled set defaults
-            if (isResetOnRevisit) {
-                this.model.reset(isResetOnRevisit);
-                this.model.set({_activeItem: 0});
-                this.model.resetItems();
-            }
+            if (isResetOnRevisit) this.model.reset(isResetOnRevisit);
         },
 
         setupNarrative: function() {
