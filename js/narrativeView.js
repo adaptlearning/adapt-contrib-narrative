@@ -168,7 +168,7 @@ define([
             this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).eq(stage).a11y_cntrl_enabled(true);
 
             this.evaluateNavigation();
-            this.evaluateCompletion();
+            this.model.checkCompletionStatus();
 
             this.moveSliderToIndex(stage, !initial, _.bind(function() {
                 if (this.model.get('_isDesktop')) {
@@ -198,12 +198,6 @@ define([
                 }
             }
 
-        },
-
-        evaluateCompletion: function() {
-            if (this.model.getVisitedItems().length === this.model.get('_items').length) {
-                this.trigger('allItems');
-            }
         },
 
         openPopup: function(event) {
@@ -255,25 +249,27 @@ define([
 
                 if (this._isVisibleTop && this._isVisibleBottom) {
                     this.$('.component-inner').off('inview');
-                    this.setCompletionStatus();
+                    this.model.setCompletionStatus();
                 }
             }
         },
 
-        onCompletion: function() {
-            this.setCompletionStatus();
-            if (this.completionEvent && this.completionEvent != 'inview') {
-                this.off(this.completionEvent, this);
+        setupEventListeners: function() {
+            this.completionEvent = this.model.get('_setCompletionOn');
+
+            switch (this.completionEvent) {
+                case 'allItems':
+                    this.model.once(this.completionEvent, this.onCompletion, this);
+                    break;
+                case 'inview':
+                default:
+                    this.$('.component-widget').on('inview', _.bind(this.inview, this));
+                    break;
             }
         },
 
-        setupEventListeners: function() {
-            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'allItems' : this.model.get('_setCompletionOn');
-            if (this.completionEvent !== 'inview' && this.model.get('_items').length > 1) {
-                this.on(this.completionEvent, _.bind(this.onCompletion, this));
-            } else {
-                this.$('.component-widget').on('inview', _.bind(this.inview, this));
-            }
+        preRemove: function() {
+            this.model.off(this.completionEvent, this.onCompletion, this);
         }
 
     });

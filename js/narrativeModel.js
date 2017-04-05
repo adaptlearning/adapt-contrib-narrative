@@ -34,7 +34,15 @@ define([
             }
 
             return this;
-        }
+        },
+
+        checkCompletionStatus: function() {
+            ItemsModel.prototype.checkCompletionStatus.apply(this, arguments);
+            
+            if (this.getCompletionStatus()) {
+                this.trigger('allItems');
+            }
+        },
 
     });
 
