@@ -197,7 +197,7 @@ define([
 
         openPopup: function(event) {
             event.preventDefault();
-            var currentItem = this.model.getCurrentItem(this.model.get('_activeItem'));
+            var currentItem = this.model.getItemAtIndex(this.model.get('_activeItem'));
             var popupObject = {
                 title: currentItem.title,
                 body: currentItem.body
