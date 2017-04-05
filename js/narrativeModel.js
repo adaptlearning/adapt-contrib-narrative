@@ -6,9 +6,9 @@ define([
     var NarrativeModel = ItemsModel.extend({
 
         defaults: function() {
-            return _.extend({
+            return _.extend(_.result(ItemsModel.prototype, "defaults"), {
                 _activeItem: 0
-            }, ItemsModel.prototype.defaults);
+            });
         },
 
         initialize: function() {
