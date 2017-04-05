@@ -6,7 +6,7 @@ define([
     var NarrativeModel = ItemsModel.extend({
 
         defaults: function() {
-            return _.extend(_.result(ItemsModel.prototype, "defaults"), {
+            return _.extend({}, _.result(ItemsModel.prototype, "defaults"), {
                 _activeItem: 0
             });
         },
@@ -37,8 +37,6 @@ define([
         },
 
         checkCompletionStatus: function() {
-            ItemsModel.prototype.checkCompletionStatus.apply(this, arguments);
-            
             if (this.getCompletionStatus()) {
                 this.trigger('allItems');
             }

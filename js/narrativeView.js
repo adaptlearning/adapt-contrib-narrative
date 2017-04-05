@@ -249,22 +249,28 @@ define([
             }
         },
 
-        setupEventListeners: function() {
-            this.completionEvent = this.model.get('_setCompletionOn');
+        onCompletion: function() {
+            this.model.setCompletionStatus();
+            if (this.completionEvent && this.completionEvent != 'inview') {
+                this.off(this.completionEvent, this);
+            }
+        },
 
-            switch (this.completionEvent) {
-                case 'allItems':
-                    this.model.once(this.completionEvent, this.onCompletion, this);
-                    break;
-                case 'inview':
-                default:
-                    this.$('.component-widget').on('inview', _.bind(this.inview, this));
-                    break;
+        setupEventListeners: function() {
+            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'allItems' : this.model.get('_setCompletionOn');
+            if (this.completionEvent !== 'inview' && this.model.get('_items').length > 1) {
+                this.model.on(this.completionEvent, _.bind(this.onCompletion, this));
+            } else {
+                this.$('.component-widget').on('inview', _.bind(this.inview, this));
             }
         },
 
         preRemove: function() {
-            this.model.off(this.completionEvent, this.onCompletion, this);
+            if (this.completionEvent !== 'inview') {
+                this.model.off(this.completionEvent);
+            } else {
+                this.$('.component-widget').off('inview');
+            }
         }
 
     });
