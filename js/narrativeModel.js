@@ -5,18 +5,14 @@ define([
 
     var NarrativeModel = ItemsModel.extend({
 
-        defaults: function() {
-            return _.extend({}, _.result(ItemsModel.prototype, "defaults"), {
-                _activeItem: 0
-            });
-        },
-
         initialize: function() {
             this.set('_marginDir', 'left');
             if (Adapt.config.get('_defaultDirection') == 'rtl') {
                 this.set('_marginDir', 'right');
             }
             this.set('_itemCount', this.get('_items').length);
+
+            ItemsModel.prototype.initialize.apply(this, arguments);
         },
 
         prepareNarrativeModel: function() {
@@ -24,7 +20,9 @@ define([
             this.set('_wasHotgraphic', true);
             this.set('originalBody', this.get('body'));
             this.set('originalInstruction', this.get('instruction'));
-            this.set('_activeItem', (this.get('_activeItem') === -1) ? 0 : this.get('_activeItem'));
+            
+            var activeItem = this.getActiveItemsIndexes()[0] || 0;
+            this.setItemAtIndexAsActive(activeItem);
 
             if (this.get('mobileBody')) {
                 this.set('body', this.get('mobileBody'));
@@ -43,8 +41,8 @@ define([
         },
 
         reset: function(type, force) {
-            this.set({_activeItem: 0});
             ItemsModel.prototype.reset.call(this, type, force);
+            this.setItemAtIndexAsActive(0, false);
         }
 
     });

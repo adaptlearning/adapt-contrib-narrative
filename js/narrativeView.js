@@ -15,7 +15,7 @@ define([
             this.listenTo(Adapt, 'device:changed', this.reRender, this);
             this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
             this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
-            this.listenTo(this.model, 'change:_activeItem', this.onActiveItemChanged);
+            this.listenTo(this.model, 'change:_items:_isActive', this.onActiveItemChanged);
             this.setDeviceSize();
 
             // Checks to see if the narrative should be reset on revisit
@@ -51,7 +51,8 @@ define([
             this.setDeviceSize();
             if(!this.model.has('_items') || !this.model.get('_items').length) return;
             this.model.set('_active', true);
-            this.setStage(this.model.get('_activeItem'), true);
+            var stage = this.model.getActiveItemsIndexes()[0];
+            this.setStage(stage, true);
             this.calculateWidths();
 
             if (Adapt.device.screenSize !== 'large' && !this.model.get('_wasHotgraphic')) {
@@ -74,7 +75,7 @@ define([
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
 
-            var stage = this.model.get('_activeItem');
+            var stage = this.model.getActiveItemsIndexes()[0];
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
@@ -100,7 +101,7 @@ define([
         },
 
         closeNotify: function() {
-            this.evaluateCompletion();
+            this.model.checkCompletionStatus();
         },
 
         replaceInstructions: function() {
@@ -145,15 +146,14 @@ define([
             }
         },
 
-        onActiveItemChanged: function(model, activeItem, options) {
-            if (activeItem >= 0 && activeItem < this.model.get('_items').length)
-                this.setStage(activeItem);
+        onActiveItemChanged: function(model, items, options) {
+            this.setStage(this.model.getActiveItemsIndexes()[0]);
         },
 
         setStage: function(stage, initial) {
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
-                this.model.setItemAsVisited(stage);
+                this.model.setItemAtIndexAsVisited(stage);
             }
 
             this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
@@ -175,7 +175,7 @@ define([
         },
 
         evaluateNavigation: function() {
-            var currentStage = this.model.get('_activeItem');
+            var currentStage = this.model.getActiveItemsIndexes()[0];
             var itemCount = this.model.get('_itemCount');
             if (currentStage === 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
@@ -197,7 +197,7 @@ define([
 
         openPopup: function(event) {
             event.preventDefault();
-            var currentItem = this.model.getItemAtIndex(this.model.get('_activeItem'));
+            var currentItem = this.model.getActiveItems()[0];
             var popupObject = {
                 title: currentItem.title,
                 body: currentItem.body
@@ -213,22 +213,26 @@ define([
 
             if (!this.model.get('_active')) return;
 
-            var stage = this.model.get('_activeItem');
+            var activeStage = this.model.getActiveItemsIndexes()[0];
+            var nextStage = activeStage;
             var numberOfItems = this.model.get('_itemCount');
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                stage++;
+                nextStage += 1;
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                stage--;
+                nextStage -= 1;
             }
-            stage = (stage + numberOfItems) % numberOfItems;
-            this.model.set('_activeItem', stage);
+            nextStage = (nextStage + numberOfItems) % numberOfItems;
+            this.model.setItemAtIndexAsInactive(activeStage, false);
+            this.model.setItemAtIndexAsActive(nextStage, true);
         },
         
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
-            this.model.set('_activeItem', clickedIndex);
+            var activeStage = this.model.getActiveItemsIndexes()[0];
+            this.model.setItemAtIndexAsInactive(activeStage, false);
+            this.model.setItemAtIndexAsActive(clickedIndex, true);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
@@ -266,6 +270,8 @@ define([
         },
 
         preRemove: function() {
+            if (!this.completionEvent) return;
+            
             if (this.completionEvent !== 'inview') {
                 this.model.off(this.completionEvent);
             } else {
