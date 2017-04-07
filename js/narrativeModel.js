@@ -21,7 +21,7 @@ define([
             this.set('originalBody', this.get('body'));
             this.set('originalInstruction', this.get('instruction'));
             
-            var activeItem = this.getActiveItemsIndexes()[0] || 0;
+            var activeItem = this.getFirstActiveItemIndex() || 0;
             this.setItemAtIndexAsActive(activeItem);
 
             if (this.get('mobileBody')) {
