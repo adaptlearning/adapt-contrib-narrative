@@ -12,9 +12,11 @@ define([
         },
 
         preRender: function() {
-            this.listenTo(Adapt, 'device:changed', this.reRender, this);
-            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
-            this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
+            this.listenTo(Adapt, {
+                'device:changed': this.reRender,
+                'device:resize': this.resizeControl,
+                'notify:closed': this.closeNotify
+            });
             this.listenTo(this.model, 'change:_items:_isActive', this.onActiveItemChanged);
             this.setDeviceSize();
 
@@ -51,7 +53,7 @@ define([
             this.setDeviceSize();
             if(!this.model.has('_items') || !this.model.get('_items').length) return;
             this.model.set('_active', true);
-            var stage = this.model.getActiveItemsIndexes()[0];
+            var stage = this.model.getFirstActiveItemIndex();
             this.setStage(stage, true);
             this.calculateWidths();
 
@@ -75,7 +77,7 @@ define([
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
 
-            var stage = this.model.getActiveItemsIndexes()[0];
+            var stage = this.model.getFirstActiveItemIndex();
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
@@ -147,7 +149,7 @@ define([
         },
 
         onActiveItemChanged: function(model, items, options) {
-            this.setStage(this.model.getActiveItemsIndexes()[0]);
+            this.setStage(this.model.getFirstActiveItemIndex());
         },
 
         setStage: function(stage, initial) {
@@ -175,7 +177,7 @@ define([
         },
 
         evaluateNavigation: function() {
-            var currentStage = this.model.getActiveItemsIndexes()[0];
+            var currentStage = this.model.getFirstActiveItemIndex();
             var itemCount = this.model.get('_itemCount');
             if (currentStage === 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
@@ -213,7 +215,7 @@ define([
 
             if (!this.model.get('_active')) return;
 
-            var activeStage = this.model.getActiveItemsIndexes()[0];
+            var activeStage = this.model.getFirstActiveItemIndex();
             var nextStage = activeStage;
             var numberOfItems = this.model.get('_itemCount');
 
@@ -224,15 +226,15 @@ define([
             }
             nextStage = (nextStage + numberOfItems) % numberOfItems;
             this.model.setItemAtIndexAsInactive(activeStage, false);
-            this.model.setItemAtIndexAsActive(nextStage, true);
+            this.model.setItemAtIndexAsActive(nextStage);
         },
         
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
-            var activeStage = this.model.getActiveItemsIndexes()[0];
+            var activeStage = this.model.getFirstActiveItemIndex();
             this.model.setItemAtIndexAsInactive(activeStage, false);
-            this.model.setItemAtIndexAsActive(clickedIndex, true);
+            this.model.setItemAtIndexAsActive(clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
