@@ -5,12 +5,15 @@ define([
 
     var NarrativeModel = ItemsModel.extend({
 
+        defaults: function() {
+            return _.extend({}, _.result(ItemsModel.prototype, "defaults"), {
+                _marginDir: (Adapt.config.get('_defaultDirection') == 'rtl') ? 'right' : 'left'
+            });
+        },
+
         initialize: function() {
-            this.set('_marginDir', 'left');
-            if (Adapt.config.get('_defaultDirection') == 'rtl') {
-                this.set('_marginDir', 'right');
-            }
             this.set('_itemCount', this.get('_items').length);
+            this.setItemAtIndexAsActive(0, false);
 
             ItemsModel.prototype.initialize.apply(this, arguments);
         },
