@@ -66,7 +66,7 @@
                 <div class="narrative-slider-graphic {{#if _isVisited}}visited{{/if}}">
                     <img src="{{_graphic.src}}" {{#if _graphic.alt}}aria-label="{{_graphic.alt}}" tabindex="0"{{else}}class="a11y-ignore" aria-hidden="true" tabindex="-1"{{/if}}/>
                     {{#if _graphic.attribution}}
-                        <div class="graphic-attribution">{{{_graphic.attribution}}}</div>
+                        <div class="narrative-item-graphic-attribution">{{{_graphic.attribution}}}</div>
                     {{/if}}
                 </div>
                 {{/each}}
