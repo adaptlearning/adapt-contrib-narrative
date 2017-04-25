@@ -38,7 +38,7 @@ define([
         },
 
         checkCompletionStatus: function() {
-            if (this.getCompletionStatus()) {
+            if (this.areAllIItemsCompleted()) {
                 this.trigger('allItems');
             }
         },
