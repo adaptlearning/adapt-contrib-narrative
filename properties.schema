@@ -47,7 +47,7 @@
       "title": "Move navigation to text area",
       "inputType": "Checkbox",
       "validators": [],
-      "help": "If set to 'true', all navigation elements will be moved to the text area"
+      "help": "If enabled, all navigation elements will be moved to the text area"
     },
     "_setCompletionOn": {
       "type": "string",
