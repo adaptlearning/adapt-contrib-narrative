@@ -155,7 +155,7 @@ define([
         setStage: function(stage, initial) {
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
-                this.model.setItemAtIndexAsVisited(stage);
+                this.model.setItemVisited(stage);
             }
 
             this.$('.narrative-progress:visible').removeClass('selected').eq(stage).addClass('selected');
@@ -225,16 +225,16 @@ define([
                 nextStage -= 1;
             }
             nextStage = (nextStage + numberOfItems) % numberOfItems;
-            this.model.setItemAtIndexAsInactive(activeStage, false);
-            this.model.setItemAtIndexAsActive(nextStage);
+            this.model.setItemInactive(activeStage, false);
+            this.model.setItemActive(nextStage);
         },
         
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
             var activeStage = this.model.getFirstActiveItemIndex();
-            this.model.setItemAtIndexAsInactive(activeStage, false);
-            this.model.setItemAtIndexAsActive(clickedIndex);
+            this.model.setItemInactive(activeStage, false);
+            this.model.setItemActive(clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {

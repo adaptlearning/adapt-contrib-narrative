@@ -13,7 +13,7 @@ define([
 
         initialize: function() {
             this.set('_itemCount', this.get('_items').length);
-            this.setItemAtIndexAsActive(0, false);
+            this.setItemActive(0, false);
 
             ItemsModel.prototype.initialize.apply(this, arguments);
         },
@@ -25,7 +25,7 @@ define([
             this.set('originalInstruction', this.get('instruction'));
             
             var activeItem = this.getFirstActiveItemIndex() || 0;
-            this.setItemAtIndexAsActive(activeItem);
+            this.setItemActive(activeItem);
 
             if (this.get('mobileBody')) {
                 this.set('body', this.get('mobileBody'));
@@ -45,7 +45,7 @@ define([
 
         reset: function(type, force) {
             ItemsModel.prototype.reset.call(this, type, force);
-            this.setItemAtIndexAsActive(0, false);
+            this.setItemActive(0, false);
         }
 
     });
