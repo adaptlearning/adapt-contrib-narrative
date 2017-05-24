@@ -45,6 +45,9 @@
                     background-color: @item-color-selected;
                 }
             }
+            .narrative-content-item.narrative-hidden {
+                    display: none;
+            }
         }
 
         .narrative-text-controls {
@@ -61,7 +64,7 @@
                     margin-bottom: 0px;
                     display: inline-block;
                     &.narrative-hidden {
-                        display:none;
+                        visibility: hidden;
                     }
                 }
                 .narrative-control-left {
@@ -176,7 +179,7 @@
             color: @item-text-color;
         }
         &.narrative-hidden {
-            display: none;
+            visibility: hidden;
         }
     }
 
@@ -289,7 +292,7 @@
     }
 
     .narrative-hidden {
-        display:none;
+        visibility: hidden;
     }
 }
 
