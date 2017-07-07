@@ -1,7 +1,6 @@
 define([
   'core/js/adapt',
-  'core/js/views/componentView',
-  'libraries/jquery.mobile.custom'  
+  'core/js/views/componentView' 
 ], function(Adapt, ComponentView) {
 
     var Narrative = ComponentView.extend({
