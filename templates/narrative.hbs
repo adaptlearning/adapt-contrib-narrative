@@ -9,14 +9,14 @@
                 <div class="narrative-content-item">
                     {{#if _graphic.alt}}{{{a11y_aria_label _graphic.alt}}}{{/if}}
                     <div class="narrative-content-title">
-                        <div class="narrative-content-title-inner h5" role="heading" aria-level="5" tabindex="0">
-                            {{{title}}}
+                        <div class="narrative-content-title-inner accessible-text-block h5" role="heading" aria-level="5" tabindex="0">
+                            {{{title}}} 
                         </div>
                     </div>
                     <div class="narrative-content-body">
                         <div class="narrative-content-body-inner">
                             {{{a11y_text body}}}
-                        </div>
+                        </div> 
                     </div>
                 </div>
                 {{/each}}
@@ -42,8 +42,8 @@
                     <div></div>
                     {{#each _items}}
                     <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}">
-                        <div class="narrative-strapline-title-inner h5">
-                            {{{strapline}}}
+                        <div class="narrative-strapline-title-inner accessible-text-block h5">
+                            {{{strapline}}} 
                         </div>
                         <div class="icon icon-plus"></div>
                         <div class="focus-rect"></div>
@@ -81,5 +81,5 @@
 
         <div class="clearfix"></div>
 
-    </div>
+    </div>    
 </div>
