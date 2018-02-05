@@ -18,8 +18,19 @@ define([
             this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
             this.setDeviceSize();
 
+            this.listenTo(this.model.get('_items'), {
+                'change:_isActive': this.onItemsActiveChange
+            });
+
             // Checks to see if the narrative should be reset on revisit
             this.checkIfResetOnRevisit();
+            this._isInitial = true;
+        },
+
+        onItemsActiveChange: function(item, _isActive) {
+            if (_isActive === true) {
+                this.setStage(item);
+            }
         },
 
         setDeviceSize: function() {
@@ -56,12 +67,14 @@ define([
             
             this.model.setup();
             
-            let activeItem = this.model.getActiveItemIndex();
-            if (activeItem === -1) {
-                activeItem = 0;
-                this.model.getItem(activeItem).toggleActive(true);
+            let activeItem = this.model.getActiveItem();
+            if (!activeItem) {
+                activeItem = this.model.getItem(0);
+                activeItem.toggleActive(true);
+            } else {
+                // manually trigger change as it is not fired on reentry
+                this.model.get('_items').trigger('change:_isActive', activeItem, true);
             }
-            this.setStage(activeItem, true);
 
             this.calculateWidths();
 
@@ -69,6 +82,7 @@ define([
                 this.replaceInstructions();
             }
             this.setupEventListeners();
+            this._isInitial = false;
         },
 
         calculateWidths: function() {
@@ -85,7 +99,7 @@ define([
             this.$('.narrative-slider').width(fullSlideWidth);
             this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
 
-            var stage = this.model.getActiveItemIndex();
+            var stage = this.model.getActiveItem().get('_index');
             var margin = -(stage * slideWidth);
 
             this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
@@ -154,11 +168,11 @@ define([
             }
         },
 
-        setStage: function(index, initial) {
+        setStage: function(item) {
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
-                var currentItem = this.model.getItem(index);
-                currentItem.toggleVisited(true);
+                var index = item.get('_index');
+                item.toggleVisited(true);
             }
 
             this.$('.narrative-progress:visible').removeClass('selected').eq(index).addClass('selected');
@@ -170,13 +184,13 @@ define([
             this.evaluateNavigation();
             this.evaluateCompletion();
 
-            this.moveSliderToIndex(index, !initial, _.bind(function() {
+            this.moveSliderToIndex(index, !this._isInitial, _.bind(function() {
                 if (this.model.get('_isDesktop')) {
-                    if (!initial) {
+                    if (!this._isInitial) {
                         this.$('.narrative-content-item').eq(index).a11y_focus();
                     }
                 } else {
-                    if (!initial) {
+                    if (!this._isInitial) {
                         this.$('.narrative-strapline-title').a11y_focus();
                     }
                 }
@@ -184,7 +198,7 @@ define([
         },
 
         evaluateNavigation: function() {
-            var currentStage = this.model.getActiveItemIndex();
+            var currentStage = this.model.getActiveItem().get('_index');
             var itemCount = this.model.getItemCount();
             if (currentStage == 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
@@ -234,7 +248,7 @@ define([
         onNavigationClicked: function(event) {
             if (!this.model.get('_active')) return;
 
-            var stage = this.model.getActiveItemIndex();
+            var stage = this.model.getActiveItem().get('_index');
             var numberOfItems = this.model.getItemCount();
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
@@ -245,14 +259,12 @@ define([
                 this.model.setItemActive(stage);
             }
             stage = (stage + numberOfItems) % numberOfItems;
-            this.setStage(stage);
         },
         
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
             this.model.setItemActive(clickedIndex);
-            this.setStage(clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
