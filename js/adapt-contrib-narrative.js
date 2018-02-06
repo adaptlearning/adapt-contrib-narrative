@@ -1,11 +1,11 @@
 define([
     'core/js/adapt',
     './narrativeView',
-    './narrativeModel'
-],function(Adapt, NarrativeView, NarrativeModel) {
+    'core/js/models/itemsComponentModel'
+],function(Adapt, NarrativeView, ItemsComponentModel) {
 
     return Adapt.register('narrative', {
-        model: NarrativeModel,
+        model: ItemsComponentModel,
         view: NarrativeView
     });
 

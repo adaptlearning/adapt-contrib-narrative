@@ -63,9 +63,9 @@ define([
 
         setupNarrative: function() {
             this.setDeviceSize();
-            if (!this.model.has('_items') || !this.model.getItemCount()) return;
-            
-            this.model.setup();
+            if (!this.model.has('_items') || !this.model.get('_items').length) return;
+
+            this.model.set('_active', true);
             
             let activeItem = this.model.getActiveItem();
             if (!activeItem) {
@@ -87,10 +87,12 @@ define([
 
         calculateWidths: function() {
             var slideWidth = this.$('.narrative-slide-container').width();
-            var slideCount = this.model.getItemCount();
+            var slideCount = this.model.get('_items').length;
             var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
             var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
             var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
+
+            const direction = this.getSlideDirection();
 
             this.$('.narrative-slider-graphic').width(slideWidth);
             this.$('.narrative-strapline-header').width(slideWidth);
@@ -102,8 +104,8 @@ define([
             var stage = this.model.getActiveItem().get('_index');
             var margin = -(stage * slideWidth);
 
-            this.$('.narrative-slider').css(('margin-' + this.model.get('_marginDir')), margin);
-            this.$('.narrative-strapline-header-inner').css(('margin-' + this.model.get('_marginDir')), margin);
+            this.$('.narrative-slider').css(('margin-' + direction), margin);
+            this.$('.narrative-strapline-header-inner').css(direction, margin);
 
             this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
         },
@@ -138,10 +140,10 @@ define([
 
         replaceWithHotgraphic: function() {
             if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
-            var Hotgraphic = Adapt.componentStore.hotgraphic;
+            var HotgraphicView = Adapt.componentStore.hotgraphic.view;
             
-            var model = this.model.prepareHotgraphicModel();
-            var newHotgraphic = new Hotgraphic({ model: model });
+            var model = this.prepareHotgraphicModel();
+            var newHotgraphic = new HotgraphicView({ model: model });
             var $container = $(".component-container", $("." + this.model.get("_parentId")));
 
             $container.append(newHotgraphic.$el);
@@ -152,16 +154,27 @@ define([
             });
         },
 
+        prepareHotgraphicModel: function() {
+            const model = this.model;
+            model.resetActiveItems();
+            model.set('_isPopupOpen', false);
+            model.set('_component', 'hotgraphic');
+            model.set('body', model.get('originalBody'));
+            model.set('instruction', model.get('originalInstruction'));
+            return model;
+        },
+
         moveSliderToIndex: function(itemIndex, animate, callback) {
             var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
             var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
+            const direction = this.getSlideDirection();
             var marginDir = {};
             if (animate && !Adapt.config.get('_disableAnimation')) {
-                marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
+                marginDir['margin-' + direction] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').velocity("stop", true).velocity(marginDir);
                 this.$('.narrative-strapline-header-inner').velocity("stop", true).velocity(marginDir, {complete:callback});
             } else {
-                marginDir['margin-' + this.model.get('_marginDir')] = -(movementSize * itemIndex);
+                marginDir['margin-' + direction] = -(movementSize * itemIndex);
                 this.$('.narrative-slider').css(marginDir);
                 this.$('.narrative-strapline-header-inner').css(marginDir);
                 callback();
@@ -169,9 +182,9 @@ define([
         },
 
         setStage: function(item) {
+            var index = item.get('_index');
             if (this.model.get('_isDesktop')) {
                 // Set the visited attribute for large screen devices
-                var index = item.get('_index');
                 item.toggleVisited(true);
             }
 
@@ -199,7 +212,7 @@ define([
 
         evaluateNavigation: function() {
             var currentStage = this.model.getActiveItem().get('_index');
-            var itemCount = this.model.getItemCount();
+            var itemCount = this.model.get('_items').length;
             if (currentStage == 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
 
@@ -223,16 +236,8 @@ define([
             } 
         },
 
-        moveElement: function($element, deltaX) {
-            var previousLeft = parseInt($element.css('margin-left'));
-            var newLeft = previousLeft + deltaX;
-
-            newLeft = this.model.constrainXPosition(previousLeft, newLeft, deltaX);
-            $element.css(('margin-' + this.model.get('_marginDir')), newLeft + 'px');
-        },
-
         openPopup: function(event) {
-            event.preventDefault();
+            event && event.preventDefault();
 
             var currentItem = this.model.getActiveItem();
 
@@ -249,7 +254,7 @@ define([
             if (!this.model.get('_active')) return;
 
             var stage = this.model.getActiveItem().get('_index');
-            var numberOfItems = this.model.getItemCount();
+            var numberOfItems = this.model.get('_items').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
@@ -262,7 +267,7 @@ define([
         },
         
         onProgressClicked: function(event) {
-            event.preventDefault();
+            event && event.preventDefault();
             var clickedIndex = $(event.target).index();
             this.model.setItemActive(clickedIndex);
         },
@@ -285,21 +290,27 @@ define([
             }
         },
 
-        onCompletion: function() {
-            this.setCompletionStatus();
-            if (this.completionEvent && this.completionEvent != 'inview') {
-                this.off(this.completionEvent, this);
+        setupEventListeners: function() {
+            if (this.model.get('_setCompletionOn') === 'inview') {
+                this.$('.component-widget').on('inview', _.bind(this.inview, this));
             }
         },
 
-        setupEventListeners: function() {
-            this.completionEvent = (!this.model.get('_setCompletionOn')) ? 'allItems' : this.model.get('_setCompletionOn');
-            if (this.completionEvent !== 'inview' && this.model.get('_items').length > 1) {
-                this.on(this.completionEvent, _.bind(this.onCompletion, this));
-            } else {
-                this.$('.component-widget').on('inview', _.bind(this.inview, this));
+        remove: function() {
+            if (this.model.get('_setCompletionOn') === 'inview') {
+                this.$('.component-widget').off('inview');
             }
+            ComponentView.prototype.remove.apply(this, arguments);
+        },
+
+        getSlideDirection: function() {
+            let direction = 'left';
+            if (Adapt.config.has('_defaultDirection') && Adapt.config.get('_defaultDirection') === 'rtl') {
+                direction = 'right';
+            }
+            return direction;
         }
+
     });
 
     return NarrativeView;
