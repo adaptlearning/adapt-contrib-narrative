@@ -25,6 +25,8 @@ define([
             // Checks to see if the narrative should be reset on revisit
             this.checkIfResetOnRevisit();
             this._isInitial = true;
+            this.calculateWidths();
+            _.bindAll(this, 'onTransitionEnd');
         },
 
         onItemsActiveChange: function(item, _isActive) {
@@ -49,6 +51,10 @@ define([
                 this.setReadyStatus();
             }, this));
             this.setupNarrative();
+
+            if (Adapt.config.get('_disableAnimation')) {
+                this.$el.addClass('disable-animation');
+            }
         },
 
         // Used to check if the narrative should reset on revisit
@@ -86,35 +92,15 @@ define([
         },
 
         calculateWidths: function() {
-            var slideWidth = this.$('.narrative-slide-container').width();
-            var slideCount = this.model.get('_items').length;
-            var marginRight = this.$('.narrative-slider-graphic').css('margin-right');
-            var extraMargin = marginRight === '' ? 0 : parseInt(marginRight);
-            var fullSlideWidth = (slideWidth + extraMargin) * slideCount;
-
-            const direction = this.getSlideDirection();
-
-            this.$('.narrative-slider-graphic').width(slideWidth);
-            this.$('.narrative-strapline-header').width(slideWidth);
-            this.$('.narrative-strapline-title').width(slideWidth);
-
-            this.$('.narrative-slider').width(fullSlideWidth);
-            this.$('.narrative-strapline-header-inner').width(fullSlideWidth);
-
-            var stage = this.model.getActiveItem().get('_index');
-            var margin = -(stage * slideWidth);
-
-            this.$('.narrative-slider').css(('margin-' + direction), margin);
-            this.$('.narrative-strapline-header-inner').css(direction, margin);
-
-            this.model.set('_finalItemLeft', fullSlideWidth - slideWidth);
+            const itemCount = this.model.get('_items').length;
+            this.model.set('_totalWidth', 100 * itemCount);
+            this.model.set('_itemWidth', 100 / itemCount);
         },
 
         resizeControl: function() {
             var wasDesktop = this.model.get('_isDesktop');
             this.setDeviceSize();
             if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
-            this.calculateWidths();
             this.evaluateNavigation();
         },
 
@@ -164,21 +150,48 @@ define([
             return model;
         },
 
-        moveSliderToIndex: function(itemIndex, animate, callback) {
-            var extraMargin = parseInt(this.$('.narrative-slider-graphic').css('margin-right'));
-            var movementSize = this.$('.narrative-slide-container').width() + extraMargin;
-            const direction = this.getSlideDirection();
-            var marginDir = {};
-            if (animate && !Adapt.config.get('_disableAnimation')) {
-                marginDir['margin-' + direction] = -(movementSize * itemIndex);
-                this.$('.narrative-slider').velocity("stop", true).velocity(marginDir);
-                this.$('.narrative-strapline-header-inner').velocity("stop", true).velocity(marginDir, {complete:callback});
+        moveSliderToIndex: function(itemIndex, shouldAnimate) {
+            const invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
+
+            const offset = 100 / this.model.get('_items').length * itemIndex * -1 * invert;
+            const cssValue = 'translateX('+offset+'%)';
+            const sliderElm = this.$('.narrative-slider')[0];
+            const straplineHeaderElm = this.$('.narrative-strapline-header-inner')[0];
+
+            this.prefixHelper(sliderElm, 'Transform', cssValue);
+            sliderElm.style.transform = cssValue;
+            
+            this.prefixHelper(straplineHeaderElm, 'Transform', cssValue);
+            straplineHeaderElm.style.transform = cssValue;
+
+            if (Adapt.config.get('_disableAnimation')) {
+                this.onTransitionEnd();
             } else {
-                marginDir['margin-' + direction] = -(movementSize * itemIndex);
-                this.$('.narrative-slider').css(marginDir);
-                this.$('.narrative-strapline-header-inner').css(marginDir);
-                callback();
+                sliderElm.addEventListener('transitionend', this.onTransitionEnd);
             }
+        },
+
+        onTransitionEnd: function(event) {
+            if (event) {
+                event.currentTarget.removeEventListener('transitionend', this.onTransitionEnd);
+            }
+            
+            const index = this.model.getActiveItem().get('_index');
+            if (this.model.get('_isDesktop')) {
+                if (!this._isInitial) {
+                    this.$('.narrative-content-item').eq(index).a11y_focus();
+                }
+            } else {
+                if (!this._isInitial) {
+                    this.$('.narrative-strapline-title').a11y_focus();
+                }
+            }
+        },
+
+        prefixHelper: function(elm, prop, val) {
+            elm.style['webkit' + prop] = val;
+            elm.style['ms' + prop] = val;
+            // moz should be fine for transforms 
         },
 
         setStage: function(item) {
@@ -196,22 +209,14 @@ define([
 
             this.evaluateNavigation();
             this.evaluateCompletion();
-
-            this.moveSliderToIndex(index, !this._isInitial, _.bind(function() {
-                if (this.model.get('_isDesktop')) {
-                    if (!this._isInitial) {
-                        this.$('.narrative-content-item').eq(index).a11y_focus();
-                    }
-                } else {
-                    if (!this._isInitial) {
-                        this.$('.narrative-strapline-title').a11y_focus();
-                    }
-                }
-            }, this));
+            this.moveSliderToIndex(index, !this._isInitial);
         },
 
         evaluateNavigation: function() {
-            var currentStage = this.model.getActiveItem().get('_index');
+            const active = this.model.getActiveItem();
+            if (!active) return;
+
+            var currentStage = active.get('_index');
             var itemCount = this.model.get('_items').length;
             if (currentStage == 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');

@@ -37,10 +37,10 @@
 
         <div class="narrative-strapline">
             <div class="narrative-strapline-header">
-                <div class="narrative-strapline-header-inner clearfix">
+                <div class="narrative-strapline-header-inner clearfix" style="width: {{_totalWidth}}%">
                     <div></div>
                     {{#each _items}}
-                    <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}">
+                    <button role="button" class="base narrative-strapline-title" aria-label="{{{strapline}}}" style="width: {{../_itemWidth}}%">
                         <div class="narrative-strapline-title-inner h5">
                             {{{strapline}}}
                         </div>
@@ -61,9 +61,9 @@
                 <div class="icon icon-controls-right"></div>
             </button>
 
-            <div class="narrative-slider clearfix">
+            <div class="narrative-slider clearfix" style="width: {{_totalWidth}}%">
                 {{#each _items}}
-                <div class="narrative-slider-graphic {{#if _isVisited}}visited{{/if}}">
+                <div class="narrative-slider-graphic {{#if _isVisited}}visited{{/if}}" style="width: {{../_itemWidth}}%">
                     <img src="{{_graphic.src}}" />
                     {{#if _graphic.attribution}}
                         <div class="graphic-attribution">{{{_graphic.attribution}}}</div>

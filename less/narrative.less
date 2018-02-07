@@ -212,7 +212,7 @@
     }
 
     .narrative-strapline-header-inner {
-        position:relative;
+        position: relative;
     }
 
     .narrative-strapline-title {
@@ -293,6 +293,13 @@
 
     .narrative-hidden {
         visibility: hidden;
+    }
+
+    &:not(.disable-animation) {
+        .narrative-slider,
+        .narrative-strapline-header-inner {
+            transition: transform 400ms ease-in-out;
+        }
     }
 }
 
