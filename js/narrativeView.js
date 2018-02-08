@@ -263,10 +263,10 @@ define([
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
-                this.model.setItemActive(stage);
+                this.model.setActiveItem(stage);
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
                 stage--;
-                this.model.setItemActive(stage);
+                this.model.setActiveItem(stage);
             }
             stage = (stage + numberOfItems) % numberOfItems;
         },
@@ -274,7 +274,7 @@ define([
         onProgressClicked: function(event) {
             event && event.preventDefault();
             var clickedIndex = $(event.target).index();
-            this.model.setItemActive(clickedIndex);
+            this.model.setActiveItem(clickedIndex);
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
