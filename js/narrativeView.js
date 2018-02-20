@@ -4,7 +4,7 @@ define([
 ], function(Adapt, ComponentView) {
     'use strict';
     
-    const NarrativeView = ComponentView.extend({
+    var NarrativeView = ComponentView.extend({
         
         events: {
             'click .narrative-strapline-title': 'openPopup',
@@ -13,9 +13,11 @@ define([
         },
 
         preRender: function() {
-            this.listenTo(Adapt, 'device:changed', this.reRender, this);
-            this.listenTo(Adapt, 'device:resize', this.resizeControl, this);
-            this.listenTo(Adapt, 'notify:closed', this.closeNotify, this);
+            this.listenTo(Adapt, {
+                'device:changed': this.reRender,
+                'device:resize': this.resizeControl,
+                'notify:closed': this.closeNotify
+            });
             this.setDeviceSize();
 
             this.listenTo(this.model.get('_items'), {
@@ -73,7 +75,7 @@ define([
 
             this.model.set('_active', true);
             
-            let activeItem = this.model.getActiveItem();
+            var activeItem = this.model.getActiveItem();
             if (!activeItem) {
                 activeItem = this.model.getItem(0);
                 activeItem.toggleActive(true);
@@ -92,7 +94,7 @@ define([
         },
 
         calculateWidths: function() {
-            const itemCount = this.model.get('_items').length;
+            var itemCount = this.model.get('_items').length;
             this.model.set('_totalWidth', 100 * itemCount);
             this.model.set('_itemWidth', 100 / itemCount);
         },
@@ -141,22 +143,25 @@ define([
         },
 
         prepareHotgraphicModel: function() {
-            const model = this.model;
+            var model = this.model;
             model.resetActiveItems();
-            model.set('_isPopupOpen', false);
-            model.set('_component', 'hotgraphic');
-            model.set('body', model.get('originalBody'));
-            model.set('instruction', model.get('originalInstruction'));
+            model.set({
+                '_isPopupOpen': false,
+                '_component': 'hotgraphic',
+                'body': model.get('originalBody'),
+                'instruction': model.get('originalInstruction')
+            });
+
             return model;
         },
 
         moveSliderToIndex: function(itemIndex, shouldAnimate) {
-            const invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
+            var invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
 
-            const offset = 100 / this.model.get('_items').length * itemIndex * -1 * invert;
-            const cssValue = 'translateX('+offset+'%)';
-            const sliderElm = this.$('.narrative-slider')[0];
-            const straplineHeaderElm = this.$('.narrative-strapline-header-inner')[0];
+            var offset = 100 / this.model.get('_items').length * itemIndex * -1 * invert;
+            var cssValue = 'translateX('+offset+'%)';
+            var sliderElm = this.$('.narrative-slider')[0];
+            var straplineHeaderElm = this.$('.narrative-strapline-header-inner')[0];
 
             this.prefixHelper(sliderElm, 'Transform', cssValue);
             sliderElm.style.transform = cssValue;
@@ -176,7 +181,7 @@ define([
                 event.currentTarget.removeEventListener('transitionend', this.onTransitionEnd);
             }
             
-            const index = this.model.getActiveItem().get('_index');
+            var index = this.model.getActiveItem().get('_index');
             if (this.model.get('_isDesktop')) {
                 if (!this._isInitial) {
                     this.$('.narrative-content-item').eq(index).a11y_focus();
@@ -213,7 +218,7 @@ define([
         },
 
         evaluateNavigation: function() {
-            const active = this.model.getActiveItem();
+            var active = this.model.getActiveItem();
             if (!active) return;
 
             var currentStage = active.get('_index');
@@ -309,7 +314,7 @@ define([
         },
 
         getSlideDirection: function() {
-            let direction = 'left';
+            var direction = 'left';
             if (Adapt.config.has('_defaultDirection') && Adapt.config.get('_defaultDirection') === 'rtl') {
                 direction = 'right';
             }
