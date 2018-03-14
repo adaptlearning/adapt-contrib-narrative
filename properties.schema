@@ -49,6 +49,15 @@
       "validators": [],
       "help": "If enabled, all navigation elements will be moved to the text area"
     },
+    "_hasFixedHeightContentArea": {
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "title": "Fixed Height Content Area",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If enabled, all content areas will be the height of the tallest one"
+    },
     "_setCompletionOn": {
       "type": "string",
       "required": true,
