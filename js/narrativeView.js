@@ -95,8 +95,10 @@ define([
 
         calculateWidths: function() {
             var itemCount = this.model.get('_items').length;
-            this.model.set('_totalWidth', 100 * itemCount);
-            this.model.set('_itemWidth', 100 / itemCount);
+            this.model.set({
+                '_totalWidth': 100 * itemCount,
+                '_itemWidth': 100 / itemCount
+            });
         },
 
         resizeControl: function() {
@@ -115,7 +117,7 @@ define([
         },
 
         closeNotify: function() {
-            this.evaluateCompletion()
+            this.evaluateCompletion();
         },
 
         replaceInstructions: function() {
