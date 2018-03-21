@@ -62,7 +62,6 @@ define([
         // Used to check if the narrative should reset on revisit
         checkIfResetOnRevisit: function() {
             var isResetOnRevisit = this.model.get('_isResetOnRevisit');
-            
             // If reset is enabled set defaults
             if (isResetOnRevisit) {
                 this.model.reset(isResetOnRevisit);
@@ -74,7 +73,7 @@ define([
             if (!this.model.has('_items') || !this.model.get('_items').length) return;
 
             this.model.set('_active', true);
-            
+
             var activeItem = this.model.getActiveItem();
             if (!activeItem) {
                 activeItem = this.model.getItem(0);
@@ -131,7 +130,7 @@ define([
         replaceWithHotgraphic: function() {
             if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
             var HotgraphicView = Adapt.componentStore.hotgraphic.view;
-            
+
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new HotgraphicView({ model: model });
             var $container = $(".component-container", $("." + this.model.get("_parentId")));
@@ -162,27 +161,25 @@ define([
 
             var offset = 100 / this.model.get('_items').length * itemIndex * -1 * invert;
             var cssValue = 'translateX('+offset+'%)';
-            var sliderElm = this.$('.narrative-slider')[0];
+            var $sliderElm = this.$('.narrative-slider');
             var straplineHeaderElm = this.$('.narrative-strapline-header-inner')[0];
 
-            this.prefixHelper(sliderElm, 'Transform', cssValue);
-            sliderElm.style.transform = cssValue;
-            
-            this.prefixHelper(straplineHeaderElm, 'Transform', cssValue);
-            straplineHeaderElm.style.transform = cssValue;
+            $sliderElm.css({
+                transform: cssValue
+            });
 
             if (Adapt.config.get('_disableAnimation')) {
                 this.onTransitionEnd();
             } else {
-                sliderElm.addEventListener('transitionend', this.onTransitionEnd);
+                $sliderElm.on('transitionend', this.onTransitionEnd);
             }
         },
 
         onTransitionEnd: function(event) {
             if (event) {
-                event.currentTarget.removeEventListener('transitionend', this.onTransitionEnd);
+                $(event.currentTarget).off('transitionend', this.onTransitionEnd);
             }
-            
+
             var index = this.model.getActiveItem().get('_index');
             if (this.model.get('_isDesktop')) {
                 if (!this._isInitial) {
@@ -193,12 +190,6 @@ define([
                     this.$('.narrative-strapline-title').a11y_focus();
                 }
             }
-        },
-
-        prefixHelper: function(elm, prop, val) {
-            elm.style['webkit' + prop] = val;
-            elm.style['ms' + prop] = val;
-            // moz should be fine for transforms 
         },
 
         setStage: function(item) {
@@ -225,21 +216,19 @@ define([
 
             var currentStage = active.get('_index');
             var itemCount = this.model.get('_items').length;
+
             if (currentStage == 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
-
                 if (itemCount > 1) {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
                 }
-            } else {
-                this.$('.narrative-control-left').removeClass('narrative-hidden');
-
-                if (currentStage == itemCount - 1) {
-                    this.$('.narrative-control-right').addClass('narrative-hidden');
-                } else {
-                    this.$('.narrative-control-right').removeClass('narrative-hidden');
-                }
+                return;
             }
+
+            this.$('.narrative-control-left').removeClass('narrative-hidden');
+
+            var idAtEnd = (currentStage == itemCount - 1);
+            this.$('.narrative-control-right').toggleClass('narrative-hidden', idAtEnd);
         },
 
         evaluateCompletion: function() {
@@ -285,21 +274,22 @@ define([
         },
 
         inview: function(event, visible, visiblePartX, visiblePartY) {
-            if (visible) {
-                if (visiblePartY === 'top') {
-                    this._isVisibleTop = true;
-                } else if (visiblePartY === 'bottom') {
-                    this._isVisibleBottom = true;
-                } else {
-                    this._isVisibleTop = true;
-                    this._isVisibleBottom = true;
-                }
+            if (!visible) return;
 
-                if (this._isVisibleTop && this._isVisibleBottom) {
-                    this.$('.component-inner').off('inview');
-                    this.setCompletionStatus();
-                }
+            if (visiblePartY === 'top') {
+                this._isVisibleTop = true;
+            } else if (visiblePartY === 'bottom') {
+                this._isVisibleBottom = true;
+            } else {
+                this._isVisibleTop = true;
+                this._isVisibleBottom = true;
             }
+
+            var wasAllInview = (this._isVisibleTop && this._isVisibleBottom);
+            if (!wasAllInview) return;
+
+            this.$('.component-inner').off('inview');
+            this.setCompletionStatus();
         },
 
         setupEventListeners: function() {
