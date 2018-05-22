@@ -130,9 +130,8 @@ define(function(require) {
         },
 
         replaceWithHotgraphic: function() {
-            if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
-            var Hotgraphic = Adapt.componentStore.hotgraphic;
-            
+            var Hotgraphic = Adapt.getViewClass('hotgraphic');
+
             var model = this.prepareHotgraphicModel();
             var newHotgraphic = new Hotgraphic({ model: model });
             var $container = $(".component-container", $("." + this.model.get("_parentId")));
@@ -266,7 +265,7 @@ define(function(require) {
         evaluateCompletion: function() {
             if (this.getVisitedItems().length === this.model.get('_items').length) {
                 this.trigger('allItems');
-            } 
+            }
         },
 
         moveElement: function($element, deltaX) {
@@ -306,7 +305,7 @@ define(function(require) {
             stage = (stage + numberOfItems) % numberOfItems;
             this.setStage(stage);
         },
-        
+
         onProgressClicked: function(event) {
             event.preventDefault();
             var clickedIndex = $(event.target).index();
