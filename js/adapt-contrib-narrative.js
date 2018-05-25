@@ -1,14 +1,16 @@
-define(function(require) {
-
-    var ComponentView = require('coreViews/componentView');
-    var Adapt = require('coreJS/adapt');
+define([
+  'core/js/adapt',
+  'core/js/views/componentView' 
+], function(Adapt, ComponentView) {
 
     var Narrative = ComponentView.extend({
 
         events: {
             'click .narrative-strapline-title': 'openPopup',
             'click .narrative-controls': 'onNavigationClicked',
-            'click .narrative-indicators .narrative-progress': 'onProgressClicked'
+            'click .narrative-indicators .narrative-progress': 'onProgressClicked',
+            'swipeleft .narrative-slider-graphic' : 'onSwipe',
+            'swiperight .narrative-slider-graphic': 'onSwipe'
         },
 
         preRender: function() {
@@ -289,6 +291,31 @@ define(function(require) {
             currentItem._isVisited = true;
 
             Adapt.trigger('notify:popup', popupObject);
+        },
+
+        onSwipe: function(event) {
+
+            var isSwipeLeft = event.type === "swipeleft";
+           
+            var stage = this.model.get('_stage');
+            var numberOfItems = this.model.get('_itemCount');
+           
+            if (isSwipeLeft) {
+                if (stage === (numberOfItems-1)) {
+                    return;
+                } else {
+                    stage++;
+                }
+           } else {
+               if (stage === 0) {
+                   return;
+               } else {
+                 stage--;                   
+               }
+           }
+
+            stage = (stage + numberOfItems) % numberOfItems;
+            this.setStage(stage);
         },
 
         onNavigationClicked: function(event) {
