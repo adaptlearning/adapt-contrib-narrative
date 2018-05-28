@@ -103,8 +103,17 @@ define(function(require) {
 
         resizeControl: function() {
             var wasDesktop = this.model.get('_isDesktop');
+            var isDesktop = false;
             this.setDeviceSize();
-            if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
+            isDesktop = this.model.get('_isDesktop');
+            if (wasDesktop != isDesktop) this.replaceInstructions();
+            /*set current stage item to visited when moving from small/medium screen size to large*/
+            if (isDesktop) {
+                var stage = this.model.get('_stage') || 0;
+                if (!this.getCurrentItem(stage)._isVisited) {
+                    this.setStage(stage, true);
+                }
+            }
             this.calculateWidths();
             this.evaluateNavigation();
         },
@@ -118,7 +127,7 @@ define(function(require) {
         },
 
         closeNotify: function() {
-            this.evaluateCompletion()
+            this.evaluateCompletion();
         },
 
         replaceInstructions: function() {
