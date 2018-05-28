@@ -20,7 +20,7 @@ define([
             });
             this.setDeviceSize();
 
-            this.listenTo(this.model.get('_items'), {
+            this.listenTo(this.model.get('_children'), {
                 'change:_isActive': this.onItemsActiveChange
             });
 
@@ -70,7 +70,7 @@ define([
 
         setupNarrative: function() {
             this.setDeviceSize();
-            if (!this.model.has('_items') || !this.model.get('_items').length) return;
+            if (!this.model.has('_children') || !this.model.get('_children').length) return;
 
             this.model.set('_active', true);
 
@@ -80,7 +80,7 @@ define([
                 activeItem.toggleActive(true);
             } else {
                 // manually trigger change as it is not fired on reentry
-                this.model.get('_items').trigger('change:_isActive', activeItem, true);
+                this.model.get('_children').trigger('change:_isActive', activeItem, true);
             }
 
             this.calculateWidths();
@@ -93,7 +93,7 @@ define([
         },
 
         calculateWidths: function() {
-            var itemCount = this.model.get('_items').length;
+            var itemCount = this.model.get('_children').length;
             this.model.set({
                 '_totalWidth': 100 * itemCount,
                 '_itemWidth': 100 / itemCount
@@ -159,14 +159,13 @@ define([
         moveSliderToIndex: function(itemIndex, shouldAnimate) {
             var invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
 
-            var offset = 100 / this.model.get('_items').length * itemIndex * -1 * invert;
+            var offset = 100 / this.model.get('_children').length * itemIndex * -1 * invert;
             var cssValue = 'translateX('+offset+'%)';
             var $sliderElm = this.$('.narrative-slider');
-            var straplineHeaderElm = this.$('.narrative-strapline-header-inner')[0];
+            var $straplineHeaderElm = this.$('.narrative-strapline-header-inner');
 
-            $sliderElm.css({
-                transform: cssValue
-            });
+            $sliderElm.css('transform', cssValue);
+            $straplineHeaderElm.css('transform', cssValue);
 
             if (Adapt.config.get('_disableAnimation')) {
                 this.onTransitionEnd();
@@ -215,7 +214,7 @@ define([
             if (!active) return;
 
             var currentStage = active.get('_index');
-            var itemCount = this.model.get('_items').length;
+            var itemCount = this.model.get('_children').length;
 
             if (currentStage == 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
@@ -255,7 +254,7 @@ define([
             if (!this.model.get('_active')) return;
 
             var stage = this.model.getActiveItem().get('_index');
-            var numberOfItems = this.model.get('_items').length;
+            var numberOfItems = this.model.get('_children').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 stage++;
