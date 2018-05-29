@@ -103,21 +103,21 @@ define(function(require) {
 
         resizeControl: function() {
             var wasDesktop = this.model.get('_isDesktop');
-            var isDesktop = false;
             this.setDeviceSize();
-            isDesktop = this.model.get('_isDesktop');
+            var isDesktop = this.model.get('_isDesktop');
             if (wasDesktop != isDesktop) this.replaceInstructions();
-            /*set current stage item to visited when moving from small/medium screen size to large*/
-            if (isDesktop) {
-                var stage = this.model.get('_stage') || 0;
-                if (!this.getCurrentItem(stage)._isVisited) {
-                    this.setStage(stage, true);
-                }
-            }
             this.calculateWidths();
             this.evaluateNavigation();
+            /*set current stage item to visited when moving from small/medium screen size to large*/
+            if (isDesktop) this.setCurrentItemVisited();
         },
-
+        
+        setCurrentItemVisited: function() {
+            var stage = this.model.get('_stage') || 0;
+            if (this.getCurrentItem(stage)._isVisited) return;
+            this.setStage(stage, true);
+        },
+        
         reRender: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
