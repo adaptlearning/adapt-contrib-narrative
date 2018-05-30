@@ -107,8 +107,12 @@ define(function(require) {
             var isDesktop = this.model.get('_isDesktop');
             if (wasDesktop != isDesktop) this.replaceInstructions();
             this.calculateWidths();
-            this.evaluateNavigation();
-            /*set current stage item to visited when moving from small/medium screen size to large*/
+            this.evaluateNavigation();  
+           
+            /**
+             * need to set current stage item to visited when moving from small/medium screen size to large
+             * see https://github.com/adaptlearning/adapt_framework/issues/2100
+             */
             if (isDesktop) this.setCurrentItemVisited();
         },
         
