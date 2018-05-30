@@ -21,7 +21,8 @@ define([
             this.setDeviceSize();
 
             this.listenTo(this.model.get('_children'), {
-                'change:_isActive': this.onItemsActiveChange
+                'change:_isActive': this.onItemsActiveChange,
+                'change:_isVisited': this.onItemsVisitedChange
             });
 
             // Checks to see if the narrative should be reset on revisit
@@ -35,6 +36,11 @@ define([
             if (_isActive === true) {
                 this.setStage(item);
             }
+        },
+
+        onItemsVisitedChange: function(item, isVisited) {
+            if (!isVisited) return;
+            this.$('[data-index="' + item.get('_index') + '"]').addClass('visited');
         },
 
         setDeviceSize: function() {
