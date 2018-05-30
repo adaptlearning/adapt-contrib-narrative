@@ -33,6 +33,11 @@ define(function(require) {
 
         postRender: function() {
             this.renderState();
+
+            if(this.model.get('_hasFixedHeightContentArea')){
+                this.setContentAreaHeights();
+            }
+
             this.$('.narrative-slider').imageready(_.bind(function() {
                 this.setReadyStatus();
             }, this));
@@ -344,6 +349,18 @@ define(function(require) {
             } else {
                 this.$('.component-widget').on('inview', _.bind(this.inview, this));
             }
+        },
+
+        setContentAreaHeights: function () {
+            var maxHeight = 0;
+            var $contentAreas = this.$('.narrative-content-body');
+            $contentAreas.each(function() {
+                if($(this).height() > maxHeight){
+                    maxHeight = $(this).height();
+                }
+            });
+
+            $contentAreas.height(maxHeight)
         }
 
     });
