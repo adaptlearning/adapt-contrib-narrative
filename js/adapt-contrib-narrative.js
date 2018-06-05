@@ -104,11 +104,24 @@ define(function(require) {
         resizeControl: function() {
             var wasDesktop = this.model.get('_isDesktop');
             this.setDeviceSize();
-            if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
+            var isDesktop = this.model.get('_isDesktop');
+            if (wasDesktop != isDesktop) this.replaceInstructions();
             this.calculateWidths();
-            this.evaluateNavigation();
+            this.evaluateNavigation();  
+           
+            /**
+             * need to set current stage item to visited when moving from small/medium screen size to large
+             * see https://github.com/adaptlearning/adapt_framework/issues/2100
+             */
+            if (isDesktop) this.setCurrentItemVisited();
         },
-
+        
+        setCurrentItemVisited: function() {
+            var stage = this.model.get('_stage') || 0;
+            if (this.getCurrentItem(stage)._isVisited) return;
+            this.setStage(stage, true);
+        },
+        
         reRender: function() {
             if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
                 this.replaceWithHotgraphic();
@@ -118,7 +131,7 @@ define(function(require) {
         },
 
         closeNotify: function() {
-            this.evaluateCompletion()
+            this.evaluateCompletion();
         },
 
         replaceInstructions: function() {
