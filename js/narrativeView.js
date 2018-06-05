@@ -111,6 +111,8 @@ define([
             this.setDeviceSize();
             if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
             this.evaluateNavigation();
+            var activeItem = this.model.getActiveItem();
+            if (activeItem) this.setStage(activeItem);
         },
 
         reRender: function() {
