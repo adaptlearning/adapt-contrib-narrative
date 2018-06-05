@@ -114,7 +114,7 @@ define([
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize == 'large') {
+            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize === 'large') {
                 this.replaceWithHotgraphic();
             } else {
                 this.resizeControl();
@@ -222,7 +222,7 @@ define([
             var currentStage = active.get('_index');
             var itemCount = this.model.get('_children').length;
 
-            if (currentStage == 0) {
+            if (currentStage === 0) {
                 this.$('.narrative-controls').addClass('narrative-hidden');
                 if (itemCount > 1) {
                     this.$('.narrative-control-right').removeClass('narrative-hidden');
@@ -232,7 +232,7 @@ define([
 
             this.$('.narrative-control-left').removeClass('narrative-hidden');
 
-            var idAtEnd = (currentStage == itemCount - 1);
+            var idAtEnd = (currentStage === itemCount - 1);
             this.$('.narrative-control-right').toggleClass('narrative-hidden', idAtEnd);
         },
 
