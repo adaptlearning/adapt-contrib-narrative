@@ -55,9 +55,7 @@ define([
 
         postRender: function() {
             this.renderState();
-            this.$('.narrative-slider').imageready(_.bind(function() {
-                this.setReadyStatus();
-            }, this));
+            this.$('.narrative-slider').imageready(this.setReadyStatus.bind(this));
             this.setupNarrative();
 
             if (Adapt.config.get('_disableAnimation')) {
@@ -76,9 +74,10 @@ define([
 
         setupNarrative: function() {
             this.setDeviceSize();
-            if (!this.model.has('_children') || !this.model.get('_children').length) return;
+            var items = this.model.get('_children');
+            if (!items || !items.length) return;
 
-            this.model.set('_active', true);
+            this._active = true;
 
             var activeItem = this.model.getActiveItem();
             if (!activeItem) {
@@ -86,7 +85,7 @@ define([
                 activeItem.toggleActive(true);
             } else {
                 // manually trigger change as it is not fired on reentry
-                this.model.get('_children').trigger('change:_isActive', activeItem, true);
+                items.trigger('change:_isActive', activeItem, true);
             }
 
             this.calculateWidths();
@@ -167,7 +166,7 @@ define([
         moveSliderToIndex: function(itemIndex, shouldAnimate) {
             var invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
 
-            var offset = 100 / this.model.get('_children').length * itemIndex * -1 * invert;
+            var offset = this.model.get('_itemWidth') * itemIndex * -1 * invert;
             var cssValue = 'translateX('+offset+'%)';
             var $sliderElm = this.$('.narrative-slider');
             var $straplineHeaderElm = this.$('.narrative-strapline-header-inner');
@@ -190,7 +189,7 @@ define([
             var index = this.model.getActiveItem().get('_index');
             if (this.model.get('_isDesktop')) {
                 if (!this._isInitial) {
-                    this.$('.narrative-content-item').eq(index).a11y_focus();
+                    this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
                 }
             } else {
                 if (!this._isInitial) {
@@ -206,11 +205,12 @@ define([
                 item.toggleVisited(true);
             }
 
-            this.$('.narrative-progress:visible').removeClass('selected').eq(index).addClass('selected');
-            this.$('.narrative-slider-graphic').children('.controls').a11y_cntrl_enabled(false);
-            this.$('.narrative-slider-graphic').eq(index).children('.controls').a11y_cntrl_enabled(true);
-            this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).eq(index).removeClass('narrative-hidden').a11y_on(true);
-            this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).eq(index).a11y_cntrl_enabled(true);
+            var $slideGraphics = this.$('.narrative-slider-graphic');
+            this.$('.narrative-progress:visible').removeClass('selected').filter('[data-index="'+index+'"]').addClass('selected');
+            $slideGraphics.children('.controls').a11y_cntrl_enabled(false);
+            $slideGraphics.filter('[data-index="'+index+'"]').children('.controls').a11y_cntrl_enabled(true);
+            this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).filter('[data-index="'+index+'"]').removeClass('narrative-hidden').a11y_on(true);
+            this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).filter('[data-index="'+index+'"]').a11y_cntrl_enabled(true);
 
             this.evaluateNavigation();
             this.evaluateCompletion();
@@ -259,7 +259,7 @@ define([
         },
 
         onNavigationClicked: function(event) {
-            if (!this.model.get('_active')) return;
+            if (!this._active) return;
 
             var stage = this.model.getActiveItem().get('_index');
             var numberOfItems = this.model.get('_children').length;
