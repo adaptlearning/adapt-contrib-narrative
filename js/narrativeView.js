@@ -29,7 +29,10 @@ define([
             this.checkIfResetOnRevisit();
             this._isInitial = true;
             this.calculateWidths();
-            _.bindAll(this, 'onTransitionEnd');
+        },
+
+        clamp: function(number, min, max) {
+            return Math.max(min, Math.min(number, max));
         },
 
         onItemsActiveChange: function(item, _isActive) {
@@ -177,15 +180,11 @@ define([
             if (Adapt.config.get('_disableAnimation')) {
                 this.onTransitionEnd();
             } else {
-                $sliderElm.on('transitionend', this.onTransitionEnd);
+                $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
             }
         },
 
         onTransitionEnd: function(event) {
-            if (event) {
-                $(event.currentTarget).off('transitionend', this.onTransitionEnd);
-            }
-
             var index = this.model.getActiveItem().get('_index');
             if (this.model.get('_isDesktop')) {
                 if (!this._isInitial) {
@@ -265,13 +264,11 @@ define([
             var numberOfItems = this.model.get('_children').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                stage++;
-                this.model.setActiveItem(stage);
+                this.model.setActiveItem(stage+=1);
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                stage--;
-                this.model.setActiveItem(stage);
+                this.model.setActiveItem(stage-=1);
             }
-            stage = (stage + numberOfItems) % numberOfItems;
+            stage = this.clamp(stage, 0, numberOfItems);
         },
         
         onProgressClicked: function(event) {
@@ -301,7 +298,7 @@ define([
 
         setupEventListeners: function() {
             if (this.model.get('_setCompletionOn') === 'inview') {
-                this.$('.component-widget').on('inview', _.bind(this.inview, this));
+                this.$('.component-widget').on('inview', this.inview.bind(this));
             }
         },
 
