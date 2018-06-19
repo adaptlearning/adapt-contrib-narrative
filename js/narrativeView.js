@@ -31,10 +31,6 @@ define([
             this.calculateWidths();
         },
 
-        clamp: function(number, min, max) {
-            return Math.max(min, Math.min(number, max));
-        },
-
         onItemsActiveChange: function(item, _isActive) {
             if (_isActive === true) {
                 this.setStage(item);
@@ -264,11 +260,10 @@ define([
             var numberOfItems = this.model.get('_children').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                this.model.setActiveItem(stage+=1);
+                this.model.setActiveItem(++stage);
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                this.model.setActiveItem(stage-=1);
+                this.model.setActiveItem(--stage);
             }
-            stage = this.clamp(stage, 0, numberOfItems);
         },
         
         onProgressClicked: function(event) {
