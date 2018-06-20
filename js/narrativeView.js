@@ -43,13 +43,7 @@ define([
         },
 
         setDeviceSize: function() {
-            if (Adapt.device.screenSize === 'large') {
-                this.$el.addClass('desktop').removeClass('mobile');
-                this.model.set('_isDesktop', true);
-            } else {
-                this.$el.addClass('mobile').removeClass('desktop');
-                this.model.set('_isDesktop', false)
-            }
+            this.model.set('_isDesktop', Adapt.device.screenSize === 'large');
         },
 
         postRender: function() {
@@ -75,8 +69,6 @@ define([
             this.setDeviceSize();
             var items = this.model.get('_children');
             if (!items || !items.length) return;
-
-            this._active = true;
 
             var activeItem = this.model.getActiveItem();
             if (!activeItem) {
@@ -163,9 +155,10 @@ define([
         },
 
         moveSliderToIndex: function(itemIndex, shouldAnimate) {
-            var invert = (Adapt.config.get('_defaultDirection') === 'ltr') ? 1 : -1;
-
-            var offset = this.model.get('_itemWidth') * itemIndex * -1 * invert;
+            var offset = this.model.get('_itemWidth') * itemIndex;
+            if (Adapt.config.get('_defaultDirection') === 'ltr') {
+                offset *= -1;
+            }
             var cssValue = 'translateX('+offset+'%)';
             var $sliderElm = this.$('.narrative-slider');
             var $straplineHeaderElm = this.$('.narrative-strapline-header-inner');
@@ -181,15 +174,13 @@ define([
         },
 
         onTransitionEnd: function(event) {
+            if (this._isInitial) return;
+
             var index = this.model.getActiveItem().get('_index');
             if (this.model.get('_isDesktop')) {
-                if (!this._isInitial) {
-                    this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
-                }
+                this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
             } else {
-                if (!this._isInitial) {
-                    this.$('.narrative-strapline-title').a11y_focus();
-                }
+                this.$('.narrative-strapline-title').a11y_focus();
             }
         },
 
@@ -219,18 +210,11 @@ define([
             var currentStage = active.get('_index');
             var itemCount = this.model.get('_children').length;
 
-            if (currentStage === 0) {
-                this.$('.narrative-controls').addClass('narrative-hidden');
-                if (itemCount > 1) {
-                    this.$('.narrative-control-right').removeClass('narrative-hidden');
-                }
-                return;
-            }
+            var isAtStart = currentStage === 0;
+            var isAtEnd = currentStage === itemCount - 1;
 
-            this.$('.narrative-control-left').removeClass('narrative-hidden');
-
-            var idAtEnd = (currentStage === itemCount - 1);
-            this.$('.narrative-control-right').toggleClass('narrative-hidden', idAtEnd);
+            this.$('.narrative-control-left').toggleClass('narrative-hidden', isAtStart);
+            this.$('.narrative-control-right').toggleClass('narrative-hidden', isAtEnd);
         },
 
         evaluateCompletion: function() {
@@ -254,8 +238,6 @@ define([
         },
 
         onNavigationClicked: function(event) {
-            if (!this._active) return;
-
             var stage = this.model.getActiveItem().get('_index');
             var numberOfItems = this.model.get('_children').length;
 
@@ -268,7 +250,7 @@ define([
         
         onProgressClicked: function(event) {
             event && event.preventDefault();
-            var clickedIndex = $(event.target).index();
+            var clickedIndex = $(event.target).data('index');
             this.model.setActiveItem(clickedIndex);
         },
 
@@ -302,14 +284,6 @@ define([
                 this.$('.component-widget').off('inview');
             }
             ComponentView.prototype.remove.apply(this, arguments);
-        },
-
-        getSlideDirection: function() {
-            var direction = 'left';
-            if (Adapt.config.has('_defaultDirection') && Adapt.config.get('_defaultDirection') === 'rtl') {
-                direction = 'right';
-            }
-            return direction;
         }
 
     });
