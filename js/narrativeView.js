@@ -6,6 +6,8 @@ define([
     
     var NarrativeView = ComponentView.extend({
         
+        _isInitial: true,
+
         events: {
             'click .narrative-strapline-title': 'openPopup',
             'click .narrative-controls': 'onNavigationClicked',
@@ -27,7 +29,6 @@ define([
 
             // Checks to see if the narrative should be reset on revisit
             this.checkIfResetOnRevisit();
-            this._isInitial = true;
             this.calculateWidths();
         },
 
