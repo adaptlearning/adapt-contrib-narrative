@@ -1,101 +1,99 @@
-.narrative-component {
+html.size-large .narrative-component {
+    .narrative-slide-container {
+        width: 60%;
+        margin-right: 3%;
+        float: left;
+        .dir-rtl & {
+            margin-right: inherit;
+            margin-left: 3%;
+            float: right;
+        }
+    }
 
-    &.desktop {
-        .narrative-slide-container {
-            width: 60%;
-            margin-right: 3%;
-            float: left;
-            .dir-rtl & {
-                margin-right: inherit;
-                margin-left: 3%;
+    .narrative-slider-graphic {
+        margin-right: 0;
+        width:60%;
+    }
+
+    .narrative-strapline {
+        display:none;
+    }
+
+    .narrative-content-inner {
+        .narrative-controls {
+            position: static;
+            display: none;
+            margin-top: 0px;
+            margin-bottom: 10px;
+            width: auto;
+            height: auto;
+            padding: 8px;
+            .icon {
+                margin: 0px;
+            }
+        }
+        .narrative-indicators {
+            display: none;
+            position: relative;
+            top: -4px;
+        }
+        .narrative-progress {
+            background-color: @item-color;
+            &.selected {
+                background-color: @item-color-selected;
+            }
+        }
+        .narrative-content-item.narrative-hidden {
+                display: none;
+        }
+    }
+
+    .narrative-text-controls {
+        .narrative-content-inner {
+            position: relative;
+            .narrative-controls-container {
+                position: absolute;
+                width: 100%;
+                left: 0px;
+                top: 10px;
+                display: block;
+            }
+            .narrative-controls {
+                margin-bottom: 0px;
+                display: inline-block;
+                &.narrative-hidden {
+                    visibility: hidden;
+                }
+            }
+            .narrative-control-left {
+                float:left;
+            }
+            .narrative-control-right {
                 float: right;
+            }
+            .narrative-indicators {
+                display: inline-block;
+                width: auto;
+                position: absolute;
+                margin-top: 10px;
+                top: 0px;
+                left: 50%;
             }
         }
 
-        .narrative-slider-graphic {
-            margin-right: 0;
-            width:60%;
-        }
-
-        .narrative-strapline {
-            display:none;
-        }
-
-        .narrative-content-inner {
+        .narrative-slide-container {
             .narrative-controls {
-                position: static;
                 display: none;
-                margin-top: 0px;
-                margin-bottom: 10px;
-                width: auto;
-                height: auto;
-                padding: 8px;
-                .icon {
-                    margin: 0px;
-                }
             }
             .narrative-indicators {
                 display: none;
-                position: relative;
-                top: -4px;
-            }
-            .narrative-progress {
-                background-color: @item-color;
-                &.selected {
-                    background-color: @item-color-selected;
-                }
-            }
-            .narrative-content-item.narrative-hidden {
-                    display: none;
-            }
-        }
-
-        .narrative-text-controls {
-            .narrative-content-inner {
-                position: relative;
-                .narrative-controls-container {
-                    position: absolute;
-                    width: 100%;
-                    left: 0px;
-                    top: 10px;
-                    display: block;
-                }
-                .narrative-controls {
-                    margin-bottom: 0px;
-                    display: inline-block;
-                    &.narrative-hidden {
-                        visibility: hidden;
-                    }
-                }
-                .narrative-control-left {
-                    float:left;
-                }
-                .narrative-control-right {
-                    float: right;
-                }
-                .narrative-indicators {
-                    display: inline-block;
-                    width: auto;
-                    position: absolute;
-                    margin-top: 10px;
-                    top: 0px;
-                    left: 50%;
-                }
-                .narrative-content-item {
-                    padding-top: 36px;
-                }
-            }
-
-            .narrative-slide-container {
-                .narrative-controls {
-                    display: none;
-                }
-                .narrative-indicators {
-                    display: none;
-                }
             }
         }
     }
+}
+
+
+.narrative-component {
 
     .narrative-content {
         width: 36%;
@@ -111,8 +109,9 @@
         padding:20px;
     }
 
-    &.mobile {
         .narrative-content {
+            .size-small &,
+            .size-medium & {
             display:none;
         }
     }
@@ -133,11 +132,6 @@
         .dir-rtl & {
             float: right;
         }
-    }
-
-    .narrative-item-title {
-        position:relative;
-        display:block;
     }
 
     .narrative-indicators {
@@ -212,7 +206,7 @@
     }
 
     .narrative-strapline-header-inner {
-        position:relative;
+        position: relative;
     }
 
     .narrative-strapline-title {
@@ -294,6 +288,13 @@
     .narrative-hidden {
         visibility: hidden;
     }
+
+    &:not(.disable-animation) {
+        .narrative-slider,
+        .narrative-strapline-header-inner {
+            transition: transform 400ms ease-in-out;
+        }
+    }
 }
 
 
@@ -315,10 +316,7 @@ html.accessibility {
         }
     }
 
-
-    &.no-touch {
-        .narrative-strapline-title:focus .focus-rect {
-            outline: @focus-outline;
-        }
+    .narrative-strapline-title:focus .focus-rect {
+        outline: @focus-outline;
     }
 }
