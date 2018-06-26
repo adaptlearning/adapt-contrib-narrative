@@ -3,9 +3,9 @@ define([
     'core/js/views/componentView'
 ], function(Adapt, ComponentView) {
     'use strict';
-    
+
     var NarrativeView = ComponentView.extend({
-        
+
         _isInitial: true,
 
         events: {
@@ -174,7 +174,7 @@ define([
             }
         },
 
-        onTransitionEnd: function(event) {
+        onTransitionEnd: function() {
             if (this._isInitial) return;
 
             var index = this.model.getActiveItem().get('_index');
@@ -221,7 +221,7 @@ define([
         evaluateCompletion: function() {
             if (this.model.areAllItemsCompleted()) {
                 this.trigger('allItems');
-            } 
+            }
         },
 
         openPopup: function(event) {
@@ -248,7 +248,7 @@ define([
                 this.model.setActiveItem(--stage);
             }
         },
-        
+
         onProgressClicked: function(event) {
             event && event.preventDefault();
             var clickedIndex = $(event.target).data('index');
