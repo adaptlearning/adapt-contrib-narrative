@@ -27,7 +27,6 @@ define([
                 'change:_isVisited': this.onItemsVisitedChange
             });
 
-            // Checks to see if the narrative should be reset on revisit
             this.checkIfResetOnRevisit();
             this.calculateWidths();
         },
@@ -57,7 +56,6 @@ define([
             }
         },
 
-        // Used to check if the narrative should reset on revisit
         checkIfResetOnRevisit: function() {
             var isResetOnRevisit = this.model.get('_isResetOnRevisit');
             // If reset is enabled set defaults
