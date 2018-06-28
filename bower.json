@@ -1,7 +1,7 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "3.0.0",
-  "framework": ">=3",
+  "version": "3.0.1",
+  "framework": ">=3.2",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
   "displayName" : "Narrative",
