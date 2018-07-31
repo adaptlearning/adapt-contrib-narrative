@@ -42,7 +42,7 @@ define([
         },
 
         isDeviceLarge: function() {
-            return (Adapt.device.screenSize !== 'large');
+            return (Adapt.device.screenSize === 'large');
         },
 
         setDeviceSize: function() {
