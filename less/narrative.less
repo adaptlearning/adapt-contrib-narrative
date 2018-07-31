@@ -1,4 +1,4 @@
-html.size-large .narrative-component {
+.desktop.narrative-component {
     .narrative-slide-container {
         width: 60%;
         margin-right: 3%;
@@ -109,11 +109,8 @@ html.size-large .narrative-component {
         padding:20px;
     }
 
-        .narrative-content {
-            .size-small &,
-            .size-medium & {
-            display:none;
-        }
+    &.mobile .narrative-content {
+        display:none;
     }
 
     .narrative-slide-container {
@@ -215,6 +212,8 @@ html.size-large .narrative-component {
         text-decoration: none;
         background-color: @button-color;
         color: @button-text-color;
+        overflow: hidden;
+        min-height: (@item-padding-top + @item-padding-bottom + @icon-size);
         .dir-rtl & {
             float: right;
         }
@@ -246,13 +245,15 @@ html.size-large .narrative-component {
     }
 
     .narrative-strapline-title-inner {
-        height: (@item-padding-top + @item-padding-bottom + @icon-size);
-        line-height: (@item-padding-top + @item-padding-bottom + @icon-size);
         padding-left: (@icon-size/2);
         padding-right: (@item-padding-left + @item-padding-right + @icon-size);
-        text-overflow: ellipsis;
-        white-space: nowrap;
+        padding-top: 10px;
+        padding-bottom: 10px;
         overflow: hidden;
+        width: 100%;
+        box-sizing: border-box;
+        overflow: hidden;
+        vertical-align: middle;
         .dir-rtl & {
             padding-right: (@icon-size/2);
             padding-left: (@item-padding-left + @item-padding-right + @icon-size);
@@ -294,29 +295,5 @@ html.size-large .narrative-component {
         .narrative-strapline-header-inner {
             transition: transform 400ms ease-in-out;
         }
-    }
-}
-
-
-html.accessibility {
-
-    .narrative-control-left:focus, .narrative-control-left.focus {
-        left: extract(@focus-outline, 1);
-        .dir-rtl & {
-            left: inherit;
-            right: extract(@focus-outline, 1);
-        }
-    }
-
-    .narrative-control-right:focus, .narrative-control-right.focus {
-        right: extract(@focus-outline, 1);
-        .dir-rtl & {
-            right: inherit;
-            left: extract(@focus-outline, 1);
-        }
-    }
-
-    .narrative-strapline-title:focus .focus-rect {
-        outline: @focus-outline;
     }
 }

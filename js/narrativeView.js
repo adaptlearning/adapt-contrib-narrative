@@ -16,8 +16,7 @@ define([
 
         preRender: function() {
             this.listenTo(Adapt, {
-                'device:changed': this.reRender,
-                'device:resize': this.resizeControl,
+                'device:changed device:resize': this.reRender,
                 'notify:closed': this.closeNotify
             });
             this.setDeviceSize();
@@ -42,8 +41,18 @@ define([
             this.$('[data-index="' + item.get('_index') + '"]').addClass('visited');
         },
 
+        isDeviceLarge: function() {
+            return (Adapt.device.screenSize !== 'large');
+        },
+
         setDeviceSize: function() {
-            this.model.set('_isDesktop', Adapt.device.screenSize === 'large');
+            if (this.isDeviceLarge()) {
+                this.$el.addClass('desktop').removeClass('mobile');
+                this.model.set('_isDesktop', true);
+            } else {
+                this.$el.addClass('mobile').removeClass('desktop');
+                this.model.set('_isDesktop', false)
+            }
         },
 
         postRender: function() {
@@ -80,7 +89,7 @@ define([
 
             this.calculateWidths();
 
-            if (Adapt.device.screenSize !== 'large' && !this.model.get('_wasHotgraphic')) {
+            if (!this.isDeviceLarge() && !this.model.get('_wasHotgraphic')) {
                 this.replaceInstructions();
             }
             this.setupEventListeners();
@@ -105,7 +114,7 @@ define([
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && Adapt.device.screenSize === 'large') {
+            if (this.model.get('_wasHotgraphic') && this.isDeviceLarge()) {
                 this.replaceWithHotgraphic();
             } else {
                 this.resizeControl();
@@ -117,7 +126,7 @@ define([
         },
 
         replaceInstructions: function() {
-            if (Adapt.device.screenSize === 'large') {
+            if (this.isDeviceLarge()) {
                 this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
                 this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
@@ -165,7 +174,7 @@ define([
             $sliderElm.css('transform', cssValue);
             $straplineHeaderElm.css('transform', cssValue);
 
-            if (Adapt.config.get('_disableAnimation')) {
+            if (Adapt.config.get('_disableAnimation') || this._isInitial) {
                 this.onTransitionEnd();
             } else {
                 $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));

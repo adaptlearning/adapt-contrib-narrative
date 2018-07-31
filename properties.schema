@@ -7,7 +7,7 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.",
+      "default": "Narrative. Select the next button to progress.",
       "inputType": "Text",
       "validators": [],
       "translatable": true
