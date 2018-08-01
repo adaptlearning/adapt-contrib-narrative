@@ -6,12 +6,12 @@
             <div class="narrative-content-inner">
                 {{#each _items}}
                 <div class="narrative-content-item {{#if _isVisited}}visited{{/if}}" data-index="{{@index}}">
-                    {{#if _graphic.alt}}{{{a11y_aria_label _graphic.alt}}}{{/if}}
                     <div class="narrative-content-title">
                         <div class="narrative-content-title-inner" {{a11y_attrs_heading 'componentItem'}}>
                             {{{title}}}
                         </div>
                     </div>
+                    {{#if _graphic.alt}}{{{a11y_aria_label _graphic.alt}}}{{/if}}
                     <div class="narrative-content-body">
                         <div class="narrative-content-body-inner">
                             {{{compile body}}}
