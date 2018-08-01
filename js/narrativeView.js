@@ -235,13 +235,14 @@ define([
             event && event.preventDefault();
 
             var currentItem = this.model.getActiveItem();
-
-            // Set the visited attribute for small and medium screen devices
-            currentItem.toggleVisited(true);
-
             Adapt.trigger('notify:popup', {
                 title: currentItem.get('title'),
                 body: currentItem.get('body')
+            });
+
+            Adapt.on('popup:opened', function() {
+                // Set the visited attribute for small and medium screen devices
+                currentItem.toggleVisited(true);
             });
         },
 
