@@ -49,13 +49,9 @@ define([
             this.model.set('_mode', mode);
         },
 
-        getMode: function() {
-            return this.model.get('_mode');
-        },
-
         renderMode: function() {
             this.calculateMode();
-            if (this.getMode() === MODE.LARGE) {
+            if (this.model.get('_mode') === MODE.LARGE) {
                 this.$el.addClass('mode-large').removeClass('mode-small');
             } else {
                 this.$el.addClass('mode-small').removeClass('mode-large');
@@ -96,7 +92,7 @@ define([
 
             this.calculateWidths();
 
-            if (this.getMode() === MODE.SMALL && !this.model.get('_wasHotgraphic')) {
+            if (this.model.get('_mode') === MODE.SMALL && !this.model.get('_wasHotgraphic')) {
                 this.replaceInstructions();
             }
             this.setupEventListeners();
@@ -121,7 +117,7 @@ define([
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && this.getMode() === MODE.LARGE) {
+            if (this.model.get('_wasHotgraphic') && this.model.get('_mode') === MODE.LARGE) {
                 this.replaceWithHotgraphic();
             } else {
                 this.resizeControl();
@@ -133,7 +129,7 @@ define([
         },
 
         replaceInstructions: function() {
-            if (this.getMode() === MODE.LARGE) {
+            if (this.model.get('_mode') === MODE.LARGE) {
                 this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
                 this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
