@@ -255,7 +255,6 @@ define([
 
         onNavigationClicked: function(event) {
             var stage = this.model.getActiveItem().get('_index');
-            var numberOfItems = this.model.get('_children').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
                 this.model.setActiveItem(++stage);
