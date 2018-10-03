@@ -51,12 +51,16 @@ define([
 
         renderMode: function() {
             this.calculateMode();
-            if (this.model.get('_mode') === MODE.LARGE) {
+            if (this.isLargeMode()) {
                 this.$el.addClass('mode-large').removeClass('mode-small');
             } else {
                 this.$el.addClass('mode-small').removeClass('mode-large');
             }
         },
+
+        isLargeMode: function() {
+            return this.model.get('_mode') === MODE.LARGE;
+        ,
 
         postRender: function() {
             this.renderMode();
@@ -92,7 +96,7 @@ define([
 
             this.calculateWidths();
 
-            if (this.model.get('_mode') === MODE.SMALL && !this.model.get('_wasHotgraphic')) {
+            if (!this.isLargeMode() && !this.model.get('_wasHotgraphic')) {
                 this.replaceInstructions();
             }
             this.setupEventListeners();
@@ -117,7 +121,7 @@ define([
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && this.model.get('_mode') === MODE.LARGE) {
+            if (this.model.get('_wasHotgraphic') && this.isLargeMode()) {
                 this.replaceWithHotgraphic();
             } else {
                 this.resizeControl();
@@ -129,7 +133,7 @@ define([
         },
 
         replaceInstructions: function() {
-            if (this.model.get('_mode') === MODE.LARGE) {
+            if (this.isLargeMode()) {
                 this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
                 this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
@@ -188,7 +192,7 @@ define([
             if (this._isInitial) return;
 
             var index = this.model.getActiveItem().get('_index');
-            if (this.model.get('_mode') === MODE.LARGE) {
+            if (this.isLargeMode()) {
                 this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
             } else {
                 this.$('.narrative-strapline-title').a11y_focus();
@@ -197,7 +201,7 @@ define([
 
         setStage: function(item) {
             var index = item.get('_index');
-            if (this.model.get('_mode') === MODE.LARGE) {
+            if (this.isLargeMode()) {
                 // Set the visited attribute for large screen devices
                 item.toggleVisited(true);
             }
