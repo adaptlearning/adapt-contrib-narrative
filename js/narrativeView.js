@@ -1,7 +1,8 @@
 define([
     'core/js/adapt',
-    'core/js/views/componentView'
-], function(Adapt, ComponentView) {
+    'core/js/views/componentView',
+    './modeEnum'
+], function(Adapt, ComponentView, MODE) {
     'use strict';
 
     var NarrativeView = ComponentView.extend({
@@ -19,7 +20,7 @@ define([
                 'device:changed device:resize': this.reRender,
                 'notify:closed': this.closeNotify
             });
-            this.setDeviceSize();
+            this.renderMode();
 
             this.listenTo(this.model.get('_children'), {
                 'change:_isActive': this.onItemsActiveChange,
@@ -41,22 +42,28 @@ define([
             this.$('[data-index="' + item.get('_index') + '"]').addClass('visited');
         },
 
-        isDeviceLarge: function() {
-            return (Adapt.device.screenSize === 'large');
+        calculateMode: function() {
+            var mode = Adapt.device.screenSize === 'large' ?
+                MODE.LARGE :
+                MODE.SMALL;
+            this.model.set('_mode', mode);
         },
 
-        setDeviceSize: function() {
-            if (this.isDeviceLarge()) {
-                this.$el.addClass('desktop').removeClass('mobile');
-                this.model.set('_isDesktop', true);
+        getMode: function() {
+            return this.model.get('_mode');
+        },
+
+        renderMode: function() {
+            this.calculateMode();
+            if (this.getMode() === MODE.LARGE) {
+                this.$el.addClass('mode-large').removeClass('mode-small');
             } else {
-                this.$el.addClass('mobile').removeClass('desktop');
-                this.model.set('_isDesktop', false)
+                this.$el.addClass('mode-small').removeClass('mode-large');
             }
         },
 
         postRender: function() {
-            this.renderState();
+            this.renderMode();
             this.$('.narrative-slider').imageready(this.setReadyStatus.bind(this));
             this.setupNarrative();
 
@@ -74,7 +81,7 @@ define([
         },
 
         setupNarrative: function() {
-            this.setDeviceSize();
+            this.renderMode();
             var items = this.model.get('_children');
             if (!items || !items.length) return;
 
@@ -89,7 +96,7 @@ define([
 
             this.calculateWidths();
 
-            if (!this.isDeviceLarge() && !this.model.get('_wasHotgraphic')) {
+            if (this.getMode() === MODE.SMALL && !this.model.get('_wasHotgraphic')) {
                 this.replaceInstructions();
             }
             this.setupEventListeners();
@@ -105,16 +112,16 @@ define([
         },
 
         resizeControl: function() {
-            var wasDesktop = this.model.get('_isDesktop');
-            this.setDeviceSize();
-            if (wasDesktop != this.model.get('_isDesktop')) this.replaceInstructions();
+            var previousMode = this.model.get('_mode');
+            this.renderMode();
+            if (previousMode !== this.model.get('_mode')) this.replaceInstructions();
             this.evaluateNavigation();
             var activeItem = this.model.getActiveItem();
             if (activeItem) this.setStage(activeItem);
         },
 
         reRender: function() {
-            if (this.model.get('_wasHotgraphic') && this.isDeviceLarge()) {
+            if (this.model.get('_wasHotgraphic') && this.getMode() === MODE.LARGE) {
                 this.replaceWithHotgraphic();
             } else {
                 this.resizeControl();
@@ -126,7 +133,7 @@ define([
         },
 
         replaceInstructions: function() {
-            if (this.isDeviceLarge()) {
+            if (this.getMode() === MODE.LARGE) {
                 this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
                 this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
@@ -185,7 +192,7 @@ define([
             if (this._isInitial) return;
 
             var index = this.model.getActiveItem().get('_index');
-            if (this.model.get('_isDesktop')) {
+            if (this.model.get('_mode') === MODE.LARGE) {
                 this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
             } else {
                 this.$('.narrative-strapline-title').a11y_focus();
@@ -194,7 +201,7 @@ define([
 
         setStage: function(item) {
             var index = item.get('_index');
-            if (this.model.get('_isDesktop')) {
+            if (this.model.get('_mode') === MODE.LARGE) {
                 // Set the visited attribute for large screen devices
                 item.toggleVisited(true);
             }
