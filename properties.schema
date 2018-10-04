@@ -7,7 +7,7 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "Narrative. Select the next button to progress.",
+      "default": "Slide show. Select the next button to progress.",
       "inputType": "Text",
       "validators": [],
       "translatable": true
