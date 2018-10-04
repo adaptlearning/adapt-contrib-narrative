@@ -60,7 +60,7 @@ define([
 
         isLargeMode: function() {
             return this.model.get('_mode') === MODE.LARGE;
-        ,
+        },
 
         postRender: function() {
             this.renderMode();
