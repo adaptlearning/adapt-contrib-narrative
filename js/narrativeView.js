@@ -134,9 +134,9 @@ define([
 
         replaceInstructions: function() {
             if (this.isLargeMode()) {
-                this.$('.narrative-instruction-inner').html(this.model.get('instruction')).a11y_text();
+                this.$('.narrative-instruction-inner').html(this.model.get('instruction'));
             } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction')).a11y_text();
+                this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction'));
             }
         },
 
