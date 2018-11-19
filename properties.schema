@@ -7,7 +7,7 @@
     "ariaRegion": {
       "type": "string",
       "required": true,
-      "default": "This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.",
+      "default": "Slide show. Select the next button to progress.",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -76,6 +76,15 @@
             "validators": [],
             "help": "",
             "translatable": true
+          },
+          "_ariaLevel": {
+            "type": "number",
+            "required": true,
+            "default": 0,
+            "title": "Narrative title level",
+            "inputType": "Number",
+            "validators": ["required", "number"],
+            "help": "Aria level for title"
           },
           "body": {
             "type": "string",
