@@ -269,36 +269,10 @@ define([
             this.model.setActiveItem(clickedIndex);
         },
 
-        inview: function(event, visible, visiblePartX, visiblePartY) {
-            if (!visible) return;
-
-            if (visiblePartY === 'top') {
-                this._isVisibleTop = true;
-            } else if (visiblePartY === 'bottom') {
-                this._isVisibleBottom = true;
-            } else {
-                this._isVisibleTop = true;
-                this._isVisibleBottom = true;
-            }
-
-            var wasAllInview = (this._isVisibleTop && this._isVisibleBottom);
-            if (!wasAllInview) return;
-
-            this.$('.component-inner').off('inview');
-            this.setCompletionStatus();
-        },
-
         setupEventListeners: function() {
             if (this.model.get('_setCompletionOn') === 'inview') {
-                this.$('.component-widget').on('inview', this.inview.bind(this));
+                this.setupInviewCompletion('.component-widget');
             }
-        },
-
-        remove: function() {
-            if (this.model.get('_setCompletionOn') === 'inview') {
-                this.$('.component-widget').off('inview');
-            }
-            ComponentView.prototype.remove.apply(this, arguments);
         }
 
     });
