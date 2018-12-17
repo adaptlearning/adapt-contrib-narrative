@@ -1,8 +1,8 @@
-     {
-        "_id": "c-35",
-        "_parentId": "b-15",
+    {
+        "_id": "c-05",
+        "_parentId": "b-05",
         "_classes": "",
-        "_type":"component",
+        "_type": "component",
         "_layout": "full",
         "_component": "narrative",
         "title": "Narrative",
@@ -11,7 +11,7 @@
         "instruction": "",
         "_hasNavigationInTextArea": false,
         "mobileInstruction": "This is optional instruction text that will be shown when viewed on mobile.",
-        "_setCompletionOn":"allItems",
+        "_setCompletionOn": "allItems",
         "_items": [
             {
                 "title": "Narrative stage 1 title",
@@ -19,7 +19,7 @@
                 "_graphic": {
                     "src": "course/en/images/image-slider-1.jpg",
                     "alt": "First graphic",
-                    "attribution":"Copyright © 2015"
+                    "attribution": "Copyright © 2015"
                 },
                 "strapline": "Here is the first..."
             },
@@ -29,7 +29,7 @@
                 "_graphic": {
                     "src": "course/en/images/image-slider-2.jpg",
                     "alt": "Second graphic",
-                    "attribution":"Copyright © 2015"
+                    "attribution": "Copyright © 2015"
                 },
                 "strapline": "Now comes the second..."
             },
@@ -39,7 +39,7 @@
                 "_graphic": {
                     "src": "course/en/images/image-slider-3.jpg",
                     "alt": "Third graphic",
-                    "attribution":"Copyright © 2015"
+                    "attribution": "Copyright © 2015"
                 },
                 "strapline": "Third here!"
             }
