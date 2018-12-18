@@ -10,9 +10,9 @@ define([
     _isInitial: true,
 
     events: {
-      'click .narrative-strapline-title': 'openPopup',
-      'click .narrative-controls': 'onNavigationClicked',
-      'click .narrative-indicators .narrative-progress': 'onProgressClicked'
+      'click .js-narrative-strapline-open-popup': 'openPopup',
+      'click .js-narrative-controls-click': 'onNavigationClicked',
+      'click .js-narrative-progress-click': 'onProgressClicked'
     },
 
     preRender: function() {
@@ -39,7 +39,7 @@ define([
 
     onItemsVisitedChange: function(item, isVisited) {
       if (!isVisited) return;
-      this.$('[data-index="' + item.get('_index') + '"]').addClass('visited');
+      this.$('[data-index="' + item.get('_index') + '"]').addClass('is-visited');
     },
 
     calculateMode: function() {
@@ -64,7 +64,7 @@ define([
 
     postRender: function() {
       this.renderMode();
-      this.$('.narrative-slider').imageready(this.setReadyStatus.bind(this));
+      this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
       this.setupNarrative();
 
       if (Adapt.config.get('_disableAnimation')) {
@@ -134,9 +134,9 @@ define([
 
     replaceInstructions: function() {
       if (this.isLargeMode()) {
-        this.$('.narrative-instruction-inner').html(this.model.get('instruction'));
+        this.$('.narrative__instruction-inner').html(this.model.get('instruction'));
       } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-        this.$('.narrative-instruction-inner').html(this.model.get('mobileInstruction'));
+        this.$('.narrative__instruction-inner').html(this.model.get('mobileInstruction'));
       }
     },
 
@@ -146,7 +146,7 @@ define([
 
       var model = this.prepareHotgraphicModel();
       var newHotgraphic = new HotgraphicView({ model: model });
-      var $container = $(".component-container", $("." + this.model.get("_parentId")));
+      var $container = $(".component__container", $("." + this.model.get("_parentId")));
 
       $container.append(newHotgraphic.$el);
       this.remove();
@@ -175,8 +175,8 @@ define([
         offset *= -1;
       }
       var cssValue = 'translateX('+offset+'%)';
-      var $sliderElm = this.$('.narrative-slider');
-      var $straplineHeaderElm = this.$('.narrative-strapline-header-inner');
+      var $sliderElm = this.$('.narrative__slider');
+      var $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
 
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
@@ -193,9 +193,9 @@ define([
 
       var index = this.model.getActiveItem().get('_index');
       if (this.isLargeMode()) {
-        this.$('.narrative-content-item[data-index="'+index+'"]').a11y_focus();
+        this.$('.narrative__content-item[data-index="'+index+'"]').a11y_focus();
       } else {
-        this.$('.narrative-strapline-title').a11y_focus();
+        this.$('.narrative__strapline-btn').a11y_focus();
       }
     },
 
@@ -206,12 +206,12 @@ define([
         item.toggleVisited(true);
       }
 
-      var $slideGraphics = this.$('.narrative-slider-graphic');
-      this.$('.narrative-progress:visible').removeClass('selected').filter('[data-index="'+index+'"]').addClass('selected');
+      var $slideGraphics = this.$('.narrative__slider-image-container');
+      this.$('.narrative__progress:visible').removeClass('is-selected').filter('[data-index="'+index+'"]').addClass('is-selected');
       $slideGraphics.children('.controls').a11y_cntrl_enabled(false);
       $slideGraphics.filter('[data-index="'+index+'"]').children('.controls').a11y_cntrl_enabled(true);
-      this.$('.narrative-content-item').addClass('narrative-hidden').a11y_on(false).filter('[data-index="'+index+'"]').removeClass('narrative-hidden').a11y_on(true);
-      this.$('.narrative-strapline-title').a11y_cntrl_enabled(false).filter('[data-index="'+index+'"]').a11y_cntrl_enabled(true);
+      this.$('.narrative__content-item').addClass('u-visibility-hidden u-display-none').a11y_on(false).filter('[data-index="'+index+'"]').removeClass('u-visibility-hidden u-display-none').a11y_on(true);
+      this.$('.narrative__strapline-btn').a11y_cntrl_enabled(false).filter('[data-index="'+index+'"]').a11y_cntrl_enabled(true);
 
       this.evaluateNavigation();
       this.evaluateCompletion();
@@ -228,8 +228,8 @@ define([
       var isAtStart = currentStage === 0;
       var isAtEnd = currentStage === itemCount - 1;
 
-      this.$('.narrative-control-left').toggleClass('narrative-hidden', isAtStart);
-      this.$('.narrative-control-right').toggleClass('narrative-hidden', isAtEnd);
+      this.$('.narrative__controls-left').toggleClass('u-visibility-hidden', isAtStart);
+      this.$('.narrative__controls-right').toggleClass('u-visibility-hidden', isAtEnd);
     },
 
     evaluateCompletion: function() {
@@ -256,9 +256,9 @@ define([
     onNavigationClicked: function(event) {
       var stage = this.model.getActiveItem().get('_index');
 
-      if ($(event.currentTarget).hasClass('narrative-control-right')) {
+      if ($(event.currentTarget).hasClass('narrative__controls-right')) {
         this.model.setActiveItem(++stage);
-      } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
+      } else if ($(event.currentTarget).hasClass('narrative__controls-left')) {
         this.model.setActiveItem(--stage);
       }
     },
@@ -271,7 +271,7 @@ define([
 
     setupEventListeners: function() {
       if (this.model.get('_setCompletionOn') === 'inview') {
-        this.setupInviewCompletion('.component-widget');
+        this.setupInviewCompletion('.component__widget');
       }
     }
 
