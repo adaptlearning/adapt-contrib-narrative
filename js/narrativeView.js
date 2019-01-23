@@ -169,7 +169,7 @@ define([
             return model;
         },
 
-        moveSliderToIndex: function(itemIndex, shouldAnimate) {
+        moveSliderToIndex: function(itemIndex) {
             var offset = this.model.get('_itemWidth') * itemIndex;
             if (Adapt.config.get('_defaultDirection') === 'ltr') {
                 offset *= -1;
@@ -215,7 +215,7 @@ define([
 
             this.evaluateNavigation();
             this.evaluateCompletion();
-            this.moveSliderToIndex(index, !this._isInitial);
+            this.moveSliderToIndex(index);
         },
 
         evaluateNavigation: function() {
