@@ -165,7 +165,7 @@ define([
             $sliderElm.css('transform', cssValue);
             $straplineHeaderElm.css('transform', cssValue);
 
-            if (Adapt.config.get('_disableAnimation')) {
+            if (Adapt.config.get('_disableAnimation') || this._isInitial) {
                 this.onTransitionEnd();
             } else {
                 $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
