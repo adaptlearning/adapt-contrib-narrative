@@ -11,7 +11,9 @@
                             {{{title}}}
                         </div>
                     </div>
-                    {{#if _graphic.alt}}{{{a11y_aria_image _graphic.alt}}}{{/if}}
+                    {{#if _graphic.alt}}
+                    <div class="aria-label" role="img" aria-label="{{_graphic.alt}}"></div>
+                    {{/if}}
                     <div class="narrative-content-body">
                         <div class="narrative-content-body-inner">
                             {{{compile body}}}
