@@ -43,7 +43,7 @@
     "_hasNavigationInTextArea": {
       "type": "boolean",
       "required": true,
-      "default": true,
+      "default": false,
       "title": "Move navigation to text area",
       "inputType": "Checkbox",
       "validators": [],
