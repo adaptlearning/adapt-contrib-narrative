@@ -43,7 +43,7 @@
     "_hasNavigationInTextArea": {
       "type": "boolean",
       "required": true,
-      "default": true,
+      "default": false,
       "title": "Move navigation to text area",
       "inputType": "Checkbox",
       "validators": [],
@@ -53,11 +53,14 @@
       "type": "string",
       "required": true,
       "enum": ["inview", "allItems"],
-      "default": "inview",
-      "title": "Set Completion of Narrative on",
-      "inputType": {"type": "Select", "options":["inview", "allItems"]},
+      "default": "allItems",
+      "title": "Set completion on",
+      "inputType": {
+        "type": "Select",
+        "options": ["inview", "allItems"]
+      },
       "validators": ["required"],
-      "help": "This tells Adapt when to set the narrative to complete"
+      "help": "Whether completion is based on the learner having viewed all the narrative items - or just having viewed the component"
     },
     "_items": {
       "type": "array",
