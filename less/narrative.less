@@ -1,299 +1,299 @@
 .mode-large.narrative-component {
-    .narrative-slide-container {
-        width: 60%;
-        margin-right: 3%;
-        float: left;
-        .dir-rtl & {
-            margin-right: inherit;
-            margin-left: 3%;
-            float: right;
-        }
+  .narrative-slide-container {
+    width: 60%;
+    margin-right: 3%;
+    float: left;
+    .dir-rtl & {
+      margin-right: inherit;
+      margin-left: 3%;
+      float: right;
     }
+  }
 
-    .narrative-slider-graphic {
-        margin-right: 0;
-        width:60%;
+  .narrative-slider-graphic {
+    margin-right: 0;
+    width:60%;
+  }
+
+  .narrative-strapline {
+    display:none;
+  }
+
+  .narrative-content-inner {
+    .narrative-controls {
+      position: static;
+      display: none;
+      margin-top: 0px;
+      margin-bottom: 10px;
+      width: auto;
+      height: auto;
+      padding: 8px;
+      .icon {
+        margin: 0px;
+      }
     }
-
-    .narrative-strapline {
-        display:none;
+    .narrative-indicators {
+      display: none;
+      position: relative;
+      top: -4px;
     }
+    .narrative-progress {
+      background-color: @item-color;
+      &.selected {
+        background-color: @item-color-selected;
+      }
+    }
+    .narrative-content-item.narrative-hidden {
+        display: none;
+    }
+  }
 
+  .narrative-text-controls {
     .narrative-content-inner {
-        .narrative-controls {
-            position: static;
-            display: none;
-            margin-top: 0px;
-            margin-bottom: 10px;
-            width: auto;
-            height: auto;
-            padding: 8px;
-            .icon {
-                margin: 0px;
-            }
+      position: relative;
+      .narrative-controls-container {
+        position: absolute;
+        width: 100%;
+        left: 0px;
+        top: 10px;
+        display: block;
+      }
+      .narrative-controls {
+        margin-bottom: 0px;
+        display: inline-block;
+        &.narrative-hidden {
+          visibility: hidden;
         }
-        .narrative-indicators {
-            display: none;
-            position: relative;
-            top: -4px;
-        }
-        .narrative-progress {
-            background-color: @item-color;
-            &.selected {
-                background-color: @item-color-selected;
-            }
-        }
-        .narrative-content-item.narrative-hidden {
-                display: none;
-        }
+      }
+      .narrative-control-left {
+        float:left;
+      }
+      .narrative-control-right {
+        float: right;
+      }
+      .narrative-indicators {
+        display: inline-block;
+        width: auto;
+        position: absolute;
+        margin-top: 10px;
+        top: 0px;
+        left: 50%;
+      }
     }
 
-    .narrative-text-controls {
-        .narrative-content-inner {
-            position: relative;
-            .narrative-controls-container {
-                position: absolute;
-                width: 100%;
-                left: 0px;
-                top: 10px;
-                display: block;
-            }
-            .narrative-controls {
-                margin-bottom: 0px;
-                display: inline-block;
-                &.narrative-hidden {
-                    visibility: hidden;
-                }
-            }
-            .narrative-control-left {
-                float:left;
-            }
-            .narrative-control-right {
-                float: right;
-            }
-            .narrative-indicators {
-                display: inline-block;
-                width: auto;
-                position: absolute;
-                margin-top: 10px;
-                top: 0px;
-                left: 50%;
-            }
-        }
-
-        .narrative-slide-container {
-            .narrative-controls {
-                display: none;
-            }
-            .narrative-indicators {
-                display: none;
-            }
-        }
+    .narrative-slide-container {
+      .narrative-controls {
+        display: none;
+      }
+      .narrative-indicators {
+        display: none;
+      }
     }
+  }
 }
 
 
 .narrative-component {
 
-    .narrative-content {
-        width: 36%;
-        background-color: @item-color;
-        color: @item-text-color;
-        float: right;
-        .dir-rtl & {
-            float: left;
-        }
+  .narrative-content {
+    width: 36%;
+    background-color: @item-color;
+    color: @item-text-color;
+    float: right;
+    .dir-rtl & {
+      float: left;
     }
+  }
 
-    .narrative-content-inner {
-        padding:20px;
+  .narrative-content-inner {
+    padding:20px;
+  }
+
+  &.mode-small .narrative-content {
+    display:none;
+  }
+
+  .narrative-slide-container {
+    width: 100%;
+    position: relative;
+    overflow-x: hidden;
+    float: left;
+    .dir-rtl & {
+      float: right;
     }
+  }
 
-    &.mode-small .narrative-content {
-        display:none;
+  .narrative-slider-graphic {
+    position: relative;
+    float: left;
+    .dir-rtl & {
+      float: right;
     }
+  }
 
-    .narrative-slide-container {
-        width: 100%;
-        position: relative;
-        overflow-x: hidden;
-        float: left;
-        .dir-rtl & {
-            float: right;
-        }
+  .narrative-indicators {
+    text-align: center;
+  }
+
+  .narrative-progress {
+    width: (@icon-size/2);
+    height: (@icon-size/2);
+    display: inline-block;
+    margin: 1px;
+    border:inherit;
+    border-radius: 50%;
+    background-color: darken(@component-background-color, 10%);
+    cursor: pointer;
+    &.selected {
+      background-color: @item-color;
     }
+  }
 
-    .narrative-slider-graphic {
-        position: relative;
-        float: left;
-        .dir-rtl & {
-            float: right;
-        }
+  .narrative-controls {
+    display: block;
+    width: (@icon-size*2);
+    height: (@icon-size*2);
+    position: absolute;
+    top: 50%;
+    margin-top: -(@icon-size*2);
+    z-index: 10;
+    text-decoration: none;
+    background-color: @item-color;
+    .no-touch &:hover {
+      background-color: @item-color-hover;
+      .icon {
+        color: @item-text-color-hover;
+      }
     }
-
-    .narrative-indicators {
-        text-align: center;
+    .icon {
+      margin: (@icon-size/2);
+      color: @item-text-color;
     }
-
-    .narrative-progress {
-        width: (@icon-size/2);
-        height: (@icon-size/2);
-        display: inline-block;
-        margin: 1px;
-        border:inherit;
-        border-radius: 50%;
-        background-color: darken(@component-background-color, 10%);
-        cursor: pointer;
-        &.selected {
-            background-color: @item-color;
-        }
+    &.narrative-hidden {
+      visibility: hidden;
     }
+  }
 
-    .narrative-controls {
-        display: block;
-        width: (@icon-size*2);
-        height: (@icon-size*2);
-        position: absolute;
-        top: 50%;
-        margin-top: -(@icon-size*2);
-        z-index: 10;
-        text-decoration: none;
-        background-color: @item-color;
-        .no-touch &:hover {
-            background-color: @item-color-hover;
-            .icon {
-                color: @item-text-color-hover;
-            }
-        }
-        .icon {
-            margin: (@icon-size/2);
-            color: @item-text-color;
-        }
-        &.narrative-hidden {
-            visibility: hidden;
-        }
+  .narrative-control-left {
+    left: 0;
+
+    .dir-rtl & {
+      left: inherit;
+      right: 0;
     }
+  }
 
-    .narrative-control-left {
+  .narrative-control-right {
+    right: 0;
+
+    .dir-rtl & {
+      left: 0;
+      right: inherit;
+    }
+  }
+
+  .narrative-strapline {
+    height: auto;
+    position: relative;
+  }
+
+  .narrative-strapline-header {
+    overflow: hidden;
+    position: relative;
+  }
+
+  .narrative-strapline-header-inner {
+    position: relative;
+  }
+
+  .narrative-strapline-title {
+    position: relative;
+    float: left;
+    text-decoration: none;
+    background-color: @button-color;
+    color: @button-text-color;
+    overflow: hidden;
+    min-height: (@item-padding-top + @item-padding-bottom + @icon-size);
+    .dir-rtl & {
+      float: right;
+    }
+    .icon {
+      display: block;
+      position: absolute;
+      top: 0;
+      right: 0;
+      .dir-rtl & {
+        right: inherit;
         left: 0;
-
-        .dir-rtl & {
-        	left: inherit;
-        	right: 0;
-        }
+      }
     }
+    .no-touch &:hover {
+      background-color: @button-color-hover;
+      color: @button-text-color-hover;
+      .icon {
+        color: @button-text-color-hover;
+      }
 
-    .narrative-control-right {
-        right: 0;
-
-        .dir-rtl & {
-            left: 0;
-            right: inherit;
-        }
     }
-
-    .narrative-strapline {
-        height: auto;
-        position: relative;
+    .focus-rect {
+      position: absolute;
+      right: extract(@focus-outline, 1);
+      bottom: extract(@focus-outline, 1);
+      top: extract(@focus-outline, 1);
+      left: extract(@focus-outline, 1);
     }
+  }
 
-    .narrative-strapline-header {
-        overflow: hidden;
-        position: relative;
+  .narrative-strapline-title-inner {
+    padding-left: (@icon-size/2);
+    padding-right: (@item-padding-left + @item-padding-right + @icon-size);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    overflow: hidden;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
+    vertical-align: middle;
+    .dir-rtl & {
+      padding-right: (@icon-size/2);
+      padding-left: (@item-padding-left + @item-padding-right + @icon-size);
     }
+  }
 
+  .narrative-popup-open {
+    display: block;
+    position: absolute;
+    top:0;
+    right:0;
+    padding: @item-padding;
+    background-color: @background-color-inverted;
+    text-decoration: none;
+    z-index: 5;
+    .dir-rtl & {
+      right:inherit;
+      left:0;
+    }
+    .icon {
+      color: @foreground-color-inverted;
+      .no-touch &:hover {
+        color: lighten(@background-color-inverted, 30%);
+      }
+    }
+  }
+
+  .graphic-attribution {
+    font-size:0.75em;
+    line-height: 1em;
+  }
+
+  .narrative-hidden {
+    visibility: hidden;
+  }
+
+  &:not(.disable-animation) {
+    .narrative-slider,
     .narrative-strapline-header-inner {
-        position: relative;
+      transition: transform 400ms ease-in-out;
     }
-
-    .narrative-strapline-title {
-        position: relative;
-        float: left;
-        text-decoration: none;
-        background-color: @button-color;
-        color: @button-text-color;
-        overflow: hidden;
-        min-height: (@item-padding-top + @item-padding-bottom + @icon-size);
-        .dir-rtl & {
-            float: right;
-        }
-        .icon {
-            display: block;
-            position: absolute;
-            top: 0;
-            right: 0;
-            .dir-rtl & {
-                right: inherit;
-                left: 0;
-            }
-        }
-        .no-touch &:hover {
-            background-color: @button-color-hover;
-            color: @button-text-color-hover;
-            .icon {
-                color: @button-text-color-hover;
-            }
-
-        }
-        .focus-rect {
-            position: absolute;
-            right: extract(@focus-outline, 1);
-            bottom: extract(@focus-outline, 1);
-            top: extract(@focus-outline, 1);
-            left: extract(@focus-outline, 1);
-        }
-    }
-
-    .narrative-strapline-title-inner {
-        padding-left: (@icon-size/2);
-        padding-right: (@item-padding-left + @item-padding-right + @icon-size);
-        padding-top: 10px;
-        padding-bottom: 10px;
-        overflow: hidden;
-        width: 100%;
-        box-sizing: border-box;
-        overflow: hidden;
-        vertical-align: middle;
-        .dir-rtl & {
-            padding-right: (@icon-size/2);
-            padding-left: (@item-padding-left + @item-padding-right + @icon-size);
-        }
-    }
-
-    .narrative-popup-open {
-        display: block;
-        position: absolute;
-        top:0;
-        right:0;
-        padding: @item-padding;
-        background-color: @background-color-inverted;
-        text-decoration: none;
-        z-index: 5;
-        .dir-rtl & {
-            right:inherit;
-            left:0;
-        }
-        .icon {
-            color: @foreground-color-inverted;
-            .no-touch &:hover {
-                color: lighten(@background-color-inverted, 30%);
-            }
-        }
-    }
-
-    .graphic-attribution {
-        font-size:0.75em;
-        line-height: 1em;
-    }
-
-    .narrative-hidden {
-        visibility: hidden;
-    }
-
-    &:not(.disable-animation) {
-        .narrative-slider,
-        .narrative-strapline-header-inner {
-            transition: transform 400ms ease-in-out;
-        }
-    }
+  }
 }

@@ -1,8 +1,8 @@
 define(function() {
 
-    return new ENUM([
-        'SMALL',
-        'LARGE'
-    ]);
+  return new ENUM([
+    'SMALL',
+    'LARGE'
+  ]);
 
 });
