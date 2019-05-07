@@ -64,8 +64,9 @@ define([
 
         postRender: function() {
             this.renderMode();
-            this.$('.narrative-slider').imageready(this.setReadyStatus.bind(this));
             this.setupNarrative();
+
+            this.$('.narrative-slider').imageready(this.setReadyStatus.bind(this));
 
             if (Adapt.config.get('_disableAnimation')) {
                 this.$el.addClass('disable-animation');
