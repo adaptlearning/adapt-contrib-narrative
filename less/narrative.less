@@ -38,7 +38,7 @@
     padding: 0;
   }
 
-  &__strapline-btn.focus-rect {
+  &__strapline-btn .focus-rect {
     position: absolute;
     right: extract(@focus-outline, 1);
     bottom: extract(@focus-outline, 1);
@@ -49,6 +49,7 @@
   &__strapline-title {
     margin-right: @icon-size + (@item-padding * 2);
     padding: @item-padding;
+    // Override button line height to match icon size
     line-height: @icon-size;
 
     .dir-rtl & {
@@ -72,10 +73,10 @@
       right: inherit;
       left: 0;
     }
+  }
 
-    .icon {
-      .icon-plus;
-    }
+  &__strapline-icon .icon {
+    .icon-plus;
   }
   // --------------------------------------------------
 
@@ -119,10 +120,10 @@
       left: inherit;
       right: 0;
     }
+  }
 
-    .icon {
-      .icon-controls-left;
-    }
+  &__controls-left .icon {
+    .icon-controls-left;
   }
 
   &__controls-right {
@@ -132,10 +133,10 @@
       right: inherit;
       left: 0;
     }
+  }
 
-    .icon {
-      .icon-controls-right;
-    }
+  &__controls-right .icon {
+    .icon-controls-right;
   }
 
   // --------------------------------------------------
