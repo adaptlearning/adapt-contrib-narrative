@@ -36,14 +36,18 @@
     position: relative;
     .u-float-left;
     padding: 0;
+    outline-offset: -5px;
   }
 
-  &__strapline-btn .focus-rect {
+  .ie &__strapline-btn:focus .focus-rect {
     position: absolute;
-    right: extract(@focus-outline, 1);
-    bottom: extract(@focus-outline, 1);
-    top: extract(@focus-outline, 1);
-    left: extract(@focus-outline, 1);
+    right: 5px;
+    bottom: 5px;
+    top: 5px;
+    left: 5px;
+    outline-color: highlight;
+    outline-style: solid;
+    outline-width: 3px;
   }
 
   &__strapline-title {
