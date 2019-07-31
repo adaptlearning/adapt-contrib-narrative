@@ -39,7 +39,7 @@
 
           <div class="narrative__indicators">
             {{#each _items}}
-            <div class="narrative__progress component-item-color component-item-border js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
+            <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
             {{/each}}
           </div>
 
@@ -114,7 +114,7 @@
     <div class="narrative__indicators narrative__slide-indicators">
 
       {{#each _items}}
-      <div class="narrative__progress component-item-color component-item-border js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
+      <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
       {{/each}}
 
     </div>
