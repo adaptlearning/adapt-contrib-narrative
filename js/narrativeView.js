@@ -106,9 +106,21 @@ define([
 
     calculateWidths: function() {
       var itemCount = this.model.get('_children').length;
+      var itemWidth = Number((100 / itemCount).toFixed(2));
+      var missingItemWidth = Number((100 - (itemWidth * itemCount)).toFixed(2));
+      var itemWidths = [];
+
+      for (var i = 0; i < itemCount; i++) {
+        itemWidths .push(Number((100 / itemCount).toFixed(2)));
+      }
+
+      if (missingItemWidth > 0) {
+        itemWidths[0] = Number((itemWidth + missingItemWidth).toFixed(2));
+      }
+
       this.model.set({
         '_totalWidth': 100 * itemCount,
-        '_itemWidth': 100 / itemCount
+        '_itemWidths': itemWidths
       });
     },
 
@@ -171,7 +183,13 @@ define([
     },
 
     moveSliderToIndex: function(itemIndex) {
-      var offset = this.model.get('_itemWidth') * itemIndex;
+      var offset = 0;
+      var itemWidths = this.model.get('_itemWidths');
+
+      for (var i = 0; i < itemIndex; i++) {
+        offset += itemWidths[i];
+      }
+
       if (Adapt.config.get('_defaultDirection') === 'ltr') {
         offset *= -1;
       }
