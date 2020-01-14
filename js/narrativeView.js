@@ -111,7 +111,7 @@ define([
       var itemWidths = [];
 
       for (var i = 0; i < itemCount; i++) {
-        itemWidths .push(Number((100 / itemCount).toFixed(2)));
+        itemWidths.push(Number((100 / itemCount).toFixed(2)));
       }
 
       if (missingItemWidth > 0) {
