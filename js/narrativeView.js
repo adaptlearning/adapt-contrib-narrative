@@ -106,16 +106,16 @@ define([
 
     calculateWidths: function() {
       var itemCount = this.model.get('_children').length;
-      var itemWidth = Number((100 / itemCount).toFixed(2));
-      var missingItemWidth = Number((100 - (itemWidth * itemCount)).toFixed(2));
+      var itemWidth = Math.round((100 / itemCount) * 100) / 100;
+      var missingItemWidth = Math.round((100 - (itemWidth * itemCount)) * 100) / 100;
       var itemWidths = [];
 
       for (var i = 0; i < itemCount; i++) {
-        itemWidths.push(Number((100 / itemCount).toFixed(2)));
+        itemWidths.push(itemWidth);
       }
 
       if (missingItemWidth > 0) {
-        itemWidths[0] = Number((itemWidth + missingItemWidth).toFixed(2));
+        itemWidths[0] = Math.round((itemWidth + missingItemWidth) * 100) / 100;
       }
 
       this.model.set({
