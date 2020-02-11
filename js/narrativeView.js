@@ -16,8 +16,8 @@ define([
 
         preRender: function() {
             this.listenTo(Adapt, {
-                'device:changed': this.reRender,
-                'device:resize': this.resizeControl,
+                // 'device:changed': this.reRender,
+                // 'device:resize': this.resizeControl,
                 'notify:closed': this.closeNotify
             });
             this.setDeviceSize();
