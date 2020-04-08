@@ -5,7 +5,7 @@ define([
 ], function(Adapt, NarrativeView, ItemsComponentModel) {
 
   return Adapt.register('narrative', {
-    model: ItemsComponentModel,
+    model: ItemsComponentModel.extend({}),
     view: NarrativeView
   });
 
