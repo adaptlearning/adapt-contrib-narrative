@@ -241,9 +241,13 @@ define([
             var numberOfItems = this.model.get('_children').length;
 
             if ($(event.currentTarget).hasClass('narrative-control-right')) {
-                this.model.setActiveItem(++stage);
+                ++stage;
             } else if ($(event.currentTarget).hasClass('narrative-control-left')) {
-                this.model.setActiveItem(--stage);
+                --stage;
+            }
+
+            if (stage >= 0 && stage < numberOfItems) {
+                this.model.setActiveItem(stage);
             }
         },
 
