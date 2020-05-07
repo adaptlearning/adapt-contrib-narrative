@@ -1,11 +1,11 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "3.0.2",
+  "version": "3.0.3",
   "framework": ">=3.2",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
-  "displayName" : "Narrative",
-  "component" : "narrative",
+  "displayName": "Narrative",
+  "component": "narrative",
   "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",
   "keywords": [
