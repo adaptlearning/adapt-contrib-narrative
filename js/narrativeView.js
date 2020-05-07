@@ -246,9 +246,9 @@ define([
                 --stage;
             }
 
-            if (stage >= 0 && stage < numberOfItems) {
-                this.model.setActiveItem(stage);
-            }
+            if (stage < 0 || stage >= numberOfItems) return;
+
+            this.model.setActiveItem(stage);
         },
 
         onProgressClicked: function(event) {
