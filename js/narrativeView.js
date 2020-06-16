@@ -22,7 +22,7 @@ define([
       });
       this.renderMode();
 
-      this.listenTo(this.model.get('_children'), {
+      this.listenTo(this.model.getChildren(), {
         'change:_isActive': this.onItemsActiveChange,
         'change:_isVisited': this.onItemsVisitedChange
       });
@@ -39,7 +39,7 @@ define([
 
     onItemsVisitedChange: function(item, isVisited) {
       if (!isVisited) return;
-      this.$('[data-index="' + item.get('_index') + '"]').addClass('is-visited');
+      this.$(`[data-index="${item.get('_index')}"]`).addClass('is-visited');
     },
 
     calculateMode: function() {
@@ -83,7 +83,7 @@ define([
 
     setupNarrative: function() {
       this.renderMode();
-      var items = this.model.get('_children');
+      var items = this.model.getChildren();
       if (!items || !items.length) return;
 
       var activeItem = this.model.getActiveItem();
@@ -105,10 +105,10 @@ define([
     },
 
     calculateWidths: function() {
-      var itemCount = this.model.get('_children').length;
+      var itemCount = this.model.getChildren().length;
       this.model.set({
-        '_totalWidth': 100 * itemCount,
-        '_itemWidth': 100 / itemCount
+        _totalWidth: 100 * itemCount,
+        _itemWidth: 100 / itemCount
       });
     },
 
@@ -147,12 +147,11 @@ define([
 
       var model = this.prepareHotgraphicModel();
       var newHotgraphic = new HotgraphicView({ model: model });
-      var $container = $(".component__container", $("." + this.model.get("_parentId")));
+      var $container = $('.component__container', $('.' + this.model.get('_parentId')));
 
       $container.append(newHotgraphic.$el);
       this.remove();
-      $.a11y_update();
-      _.defer(function() {
+      _.defer(() => {
         Adapt.trigger('device:resize');
       });
     },
@@ -161,10 +160,10 @@ define([
       var model = this.model;
       model.resetActiveItems();
       model.set({
-        '_isPopupOpen': false,
-        '_component': 'hotgraphic',
-        'body': model.get('originalBody'),
-        'instruction': model.get('originalInstruction')
+        _isPopupOpen: false,
+        _component: 'hotgraphic',
+        body: model.get('originalBody'),
+        instruction: model.get('originalInstruction')
       });
 
       return model;
@@ -194,25 +193,32 @@ define([
 
       var index = this.model.getActiveItem().get('_index');
       if (this.isLargeMode()) {
-        this.$('.narrative__content-item[data-index="'+index+'"]').a11y_focus();
+        Adapt.a11y.focusFirst(this.$(`.narrative__content-item[data-index="${index}"]`), { defer: true });
       } else {
-        this.$('.narrative__strapline-btn').a11y_focus();
+        Adapt.a11y.focusFirst(this.$('.narrative__strapline-btn'), { defer: true });
       }
     },
 
     setStage: function(item) {
-      var index = item.get('_index');
+      const index = item.get('_index');
       if (this.isLargeMode()) {
         // Set the visited attribute for large screen devices
         item.toggleVisited(true);
       }
 
-      var $slideGraphics = this.$('.narrative__slider-image-container');
-      this.$('.narrative__progress:visible').removeClass('is-selected').filter('[data-index="'+index+'"]').addClass('is-selected');
-      $slideGraphics.children('.controls').a11y_cntrl_enabled(false);
-      $slideGraphics.filter('[data-index="'+index+'"]').children('.controls').a11y_cntrl_enabled(true);
-      this.$('.narrative__content-item').addClass('u-visibility-hidden u-display-none').a11y_on(false).filter('[data-index="'+index+'"]').removeClass('u-visibility-hidden u-display-none').a11y_on(true);
-      this.$('.narrative__strapline-btn').a11y_cntrl_enabled(false).filter('[data-index="'+index+'"]').a11y_cntrl_enabled(true);
+      const $slideGraphics = this.$('.narrative__slider-image-container');
+      this.$('.narrative__progress:visible').removeClass('is-selected').filter(`[data-index="${index}"]`).addClass('is-selected');
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.children('.controls'), false);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(`[data-index="${index}"]`).children('.controls'), true);
+
+      const $narrativeItems = this.$('.narrative__content-item');
+      $narrativeItems.addClass('u-visibility-hidden u-display-none');
+      Adapt.a11y.toggleAccessible($narrativeItems, false);
+      Adapt.a11y.toggleAccessible($narrativeItems.filter(`[data-index="${index}"]`).removeClass('u-visibility-hidden u-display-none'), true);
+
+      const $narrativeStraplineButtons = this.$('.narrative__strapline-btn');
+      Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
+      Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(`[data-index="${index}"]`), true);
 
       this.evaluateNavigation();
       this.evaluateCompletion();
@@ -224,7 +230,7 @@ define([
       if (!active) return;
 
       var currentStage = active.get('_index');
-      var itemCount = this.model.get('_children').length;
+      var itemCount = this.model.getChildren().length;
 
       var isAtStart = currentStage === 0;
       var isAtEnd = currentStage === itemCount - 1;
