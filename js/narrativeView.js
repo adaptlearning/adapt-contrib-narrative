@@ -249,7 +249,7 @@ define([
       event && event.preventDefault();
 
       var currentItem = this.model.getActiveItem();
-      Adapt.trigger('notify:popup', {
+      Adapt.notify.popup({
         title: currentItem.get('title'),
         body: currentItem.get('body')
       });
