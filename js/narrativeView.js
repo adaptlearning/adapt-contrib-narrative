@@ -147,9 +147,8 @@ define([
 
       var model = this.prepareHotgraphicModel();
       var newHotgraphic = new HotgraphicView({ model: model });
-      var $container = $('.component__container', $('.' + this.model.get('_parentId')));
 
-      $container.append(newHotgraphic.$el);
+      this.$el.parents('.component__container').append(newHotgraphic.$el);
       this.remove();
       _.defer(() => {
         Adapt.trigger('device:resize');
