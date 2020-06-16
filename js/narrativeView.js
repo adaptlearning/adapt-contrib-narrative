@@ -191,12 +191,10 @@ define([
     onTransitionEnd: function() {
       if (this._isInitial) return;
 
-      var index = this.model.getActiveItem().get('_index');
-      if (this.isLargeMode()) {
-        Adapt.a11y.focusFirst(this.$(`.narrative__content-item[data-index="${index}"]`), { defer: true });
-      } else {
-        Adapt.a11y.focusFirst(this.$('.narrative__strapline-btn'), { defer: true });
-      }
+      const index = this.model.getActiveItem().get('_index');
+      const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${index}"]`) : this.$('.narrative__strapline-btn');
+
+      Adapt.a11y.focusFirst($elementToFocus, { defer: true });
     },
 
     setStage: function(item) {
