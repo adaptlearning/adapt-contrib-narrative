@@ -48,19 +48,15 @@ define([
     }
 
     calculateMode() {
-      var mode = Adapt.device.screenSize === 'large' ?
-          MODE.LARGE :
-          MODE.SMALL;
+      var mode = Adapt.device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
       this.model.set('_mode', mode);
     }
 
     renderMode() {
       this.calculateMode();
-      if (this.isLargeMode()) {
-        this.$el.addClass('mode-large').removeClass('mode-small');
-      } else {
-        this.$el.addClass('mode-small').removeClass('mode-large');
-      }
+
+      const isLargeMode = this.isLargeMode();
+      this.$el.toggleClass('mode-large', isLargeMode).toggleClass('mode-small', !isLargeMode);
     }
 
     isLargeMode() {
@@ -129,10 +125,9 @@ define([
     reRender() {
       if (this.model.get('_wasHotgraphic') && this.isLargeMode()) {
         this.replaceWithHotgraphic();
-        return
-      } else {
-        this.resizeControl();
+        return;
       }
+      this.resizeControl();
     }
 
     closeNotify() {
@@ -142,7 +137,10 @@ define([
     replaceInstructions() {
       if (this.isLargeMode()) {
         this.$('.narrative__instruction-inner').html(this.model.get('instruction'));
-      } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
+        return;
+      }
+
+      if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
         this.$('.narrative__instruction-inner').html(this.model.get('mobileInstruction'));
       }
     }
@@ -188,9 +186,10 @@ define([
 
       if (Adapt.config.get('_disableAnimation') || this._isInitial) {
         this.onTransitionEnd();
-      } else {
-        $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
+        return;
       }
+
+      $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
     }
 
     onTransitionEnd() {
@@ -265,10 +264,14 @@ define([
 
     onNavigationClicked(event) {
       const stage = this.model.getActiveItem().get('_index');
+      const $btn = $(event.currentTarget);
 
-      if ($(event.currentTarget).hasClass('narrative__controls-right')) {
+      if ($btn.hasClass('narrative__controls-right')) {
         this.model.setActiveItem(++stage);
-      } else if ($(event.currentTarget).hasClass('narrative__controls-left')) {
+        return;
+      }
+
+      if ($btn.hasClass('narrative__controls-left')) {
         this.model.setActiveItem(--stage);
       }
     }
