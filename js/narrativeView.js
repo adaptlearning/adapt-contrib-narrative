@@ -250,9 +250,7 @@ define([
       }
     }
 
-    openPopup(event) {
-      event && event.preventDefault();
-
+    openPopup() {
       const currentItem = this.model.getActiveItem();
       Adapt.notify.popup({
         title: currentItem.get('title'),
@@ -273,9 +271,8 @@ define([
     }
 
     onProgressClicked(event) {
-      event && event.preventDefault();
-      const clickedIndex = $(event.target).data('index');
-      this.model.setActiveItem(clickedIndex);
+      const index = $(event.target).data('index');
+      this.model.setActiveItem(index);
     }
 
     setupEventListeners() {
