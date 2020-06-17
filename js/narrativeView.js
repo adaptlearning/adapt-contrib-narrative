@@ -210,7 +210,7 @@ define([
         item.toggleVisited(true);
       }
 
-      this.$('.narrative__progress:visible').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
+      this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
 
       const $slideGraphics = this.$('.narrative__slider-image-container');
       Adapt.a11y.toggleAccessibleEnabled($slideGraphics.children('.controls'), false);
