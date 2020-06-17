@@ -3,19 +3,24 @@ define([
   'core/js/views/componentView',
   './modeEnum'
 ], function(Adapt, ComponentView, MODE) {
-  'use strict';
 
-  var NarrativeView = ComponentView.extend({
+  class NarrativeView extends ComponentView {
 
-    _isInitial: true,
+    events() {
+      return {
+        'click .js-narrative-strapline-open-popup': 'openPopup',
+        'click .js-narrative-controls-click': 'onNavigationClicked',
+        'click .js-narrative-progress-click': 'onProgressClicked'
+      };
+    }
 
-    events: {
-      'click .js-narrative-strapline-open-popup': 'openPopup',
-      'click .js-narrative-controls-click': 'onNavigationClicked',
-      'click .js-narrative-progress-click': 'onProgressClicked'
-    },
+    initialize(...args) {
+      super(...args);
 
-    preRender: function() {
+      this._isInitial = true;
+    }
+
+    preRender() {
       this.listenTo(Adapt, {
         'device:changed device:resize': this.reRender,
         'notify:closed': this.closeNotify
@@ -29,40 +34,40 @@ define([
 
       this.checkIfResetOnRevisit();
       this.calculateWidths();
-    },
+    }
 
-    onItemsActiveChange: function(item, _isActive) {
+    onItemsActiveChange(item, _isActive) {
       if (_isActive === true) {
         this.setStage(item);
       }
-    },
+    }
 
-    onItemsVisitedChange: function(item, isVisited) {
+    onItemsVisitedChange(item, isVisited) {
       if (!isVisited) return;
       this.$(`[data-index="${item.get('_index')}"]`).addClass('is-visited');
-    },
+    }
 
-    calculateMode: function() {
+    calculateMode() {
       var mode = Adapt.device.screenSize === 'large' ?
           MODE.LARGE :
           MODE.SMALL;
       this.model.set('_mode', mode);
-    },
+    }
 
-    renderMode: function() {
+    renderMode() {
       this.calculateMode();
       if (this.isLargeMode()) {
         this.$el.addClass('mode-large').removeClass('mode-small');
       } else {
         this.$el.addClass('mode-small').removeClass('mode-large');
       }
-    },
+    }
 
-    isLargeMode: function() {
+    isLargeMode() {
       return this.model.get('_mode') === MODE.LARGE;
-    },
+    }
 
-    postRender: function() {
+    postRender() {
       this.renderMode();
       this.setupNarrative();
 
@@ -71,22 +76,22 @@ define([
       if (Adapt.config.get('_disableAnimation')) {
         this.$el.addClass('disable-animation');
       }
-    },
+    }
 
-    checkIfResetOnRevisit: function() {
-      var isResetOnRevisit = this.model.get('_isResetOnRevisit');
+    checkIfResetOnRevisit() {
+      const isResetOnRevisit = this.model.get('_isResetOnRevisit');
       // If reset is enabled set defaults
       if (isResetOnRevisit) {
         this.model.reset(isResetOnRevisit);
       }
-    },
+    }
 
-    setupNarrative: function() {
+    setupNarrative() {
       this.renderMode();
-      var items = this.model.getChildren();
+      const items = this.model.getChildren();
       if (!items || !items.length) return;
 
-      var activeItem = this.model.getActiveItem();
+      let activeItem = this.model.getActiveItem();
       if (!activeItem) {
         activeItem = this.model.getItem(0);
         activeItem.toggleActive(true);
@@ -102,61 +107,62 @@ define([
       }
       this.setupEventListeners();
       this._isInitial = false;
-    },
+    }
 
-    calculateWidths: function() {
-      var itemCount = this.model.getChildren().length;
+    calculateWidths() {
+      const itemCount = this.model.getChildren().length;
       this.model.set({
         _totalWidth: 100 * itemCount,
         _itemWidth: 100 / itemCount
       });
-    },
+    }
 
-    resizeControl: function() {
-      var previousMode = this.model.get('_mode');
+    resizeControl() {
+      const previousMode = this.model.get('_mode');
       this.renderMode();
       if (previousMode !== this.model.get('_mode')) this.replaceInstructions();
       this.evaluateNavigation();
-      var activeItem = this.model.getActiveItem();
+      const activeItem = this.model.getActiveItem();
       if (activeItem) this.setStage(activeItem);
-    },
+    }
 
-    reRender: function() {
+    reRender() {
       if (this.model.get('_wasHotgraphic') && this.isLargeMode()) {
         this.replaceWithHotgraphic();
+        return
       } else {
         this.resizeControl();
       }
-    },
+    }
 
-    closeNotify: function() {
+    closeNotify() {
       this.evaluateCompletion();
-    },
+    }
 
-    replaceInstructions: function() {
+    replaceInstructions() {
       if (this.isLargeMode()) {
         this.$('.narrative__instruction-inner').html(this.model.get('instruction'));
       } else if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
         this.$('.narrative__instruction-inner').html(this.model.get('mobileInstruction'));
       }
-    },
+    }
 
-    replaceWithHotgraphic: function() {
+    replaceWithHotgraphic() {
       if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
-      var HotgraphicView = Adapt.componentStore.hotgraphic.view;
+      const HotgraphicView = Adapt.componentStore.hotgraphic.view;
 
-      var model = this.prepareHotgraphicModel();
-      var newHotgraphic = new HotgraphicView({ model: model });
+      const model = this.prepareHotgraphicModel();
+      const newHotgraphic = new HotgraphicView({ model: model });
 
       this.$el.parents('.component__container').append(newHotgraphic.$el);
       this.remove();
       _.defer(() => {
         Adapt.trigger('device:resize');
       });
-    },
+    }
 
-    prepareHotgraphicModel: function() {
-      var model = this.model;
+    prepareHotgraphicModel() {
+      const model = this.model;
       model.resetActiveItems();
       model.set({
         _isPopupOpen: false,
@@ -166,16 +172,16 @@ define([
       });
 
       return model;
-    },
+    }
 
-    moveSliderToIndex: function(itemIndex) {
-      var offset = this.model.get('_itemWidth') * itemIndex;
+    moveSliderToIndex(itemIndex) {
+      let offset = this.model.get('_itemWidth') * itemIndex;
       if (Adapt.config.get('_defaultDirection') === 'ltr') {
         offset *= -1;
       }
-      var cssValue = 'translateX('+offset+'%)';
-      var $sliderElm = this.$('.narrative__slider');
-      var $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
+      const cssValue = 'translateX('+offset+'%)';
+      const $sliderElm = this.$('.narrative__slider');
+      const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
 
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
@@ -185,18 +191,18 @@ define([
       } else {
         $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
       }
-    },
+    }
 
-    onTransitionEnd: function() {
+    onTransitionEnd() {
       if (this._isInitial) return;
 
       const index = this.model.getActiveItem().get('_index');
       const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${index}"]`) : this.$('.narrative__strapline-btn');
 
       Adapt.a11y.focusFirst($elementToFocus, { defer: true });
-    },
+    }
 
-    setStage: function(item) {
+    setStage(item) {
       const index = item.get('_index');
       if (this.isLargeMode()) {
         // Set the visited attribute for large screen devices
@@ -220,32 +226,32 @@ define([
       this.evaluateNavigation();
       this.evaluateCompletion();
       this.moveSliderToIndex(index);
-    },
+    }
 
-    evaluateNavigation: function() {
-      var active = this.model.getActiveItem();
+    evaluateNavigation() {
+      const active = this.model.getActiveItem();
       if (!active) return;
 
-      var currentStage = active.get('_index');
-      var itemCount = this.model.getChildren().length;
+      const currentStage = active.get('_index');
+      const itemCount = this.model.getChildren().length;
 
-      var isAtStart = currentStage === 0;
-      var isAtEnd = currentStage === itemCount - 1;
+      const isAtStart = currentStage === 0;
+      const isAtEnd = currentStage === itemCount - 1;
 
       this.$('.narrative__controls-left').toggleClass('u-visibility-hidden', isAtStart);
       this.$('.narrative__controls-right').toggleClass('u-visibility-hidden', isAtEnd);
-    },
+    }
 
-    evaluateCompletion: function() {
+    evaluateCompletion() {
       if (this.model.areAllItemsCompleted()) {
         this.trigger('allItems');
       }
-    },
+    }
 
-    openPopup: function(event) {
+    openPopup(event) {
       event && event.preventDefault();
 
-      var currentItem = this.model.getActiveItem();
+      const currentItem = this.model.getActiveItem();
       Adapt.notify.popup({
         title: currentItem.get('title'),
         body: currentItem.get('body')
@@ -255,31 +261,31 @@ define([
         // Set the visited attribute for small and medium screen devices
         currentItem.toggleVisited(true);
       });
-    },
+    }
 
-    onNavigationClicked: function(event) {
-      var stage = this.model.getActiveItem().get('_index');
+    onNavigationClicked(event) {
+      const stage = this.model.getActiveItem().get('_index');
 
       if ($(event.currentTarget).hasClass('narrative__controls-right')) {
         this.model.setActiveItem(++stage);
       } else if ($(event.currentTarget).hasClass('narrative__controls-left')) {
         this.model.setActiveItem(--stage);
       }
-    },
+    }
 
-    onProgressClicked: function(event) {
+    onProgressClicked(event) {
       event && event.preventDefault();
-      var clickedIndex = $(event.target).data('index');
+      const clickedIndex = $(event.target).data('index');
       this.model.setActiveItem(clickedIndex);
-    },
+    }
 
-    setupEventListeners: function() {
+    setupEventListeners() {
       if (this.model.get('_setCompletionOn') === 'inview') {
         this.setupInviewCompletion('.component__widget');
       }
     }
 
-  });
+  }
 
   return NarrativeView;
 
