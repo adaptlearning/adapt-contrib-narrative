@@ -145,8 +145,8 @@ define([
     }
 
     replaceWithHotgraphic() {
-      if (!Adapt.componentStore.hotgraphic) throw "Hotgraphic not included in build";
       const HotgraphicView = Adapt.getViewClass('hotgraphic');
+      if (!HotgraphicView) throw "Hotgraphic not included in build!";
       const model = this.prepareHotgraphicModel();
       const newHotgraphic = new HotgraphicView({ model });
 
