@@ -203,24 +203,27 @@ define([
 
     setStage(item) {
       const index = item.get('_index');
+      const indexSelector = `[data-index="${index}"]`;
+
       if (this.isLargeMode()) {
         // Set the visited attribute for large screen devices
         item.toggleVisited(true);
       }
 
+      this.$('.narrative__progress:visible').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
+
       const $slideGraphics = this.$('.narrative__slider-image-container');
-      this.$('.narrative__progress:visible').removeClass('is-selected').filter(`[data-index="${index}"]`).addClass('is-selected');
       Adapt.a11y.toggleAccessibleEnabled($slideGraphics.children('.controls'), false);
-      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(`[data-index="${index}"]`).children('.controls'), true);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector).children('.controls'), true);
 
       const $narrativeItems = this.$('.narrative__content-item');
       $narrativeItems.addClass('u-visibility-hidden u-display-none');
       Adapt.a11y.toggleAccessible($narrativeItems, false);
-      Adapt.a11y.toggleAccessible($narrativeItems.filter(`[data-index="${index}"]`).removeClass('u-visibility-hidden u-display-none'), true);
+      Adapt.a11y.toggleAccessible($narrativeItems.filter(indexSelector).removeClass('u-visibility-hidden u-display-none'), true);
 
       const $narrativeStraplineButtons = this.$('.narrative__strapline-btn');
       Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
-      Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(`[data-index="${index}"]`), true);
+      Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(indexSelector), true);
 
       this.evaluateNavigation();
       this.evaluateCompletion();
