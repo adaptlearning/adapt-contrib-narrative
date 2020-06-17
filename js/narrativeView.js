@@ -231,11 +231,11 @@ define([
       const active = this.model.getActiveItem();
       if (!active) return;
 
-      const currentStage = active.get('_index');
+      const index = active.get('_index');
       const itemCount = this.model.getChildren().length;
 
-      const isAtStart = currentStage === 0;
-      const isAtEnd = currentStage === itemCount - 1;
+      const isAtStart = index === 0;
+      const isAtEnd = index === itemCount - 1;
 
       this.$('.narrative__controls-left').toggleClass('u-visibility-hidden', isAtStart);
       this.$('.narrative__controls-right').toggleClass('u-visibility-hidden', isAtEnd);
@@ -263,17 +263,10 @@ define([
     }
 
     onNavigationClicked(event) {
-      let stage = this.model.getActiveItem().get('_index');
       const $btn = $(event.currentTarget);
-
-      if ($btn.hasClass('narrative__controls-right')) {
-        this.model.setActiveItem(++stage);
-        return;
-      }
-
-      if ($btn.hasClass('narrative__controls-left')) {
-        this.model.setActiveItem(--stage);
-      }
+      let index = this.model.getActiveItem().get('_index');
+      $btn.data('direction') === 'right' ? index++ : index--;
+      this.model.setActiveItem(index);
     }
 
     onProgressClicked(event) {
