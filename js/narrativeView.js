@@ -15,7 +15,7 @@ define([
     }
 
     initialize(...args) {
-      super(...args);
+      super.initialize(...args);
 
       this._isInitial = true;
     }
@@ -263,7 +263,7 @@ define([
     }
 
     onNavigationClicked(event) {
-      const stage = this.model.getActiveItem().get('_index');
+      let stage = this.model.getActiveItem().get('_index');
       const $btn = $(event.currentTarget);
 
       if ($btn.hasClass('narrative__controls-right')) {
