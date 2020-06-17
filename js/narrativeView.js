@@ -150,7 +150,7 @@ define([
       const HotgraphicView = Adapt.componentStore.hotgraphic.view;
 
       const model = this.prepareHotgraphicModel();
-      const newHotgraphic = new HotgraphicView({ model: model });
+      const newHotgraphic = new HotgraphicView({ model });
 
       this.$el.parents('.component__container').append(newHotgraphic.$el);
       this.remove();
