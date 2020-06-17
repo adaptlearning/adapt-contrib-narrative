@@ -36,10 +36,9 @@ define([
       this.calculateWidths();
     }
 
-    onItemsActiveChange(item, _isActive) {
-      if (_isActive === true) {
-        this.setStage(item);
-      }
+    onItemsActiveChange(item, isActive) {
+      if (!isActive) return;
+      this.setStage(item);
     }
 
     onItemsVisitedChange(item, isVisited) {
