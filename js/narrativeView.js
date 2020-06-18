@@ -282,6 +282,8 @@ define([
 
   }
 
+  NarrativeView.template = 'narrative';
+
   return NarrativeView;
 
 });
