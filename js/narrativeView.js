@@ -197,7 +197,7 @@ define([
       const index = this.model.getActiveItem().get('_index');
       const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${index}"]`) : this.$('.narrative__strapline-btn');
 
-      Adapt.a11y.focusFirst($elementToFocus, { defer: true });
+      Adapt.a11y.focusFirst($elementToFocus);
     }
 
     setStage(item) {
