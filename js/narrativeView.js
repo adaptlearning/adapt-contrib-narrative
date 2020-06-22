@@ -183,20 +183,9 @@ define([
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
 
-      if (Adapt.config.get('_disableAnimation') || this._isInitial) {
-        this.onTransitionEnd();
-        return;
-      }
-
-      $sliderElm.one('transitionend', this.onTransitionEnd.bind(this));
-    }
-
-    onTransitionEnd() {
       if (this._isInitial) return;
 
-      const index = this.model.getActiveItem().get('_index');
-      const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${index}"]`) : this.$('.narrative__strapline-btn');
-
+      const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${itemIndex}"]`) : this.$('.narrative__strapline-btn');
       Adapt.a11y.focusFirst($elementToFocus);
     }
 
