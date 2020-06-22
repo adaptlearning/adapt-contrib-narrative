@@ -258,10 +258,16 @@ define([
       var stage = this.model.getActiveItem().get('_index');
 
       if ($(event.currentTarget).hasClass('narrative__controls-right')) {
-        this.model.setActiveItem(++stage);
+        ++stage;
       } else if ($(event.currentTarget).hasClass('narrative__controls-left')) {
-        this.model.setActiveItem(--stage);
+        --stage;
       }
+
+      var numberOfItems = this.model.getChildren().length;
+
+      if (stage < 0 || stage >= numberOfItems) return;
+
+      this.model.setActiveItem(--stage);
     },
 
     onProgressClicked: function(event) {
