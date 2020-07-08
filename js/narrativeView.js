@@ -36,13 +36,13 @@ define([
       this.calculateWidths();
     }
 
-    onItemsActiveChange(item, isActive) {
-      if (!isActive) return;
+    onItemsActiveChange(item, _isActive) {
+      if (!_isActive) return;
       this.setStage(item);
     }
 
-    onItemsVisitedChange(item, isVisited) {
-      if (!isVisited) return;
+    onItemsVisitedChange(item, _isVisited) {
+      if (!_isVisited) return;
       this.$(`[data-index="${item.get('_index')}"]`).addClass('is-visited');
     }
 
