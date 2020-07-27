@@ -47,7 +47,7 @@ define([
     }
 
     calculateMode() {
-      var mode = Adapt.device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
+      const mode = Adapt.device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
       this.model.set('_mode', mode);
     }
 
