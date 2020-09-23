@@ -231,8 +231,8 @@ define([
       const $left = this.$('.narrative__controls-left');
       const $right = this.$('.narrative__controls-right');
 
-      const ariaLabelsGlobals = this.model.get('_globals')._accessibility._ariaLabels;
-      const narrativeGlobals = this.model.get('_globals')._components._narrative;
+      const ariaLabelsGlobals = Adapt.course.get('_globals')._accessibility._ariaLabels;
+      const narrativeGlobals = Adapt.course.get('_globals')._components._narrative;
 
       const ariaLabelPrevious = narrativeGlobals.previous || ariaLabelsGlobals.previous;
       const ariaLabelNext = narrativeGlobals.next || ariaLabelsGlobals.next;
