@@ -228,8 +228,23 @@ define([
       const isAtStart = index === 0;
       const isAtEnd = index === itemCount - 1;
 
-      this.$('.narrative__controls-left').toggleClass('u-visibility-hidden', isAtStart);
-      this.$('.narrative__controls-right').toggleClass('u-visibility-hidden', isAtEnd);
+      const $left = this.$('.narrative__controls-left');
+      const $right = this.$('.narrative__controls-right');
+
+      const ariaLabelsGlobals = this.model.get('_globals')._accessibility._ariaLabels;
+      const narrativeGlobals = this.model.get('_globals')._components._narrative;
+
+      const ariaLabelPrevious = narrativeGlobals.previous || ariaLabelsGlobals.previous;
+      const ariaLabelNext = narrativeGlobals.next || ariaLabelsGlobals.next;
+
+      const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
+      const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
+
+      $left.toggleClass('u-visibility-hidden', isAtStart);
+      $right.toggleClass('u-visibility-hidden', isAtEnd);
+
+      $left.attr('aria-label', Handlebars.compile(ariaLabelPrevious)({ title: prevTitle }));
+      $right.attr('aria-label', Handlebars.compile(ariaLabelNext)({ title: nextTitle }));
     }
 
     evaluateCompletion() {
