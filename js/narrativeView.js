@@ -230,9 +230,11 @@ define([
 
       const $left = this.$('.narrative__controls-left');
       const $right = this.$('.narrative__controls-right');
+      
+      const globals = Adapt.course.get('_globals');
 
-      const ariaLabelsGlobals = Adapt.course.get('_globals')._accessibility._ariaLabels;
-      const narrativeGlobals = Adapt.course.get('_globals')._components._narrative;
+      const ariaLabelsGlobals = globals._accessibility._ariaLabels;
+      const narrativeGlobals = globals._components._narrative;
 
       const ariaLabelPrevious = narrativeGlobals.previous || ariaLabelsGlobals.previous;
       const ariaLabelNext = narrativeGlobals.next || ariaLabelsGlobals.next;
@@ -245,13 +247,13 @@ define([
 
       $left.attr('aria-label', Handlebars.compile(ariaLabelPrevious)({
         title: prevTitle,
-        _globals: Adapt.course.get('_globals'),
+        _globals: globals,
         itemNumber: isAtStart ? null : index,
         totalItems: itemCount
       }));
       $right.attr('aria-label', Handlebars.compile(ariaLabelNext)({
         title: nextTitle,
-        _globals: Adapt.course.get('_globals'),
+        _globals: globals,
         itemNumber: isAtEnd ? null : index + 2,
         totalItems: itemCount
       }));
