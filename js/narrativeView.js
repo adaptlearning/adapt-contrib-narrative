@@ -245,11 +245,13 @@ define([
 
       $left.attr('aria-label', Handlebars.compile(ariaLabelPrevious)({
         title: prevTitle,
+        _globals: Adapt.course.get('_globals'),
         itemNumber: isAtStart ? null : index,
         totalItems: itemCount
       }));
       $right.attr('aria-label', Handlebars.compile(ariaLabelNext)({
         title: nextTitle,
+        _globals: Adapt.course.get('_globals'),
         itemNumber: isAtEnd ? null : index + 2,
         totalItems: itemCount
       }));
