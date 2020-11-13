@@ -1,0 +1,151 @@
+{
+  "$anchor": "narrative-component",
+  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "type": "object",
+  "$merge": {
+    "source": {
+      "$ref": "component"
+    },
+    "with": {
+      "required": [
+        "_setCompletionOn"
+      ],
+      "properties": {
+        "_supportedLayout": {
+          "type": "string",
+          "title": "Supported layout",
+          "default": "full-width",
+          "enum": [
+            "full-width",
+            "half-width",
+            "both"
+          ],
+          "_adapt": {
+            "editorOnly": true
+          }
+        },
+        "instruction": {
+          "type": "string",
+          "title": "Instruction",
+          "description": "This is the instruction text",
+          "default": "",
+          "_adapt": {
+            "translatable": true
+          }
+        },
+        "mobileInstruction": {
+          "type": "string",
+          "title": "Mobile Instruction",
+          "description": "This is the mobile only instruction text",
+          "default": "",
+          "_adapt": {
+            "translatable": true
+          }
+        },
+        "_hasNavigationInTextArea": {
+          "type": "boolean",
+          "title": "Move navigation to text area",
+          "description": "If enabled, all navigation elements will be moved to the text area",
+          "default": false
+        },
+        "_setCompletionOn": {
+          "type": "string",
+          "title": "Set completion on",
+          "description": "Whether completion is based on the learner having viewed all the narrative items - or just having viewed the component",
+          "default": "allItems",
+          "enum": [
+            "inview",
+            "allItems"
+          ],
+          "_backboneForms": "Select"
+        },
+        "_items": {
+          "type": "array",
+          "title": "Narrative items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "title": "Narrative display title",
+                "description": "",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                }
+              },
+              "_ariaLevel": {
+                "type": "number",
+                "title": "Narrative title level",
+                "description": "Aria level for title",
+                "default": 0,
+                "_backboneForms": {
+                  "validators": [
+                    "number"
+                  ]
+                }
+              },
+              "body": {
+                "type": "string",
+                "title": "Narrative main text",
+                "description": "",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                },
+                "_backboneForms": "TextArea"
+              },
+              "_graphic": {
+                "type": "object",
+                "title": "Narrative graphic",
+                "default": {},
+                "required": [
+                  "src"
+                ],
+                "properties": {
+                  "src": {
+                    "type": "string",
+                    "title": "Select Graphic",
+                    "description": "",
+                    "default": "",
+                    "_backboneForms": {
+                      "type": "Asset",
+                      "media": "image"
+                    }
+                  },
+                  "alt": {
+                    "type": "string",
+                    "title": "Alternative Text",
+                    "description": "Alternative text for this items image",
+                    "default": "",
+                    "_adapt": {
+                      "translatable": true
+                    }
+                  },
+                  "attribution": {
+                    "type": "string",
+                    "title": "Attribution",
+                    "description": "Text to be displayed as an attribution",
+                    "default": "",
+                    "_adapt": {
+                      "translatable": true
+                    }
+                  }
+                }
+              },
+              "strapline": {
+                "type": "string",
+                "title": "Narrative strapline",
+                "description": "",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
