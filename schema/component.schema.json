@@ -78,12 +78,7 @@
                 "type": "number",
                 "title": "Narrative title level",
                 "description": "Aria level for title",
-                "default": 0,
-                "_backboneForms": {
-                  "validators": [
-                    "number"
-                  ]
-                }
+                "default": 0
               },
               "body": {
                 "type": "string",
