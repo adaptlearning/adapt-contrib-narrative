@@ -19,7 +19,7 @@
                 "body": "This is display text 1. If viewing on desktop or tablet, this text will appear to the right of the image. On mobile, you’ll need to select the plus icon to reveal this text.",
                 "_graphic": {
                     "src": "course/en/images/image-slider-1.jpg",
-                    "alt": "Placeholder graphic",
+                    "alt": "",
                     "attribution": "Copyright © 2019"
                 },
                 "strapline": "Narrative item 1 strapline"
