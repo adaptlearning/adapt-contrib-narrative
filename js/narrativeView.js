@@ -185,8 +185,12 @@ define([
 
       if (this._isInitial) return;
 
-      const $elementToFocus = this.isLargeMode() ? this.$(`.narrative__content-item[data-index="${itemIndex}"]`) : this.$('.narrative__strapline-btn');
-      Adapt.a11y.focusFirst($elementToFocus);
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
+
+      if(this.isLargeMode()) {
+        Adapt.a11y.focusFirst($elementToFocus);
+      }
     }
 
     setStage(item) {
@@ -196,6 +200,8 @@ define([
       if (this.isLargeMode()) {
         // Set the visited attribute for large screen devices
         item.toggleVisited(true);
+      } else {
+
       }
 
       this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
@@ -230,7 +236,7 @@ define([
 
       const $left = this.$('.narrative__controls-left');
       const $right = this.$('.narrative__controls-right');
-      
+
       const globals = Adapt.course.get('_globals');
 
       const ariaLabelsGlobals = globals._accessibility._ariaLabels;
