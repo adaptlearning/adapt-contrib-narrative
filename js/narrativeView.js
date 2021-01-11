@@ -188,7 +188,7 @@ define([
       const dataIndexAttr = `[data-index='${itemIndex}']`;
       const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
 
-      if(this.isLargeMode()) {
+      if (this.isLargeMode()) {
         Adapt.a11y.focusFirst($elementToFocus);
       }
     }
@@ -200,8 +200,6 @@ define([
       if (this.isLargeMode()) {
         // Set the visited attribute for large screen devices
         item.toggleVisited(true);
-      } else {
-
       }
 
       this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
