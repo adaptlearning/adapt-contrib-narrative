@@ -185,10 +185,9 @@ define([
 
       if (this._isInitial) return;
 
-      const dataIndexAttr = `[data-index='${itemIndex}']`;
-      const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
-
       if (this.isLargeMode()) {
+        const dataIndexAttr = `[data-index='${itemIndex}']`;
+        const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
         Adapt.a11y.focusFirst($elementToFocus);
       }
     }
