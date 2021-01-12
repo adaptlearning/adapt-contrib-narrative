@@ -185,13 +185,21 @@ define([
 
       if (this._isInitial) return;
 
-      $straplineHeaderElm.one('transitionend', () => {
-        const dataIndexAttr = `[data-index='${itemIndex}']`;
-        const $elementToFocus = this.isLargeMode() ?
-          this.$(`.narrative__content-item${dataIndexAttr}`) :
-          this.$(`.narrative__strapline-btn${dataIndexAttr}`);
-        Adapt.a11y.focusFirst($elementToFocus);
-      });
+      if ($straplineHeaderElm.css('transitionDuration') !== '0s') {
+        $straplineHeaderElm.one('transitionend', () => {
+          focusOnNarrativeElement(itemIndex);
+        });
+      } else {
+        focusOnNarrativeElement(itemIndex);
+      }
+    }
+
+    focusOnNarrativeElement(itemIndex) {
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      const $elementToFocus = this.isLargeMode() ?
+        this.$(`.narrative__content-item${dataIndexAttr}`) :
+        this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+      Adapt.a11y.focusFirst($elementToFocus);
     }
 
     setStage(item) {
