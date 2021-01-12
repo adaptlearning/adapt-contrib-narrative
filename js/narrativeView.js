@@ -183,13 +183,11 @@ define([
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
 
-      if (this._isInitial) return;
+      if (this._isInitial || !this.isLargeMode()) return;
 
-      if (this.isLargeMode()) {
-        const dataIndexAttr = `[data-index='${itemIndex}']`;
-        const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
-        Adapt.a11y.focusFirst($elementToFocus);
-      }
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
+      Adapt.a11y.focusFirst($elementToFocus);
     }
 
     setStage(item) {
