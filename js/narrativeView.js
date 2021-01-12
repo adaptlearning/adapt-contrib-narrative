@@ -185,7 +185,7 @@ define([
 
       if (this._isInitial) return;
 
-      const hasStraplineTransition = !this.isLargeMode() && parseFloat($straplineHeaderElm.css('transitionDuration'));
+      const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
       if (hasStraplineTransition) {
         $straplineHeaderElm.one('transitionend', () => {
           this.focusOnNarrativeElement(itemIndex);
