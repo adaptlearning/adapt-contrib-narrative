@@ -188,8 +188,8 @@ define([
       $straplineHeaderElm.one('transitionend', () => {
         const dataIndexAttr = `[data-index='${itemIndex}']`;
         const $elementToFocus = this.isLargeMode() ?
-        this.$(`.narrative__content-item${dataIndexAttr}`) :
-        this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+          this.$(`.narrative__content-item${dataIndexAttr}`) :
+          this.$(`.narrative__strapline-btn${dataIndexAttr}`);
         Adapt.a11y.focusFirst($elementToFocus);
       });
     }
