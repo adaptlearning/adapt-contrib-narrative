@@ -183,11 +183,15 @@ define([
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
 
-      if (this._isInitial || !this.isLargeMode()) return;
+      if (this._isInitial) return;
 
-      const dataIndexAttr = `[data-index='${itemIndex}']`;
-      const $elementToFocus = this.$(`.narrative__content-item${dataIndexAttr}`);
-      Adapt.a11y.focusFirst($elementToFocus);
+      $straplineHeaderElm.one('transitionend', () => {
+        const dataIndexAttr = `[data-index='${itemIndex}']`;
+        const $elementToFocus = this.isLargeMode() ?
+        this.$(`.narrative__content-item${dataIndexAttr}`) :
+        this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+        Adapt.a11y.focusFirst($elementToFocus);
+      });
     }
 
     setStage(item) {
