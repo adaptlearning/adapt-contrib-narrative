@@ -187,10 +187,10 @@ define([
 
       if ($straplineHeaderElm.css('transitionDuration') !== '0s') {
         $straplineHeaderElm.one('transitionend', () => {
-          focusOnNarrativeElement(itemIndex);
+          this.focusOnNarrativeElement(itemIndex);
         });
       } else {
-        focusOnNarrativeElement(itemIndex);
+        this.focusOnNarrativeElement(itemIndex);
       }
     }
 
