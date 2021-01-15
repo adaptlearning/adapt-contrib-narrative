@@ -189,10 +189,10 @@ define([
       if (hasStraplineTransition) {
         $straplineHeaderElm.one('transitionend', () => {
           this.focusOnNarrativeElement(itemIndex);
+          return;
         });
-        return;
       }
-      
+
       this.focusOnNarrativeElement(itemIndex);
     }
 
