@@ -1,4 +1,4 @@
-# adapt-contrib-narrative<br>
+# adapt-contrib-narrative
 
 **Narrative** is a *presentation component* bundled with the [Adapt framework](https://github.com/adaptlearning/adapt_framework).<br>
 
@@ -44,9 +44,9 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_layout** (string): This defines the horizontal position of the component in the block. Acceptable values are `full`, `left` or `right`; however, `full` is typically the only option used as `left` or `right` do not allow much room for the component to display.
 
-**instruction** (string): This optional text appears above the component. It is frequently used to guide the learner’s interaction with the component.<br>
+**instruction** (string): This optional text appears above the component. It is frequently used to guide the learner’s interaction with the component.
 
-**mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component.<br>
+**mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component.
 
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
@@ -68,7 +68,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 >**strapline** (string): This text is displayed as a title above the image when `Adapt.device.screenSize` is `small` (i.e., when viewed on mobile devices).<br>
 
-### Accessibility<br>
+### Accessibility
 **Narrative** has been assigned a label using the [aria-label](https://github.com/adaptlearning/adapt_framework/wiki/Aria-Labels) attribute: **ariaRegion**. This label is not a visible element. It is utilized by assistive technology such as screen readers. Should the region's text need to be customised, it can be found within the **globals** object in [*properties.schema*](https://github.com/adaptlearning/adapt-contrib-narrative/blob/master/properties.schema).<br>
 <div float align=right><a href="#top">Back to Top</a></div>
 
