@@ -135,7 +135,7 @@
                 "title": "Alternative Text",
                 "inputType": "Text",
                 "validators": [],
-                "help": "Alternative text for this items image",
+                "help": "A description of the image; required when it has meaning that must be conveyed to the learner. For 'decorative' images, leave this blank.",
                 "translatable": true
               },
               "attribution": {
