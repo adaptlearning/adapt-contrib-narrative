@@ -1,6 +1,6 @@
 {
   "$anchor": "narrative-component",
-  "$schema": "http://json-schema.org/draft/2019-09/schema#",
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
   "type": "object",
   "$merge": {
     "source": {
@@ -111,7 +111,7 @@
                   "alt": {
                     "type": "string",
                     "title": "Alternative Text",
-                    "description": "Alternative text for this items image",
+                    "description": "A description of the image; required when it has meaning that must be conveyed to the learner. For 'decorative' images, leave this blank.",
                     "default": "",
                     "_adapt": {
                       "translatable": true
