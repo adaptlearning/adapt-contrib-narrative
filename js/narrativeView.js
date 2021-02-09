@@ -117,8 +117,6 @@ define([
       this.renderMode();
       if (previousMode !== this.model.get('_mode')) this.replaceInstructions();
       this.evaluateNavigation();
-      const activeItem = this.model.getActiveItem();
-      if (activeItem) this.setStage(activeItem);
     }
 
     reRender() {
