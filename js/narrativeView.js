@@ -122,7 +122,6 @@ define([
     }
 
     reRender() {
-      console.log('in narrative');
       if (this.model.get('_wasHotgraphic') && this.isLargeMode()) {
         this.replaceWithHotgraphic();
         return;
