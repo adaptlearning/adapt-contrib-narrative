@@ -39,7 +39,7 @@ define([
     onItemsActiveChange(item, _isActive) {
       if (!_isActive) return;
       this.setStage(item);
-      this.setFocus(itemIndex);
+      this.setFocus(item.get('_index'));
     }
 
     setFocus(itemIndex) {
