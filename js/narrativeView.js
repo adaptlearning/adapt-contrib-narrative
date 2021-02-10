@@ -187,7 +187,7 @@ define([
 
       const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
       // check if something is already being focused on the page
-      var $focused = $(':focus');
+      const $focused = $(':focus');
       if ($focused) return;
       if (hasStraplineTransition) {
         $straplineHeaderElm.one('transitionend', () => {
