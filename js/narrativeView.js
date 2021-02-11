@@ -95,8 +95,6 @@ define([
         items.trigger('change:_isActive', activeItem, true);
       }
 
-      this.calculateWidths();
-
       if (!this.isLargeMode() && !this.model.get('_wasHotgraphic')) {
         this.replaceInstructions();
       }
@@ -106,10 +104,26 @@ define([
 
     calculateWidths() {
       const itemCount = this.model.getChildren().length;
+      // we have calculate IE11 total width. This is because the item width may not add up to exactly 100%
+      // because IE truncates off digits after 2 decimal places
+      // e.g. if there are 6 items each item will have a width of 16.66%,
+      // meaning the total width of the 6 items is 99.96%
+      // this fixes an issue on IE11 where you could see the next image slightly
+      const itemWidth = 100 / itemCount;
       this.model.set({
         _totalWidth: 100 * itemCount,
-        _itemWidth: 100 / itemCount
+        _itemWidth: itemWidth,
       });
+
+      if ($('.ie').length > 0) {
+        this.model.set({
+          _IE11TotalWidth: this.getNumberFloored(this.getNumberFloored(itemWidth) * itemCount)
+        });
+      }
+    }
+
+    getNumberFloored(numberToFloor) {
+      return Math.floor((numberToFloor) * 100) / 100;
     }
 
     resizeControl() {
@@ -172,10 +186,21 @@ define([
     }
 
     moveSliderToIndex(itemIndex) {
-      let offset = this.model.get('_itemWidth') * itemIndex;
+      let offset;
+
+      // get the exact width of all of the items for IE11
+      // and do a calculation to work out the offset for transforming the image
+      if (this.model.get('_IE11TotalWidth')) {
+        offset = (this.model.get('_itemWidth') * itemIndex).toFixed(2);
+        offset -= (100 - this.model.get('_IE11TotalWidth')) / 2;
+      } else {
+        offset = (this.model.get('_itemWidth') * itemIndex);
+      }
+
       if (Adapt.config.get('_defaultDirection') === 'ltr') {
         offset *= -1;
       }
+
       const cssValue = `translateX(${offset}%)`;
       const $sliderElm = this.$('.narrative__slider');
       const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
@@ -230,7 +255,7 @@ define([
 
       const $left = this.$('.narrative__controls-left');
       const $right = this.$('.narrative__controls-right');
-      
+
       const globals = Adapt.course.get('_globals');
 
       const ariaLabelsGlobals = globals._accessibility._ariaLabels;
