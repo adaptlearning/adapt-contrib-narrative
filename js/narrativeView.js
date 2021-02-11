@@ -117,7 +117,8 @@ define([
 
       if ($('.ie').length > 0) {
         this.model.set({
-          _IE11TotalWidth: this.getNumberFloored(this.getNumberFloored(itemWidth) * itemCount)
+          _IE11TotalWidth: this.getNumberFloored(this.getNumberFloored(itemWidth) * itemCount),
+          _IE11Offset: ((itemWidth).toFixed(2) * itemCount) > 100 ?  ((itemWidth).toFixed(2) * itemCount) - 100 : 0
         });
       }
     }
@@ -191,8 +192,10 @@ define([
       // get the exact width of all of the items for IE11
       // and do a calculation to work out the offset for transforming the image
       if (this.model.get('_IE11TotalWidth')) {
-        offset = (this.model.get('_itemWidth') * itemIndex).toFixed(2);
-        offset -= (100 - this.model.get('_IE11TotalWidth')) / 2;
+        offset = parseFloat((parseFloat(Math.floor(this.model.get('_itemWidth') * 100) / 100)
+          * itemIndex - (100 - this.model.get('_IE11TotalWidth'))
+          + this.model.get('_IE11Offset')).toFixed(2));
+
       } else {
         offset = (this.model.get('_itemWidth') * itemIndex);
       }
