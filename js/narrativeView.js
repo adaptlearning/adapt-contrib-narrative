@@ -46,33 +46,38 @@ define([
       if (this._isInitial) return;
       const $narrativeSlider = this.$('.narrative__slider');
       const hasSliderTransition = ($narrativeSlider.css('transitionDuration') !== '0s');
-      const dataIndexAttr = `[data-index='${itemIndex}']`;
       if (hasSliderTransition) {
         this.$(this.getImageContainerClass()).removeClass('u-visibility-hidden');
 
         $narrativeSlider.one('transitionend', () => {
-          this.hideInactiveImages(dataIndexAttr);
-          this.focusOnNarrativeElement(dataIndexAttr);
+          this.hideInactiveImages(itemIndex);
+          this.focusOnNarrativeElement(itemIndex);
         });
         return;
       }
 
-      this.focusOnNarrativeElement(dataIndexAttr);
+      this.focusOnNarrativeElement(itemIndex);
     }
 
     getImageContainerClass() {
       return '.narrative__slider-image-container';
     }
 
-    hideInactiveImages(dataIndexAttr) {
+    hideInactiveImages(itemIndex) {
+      const dataIndexAttr = this.getDataIndexAttr(itemIndex);
       const imageContainerClass = this.getImageContainerClass();
-      const $elementToFocus = $(imageContainerClass + dataIndexAttr);
+      const $elementToFocus = this.$(imageContainerClass + dataIndexAttr);
       this.$(imageContainerClass)
         .not($elementToFocus)
         .addClass('u-visibility-hidden');
     }
 
-    focusOnNarrativeElement(dataIndexAttr) {
+    getDataIndexAttr(itemIndex) {
+      return `[data-index='${itemIndex}']`;
+    }
+
+    focusOnNarrativeElement(itemIndex) {
+      const dataIndexAttr = this.getDataIndexAttr(itemIndex);
       const $elementToFocus = this.isLargeMode() ?
         this.$(`.narrative__content-item${dataIndexAttr}`) :
         this.$(`.narrative__strapline-btn${dataIndexAttr}`);
@@ -111,7 +116,7 @@ define([
         return;
       }
 
-      this.$(this.getImageContainerClass()).slice(1).addClass('u-visibility-hidden');
+      this.hideInactiveImages(0);
     }
 
     checkIfResetOnRevisit() {
