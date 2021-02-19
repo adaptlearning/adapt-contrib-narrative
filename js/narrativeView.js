@@ -44,20 +44,35 @@ define([
 
     setFocus(itemIndex) {
       if (this._isInitial) return;
-      const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
-      const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-      if (hasStraplineTransition) {
-        $straplineHeaderElm.one('transitionend', () => {
-          this.focusOnNarrativeElement(itemIndex);
+      const $narrativeSlider = this.$('.narrative__slider');
+      const hasSliderTransition = ($narrativeSlider.css('transitionDuration') !== '0s');
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      if (hasSliderTransition) {
+        this.$(this.getImageContainerClass()).removeClass('u-visibility-hidden');
+
+        $narrativeSlider.one('transitionend', () => {
+          this.hideInactiveImages(dataIndexAttr);
+          this.focusOnNarrativeElement(dataIndexAttr);
         });
         return;
       }
 
-      this.focusOnNarrativeElement(itemIndex);
+      this.focusOnNarrativeElement(dataIndexAttr);
     }
 
-    focusOnNarrativeElement(itemIndex) {
-      const dataIndexAttr = `[data-index='${itemIndex}']`;
+    getImageContainerClass() {
+      return '.narrative__slider-image-container';
+    }
+
+    hideInactiveImages(dataIndexAttr) {
+      const imageContainerClass = this.getImageContainerClass();
+      const $elementToFocus = $(imageContainerClass + dataIndexAttr);
+      this.$(imageContainerClass)
+        .not($elementToFocus)
+        .addClass('u-visibility-hidden');
+    }
+
+    focusOnNarrativeElement(dataIndexAttr) {
       const $elementToFocus = this.isLargeMode() ?
         this.$(`.narrative__content-item${dataIndexAttr}`) :
         this.$(`.narrative__strapline-btn${dataIndexAttr}`);
@@ -93,7 +108,10 @@ define([
 
       if (Adapt.config.get('_disableAnimation')) {
         this.$el.addClass('disable-animation');
+        return;
       }
+
+      this.$(this.getImageContainerClass()).slice(1).addClass('u-visibility-hidden');
     }
 
     checkIfResetOnRevisit() {

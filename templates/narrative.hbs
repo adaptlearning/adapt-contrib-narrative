@@ -92,7 +92,8 @@
       <div class="narrative__slider u-clearfix" style="width: {{_totalWidth}}%">
 
         {{#each _items}}
-        <div class="narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
+        <div class="narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}"
+          style="width: {{../_itemWidth}}%" data-index="{{@index}}">
 
           <img class="narrative__slider-image" src="{{_graphic.src}}" aria-hidden="true">
 
