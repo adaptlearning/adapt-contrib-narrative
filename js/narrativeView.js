@@ -47,7 +47,7 @@ define([
       const $narrativeSlider = this.$('.narrative__slider');
       const hasSliderTransition = ($narrativeSlider.css('transitionDuration') !== '0s');
       if (hasSliderTransition) {
-        this.$(this.getImageContainerClass()).removeClass('u-visibility-hidden');
+        this.$('.narrative__slider-image-container').removeClass('u-visibility-hidden');
 
         $narrativeSlider.one('transitionend', () => {
           this.hideInactiveImages(itemIndex);
@@ -59,25 +59,16 @@ define([
       this.focusOnNarrativeElement(itemIndex);
     }
 
-    getImageContainerClass() {
-      return '.narrative__slider-image-container';
-    }
-
     hideInactiveImages(itemIndex) {
-      const dataIndexAttr = this.getDataIndexAttr(itemIndex);
-      const imageContainerClass = this.getImageContainerClass();
-      const $elementToFocus = this.$(imageContainerClass + dataIndexAttr);
-      this.$(imageContainerClass)
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      const $elementToFocus = this.$(`.narrative__slider-image-container${dataIndexAttr}`);
+      this.$('.narrative__slider-image-container')
         .not($elementToFocus)
         .addClass('u-visibility-hidden');
     }
 
-    getDataIndexAttr(itemIndex) {
-      return `[data-index='${itemIndex}']`;
-    }
-
     focusOnNarrativeElement(itemIndex) {
-      const dataIndexAttr = this.getDataIndexAttr(itemIndex);
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
       const $elementToFocus = this.isLargeMode() ?
         this.$(`.narrative__content-item${dataIndexAttr}`) :
         this.$(`.narrative__strapline-btn${dataIndexAttr}`);
