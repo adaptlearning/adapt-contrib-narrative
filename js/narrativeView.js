@@ -39,10 +39,10 @@ define([
     onItemsActiveChange(item, _isActive) {
       if (!_isActive) return;
       this.setStage(item);
-      this.setFocus(item.get('_index'));
+      this.setSliderImageBehaviour(item.get('_index'));
     }
 
-    setFocus(itemIndex) {
+    setSliderImageBehaviour(itemIndex) {
       if (this._isInitial) return;
       const $narrativeSlider = this.$('.narrative__slider');
       const hasSliderTransition = ($narrativeSlider.css('transitionDuration') !== '0s');
