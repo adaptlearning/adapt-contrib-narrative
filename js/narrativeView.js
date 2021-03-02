@@ -39,6 +39,29 @@ define([
     onItemsActiveChange(item, _isActive) {
       if (!_isActive) return;
       this.setStage(item);
+      this.setFocus(item.get('_index'));
+    }
+
+    setFocus(itemIndex) {
+      if (this._isInitial) return;
+      const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
+      const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
+      if (hasStraplineTransition) {
+        $straplineHeaderElm.one('transitionend', () => {
+          this.focusOnNarrativeElement(itemIndex);
+        });
+        return;
+      }
+
+      this.focusOnNarrativeElement(itemIndex);
+    }
+
+    focusOnNarrativeElement(itemIndex) {
+      const dataIndexAttr = `[data-index='${itemIndex}']`;
+      const $elementToFocus = this.isLargeMode() ?
+        this.$(`.narrative__content-item${dataIndexAttr}`) :
+        this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+      Adapt.a11y.focusFirst($elementToFocus);
     }
 
     onItemsVisitedChange(item, _isVisited) {
@@ -182,26 +205,6 @@ define([
 
       $sliderElm.css('transform', cssValue);
       $straplineHeaderElm.css('transform', cssValue);
-
-      if (this._isInitial) return;
-
-      const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-      if (hasStraplineTransition) {
-        $straplineHeaderElm.one('transitionend', () => {
-          this.focusOnNarrativeElement(itemIndex);
-        });
-        return;
-      }
-
-      this.focusOnNarrativeElement(itemIndex);
-    }
-
-    focusOnNarrativeElement(itemIndex) {
-      const dataIndexAttr = `[data-index='${itemIndex}']`;
-      const $elementToFocus = this.isLargeMode() ?
-        this.$(`.narrative__content-item${dataIndexAttr}`) :
-        this.$(`.narrative__strapline-btn${dataIndexAttr}`);
-      Adapt.a11y.focusFirst($elementToFocus);
     }
 
     setStage(item) {
