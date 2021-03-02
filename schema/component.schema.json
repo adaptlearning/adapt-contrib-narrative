@@ -27,7 +27,6 @@
         "instruction": {
           "type": "string",
           "title": "Instruction",
-          "description": "This is the instruction text",
           "default": "",
           "_adapt": {
             "translatable": true
@@ -35,7 +34,7 @@
         },
         "mobileInstruction": {
           "type": "string",
-          "title": "Mobile Instruction",
+          "title": "Mobile instruction",
           "description": "This is the mobile only instruction text",
           "default": "",
           "_adapt": {
@@ -50,7 +49,7 @@
         },
         "_setCompletionOn": {
           "type": "string",
-          "title": "Set completion on",
+          "title": "Completion criteria",
           "description": "Whether completion is based on the learner having viewed all the narrative items - or just having viewed the component",
           "default": "allItems",
           "enum": [
@@ -61,13 +60,13 @@
         },
         "_items": {
           "type": "array",
-          "title": "Narrative items",
+          "title": "Items",
           "items": {
             "type": "object",
             "properties": {
               "title": {
                 "type": "string",
-                "title": "Narrative display title",
+                "title": "Title",
                 "description": "",
                 "default": "",
                 "_adapt": {
@@ -76,14 +75,12 @@
               },
               "_ariaLevel": {
                 "type": "number",
-                "title": "Narrative title level",
-                "description": "Aria level for title",
+                "title": "Title ARIA level",
                 "default": 0
               },
               "body": {
                 "type": "string",
-                "title": "Narrative main text",
-                "description": "",
+                "title": "Body",
                 "default": "",
                 "_adapt": {
                   "translatable": true
@@ -92,7 +89,7 @@
               },
               "_graphic": {
                 "type": "object",
-                "title": "Narrative graphic",
+                "title": "Graphic",
                 "default": {},
                 "required": [
                   "src"
@@ -100,8 +97,7 @@
                 "properties": {
                   "src": {
                     "type": "string",
-                    "title": "Select Graphic",
-                    "description": "",
+                    "title": "Source",
                     "default": "",
                     "_backboneForms": {
                       "type": "Asset",
@@ -110,8 +106,8 @@
                   },
                   "alt": {
                     "type": "string",
-                    "title": "Alternative Text",
-                    "description": "A description of the image; required when it has meaning that must be conveyed to the learner. For 'decorative' images, leave this blank.",
+                    "title": "Alternative text",
+                    "description": "A description of the image; required when it has meaning that must be conveyed to the learner. For 'decorative' images, leave this blank",
                     "default": "",
                     "_adapt": {
                       "translatable": true
@@ -130,8 +126,7 @@
               },
               "strapline": {
                 "type": "string",
-                "title": "Narrative strapline",
-                "description": "",
+                "title": "Strapline",
                 "default": "",
                 "_adapt": {
                   "translatable": true
