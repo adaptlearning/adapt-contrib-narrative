@@ -81,14 +81,6 @@
 
     <div class="narrative__slide-container">
 
-      <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-        <div class="icon"></div>
-      </button>
-
-      <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-        <div class="icon"></div>
-      </button>
-
       <div class="narrative__slider u-clearfix" style="width: {{_totalWidth}}%">
 
         {{#each _items}}
@@ -108,6 +100,14 @@
         {{/each}}
 
       </div>
+
+      <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+        <div class="icon"></div>
+      </button>
+
+      <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+        <div class="icon"></div>
+      </button>
 
     </div>
 
