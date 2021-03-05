@@ -219,8 +219,8 @@ define([
       this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
 
       const $slideGraphics = this.$('.narrative__slider-image-container');
-      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.children('.narrative__attribution'), false);
-      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector).children('.narrative__attribution'), true);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics, false);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
 
       const $narrativeItems = this.$('.narrative__content-item');
       $narrativeItems.addClass('u-visibility-hidden u-display-none');

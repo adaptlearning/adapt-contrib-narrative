@@ -26,7 +26,7 @@
           </div>
           {{/if}}
 
-          {{#if _graphic.alt}}{{{a11y_aria_image _graphic.alt}}}{{/if}}
+          {{!-- {{#if _graphic.alt}}{{{a11y_aria_image _graphic.alt}}}{{/if}} --}}
 
         </div>
         {{/each}}
@@ -86,7 +86,7 @@
         {{#each _items}}
         <div class="narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
 
-          <img class="narrative__slider-image" src="{{_graphic.src}}" aria-hidden="true">
+          <img class="narrative__slider-image" src="{{_graphic.src}}" {{#if _graphic.alt}}aria-label="{{a11y_normalize _graphic.alt}}"{{/if}}>
 
           {{#if _graphic.attribution}}
           <div class="component__attribution narrative__attribution">
