@@ -280,6 +280,7 @@ define([
     evaluateCompletion() {
       if (this.model.areAllItemsCompleted()) {
         this.trigger('allItems');
+        this.$('.narrative__instruction-inner').removeClass('interaction-error');
       }
     }
 
@@ -301,11 +302,23 @@ define([
       let index = this.model.getActiveItem().get('_index');
       $btn.data('direction') === 'right' ? index++ : index--;
       this.model.setActiveItem(index);
+      if (this.model.get('_setCompletionOn') === 'allItems') {
+        const prevItem = this.model.getItem(index - 1);
+        if (!prevItem.get('_isVisited')) {
+          this.$('.narrative__instruction-inner').addClass('interaction-error');
+        }
+      }
     }
 
     onProgressClicked(event) {
       const index = $(event.target).data('index');
       this.model.setActiveItem(index);
+      if (this.model.get('_setCompletionOn') === 'allItems') {
+        const prevItem = this.model.getItem(index - 1);
+        if (!prevItem.get('_isVisited')) {
+          this.$('.narrative__instruction-inner').addClass('interaction-error');
+        }
+      }
     }
 
     setupEventListeners() {
@@ -313,7 +326,6 @@ define([
         this.setupInviewCompletion('.component__widget');
       }
     }
-
   }
 
   NarrativeView.template = 'narrative';
