@@ -233,6 +233,7 @@ define([
 
       this.evaluateNavigation();
       this.evaluateCompletion();
+      this.evaluateInteraction();
       this.moveSliderToIndex(index);
     }
 
@@ -302,22 +303,20 @@ define([
       let index = this.model.getActiveItem().get('_index');
       $btn.data('direction') === 'right' ? index++ : index--;
       this.model.setActiveItem(index);
-      if (this.model.get('_setCompletionOn') === 'allItems') {
-        const prevItem = this.model.getItem(index - 1);
-        if (!prevItem.get('_isVisited')) {
-          this.$('.narrative__instruction-inner').addClass('interaction-error');
-        }
-      }
     }
 
     onProgressClicked(event) {
       const index = $(event.target).data('index');
       this.model.setActiveItem(index);
-      if (this.model.get('_setCompletionOn') === 'allItems') {
-        const prevItem = this.model.getItem(index - 1);
-        if (!prevItem.get('_isVisited')) {
-          this.$('.narrative__instruction-inner').addClass('interaction-error');
-        }
+    }
+
+    evaluateInteraction() {
+      if (this.model.get('_isComplete')) return;
+      const index = this.model.getActiveItem().get('_index');
+      const prevItem = this.model.getItem(index - 1);
+      if (!prevItem >= 1) return;
+      if (!prevItem.get('_isVisited')) {
+        this.$('.narrative__instruction-inner').addClass('interaction-error');
       }
     }
 
