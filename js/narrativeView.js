@@ -281,7 +281,7 @@ define([
     evaluateCompletion() {
       if (this.model.areAllItemsCompleted()) {
         this.trigger('allItems');
-        this.$('.narrative__instruction-inner').removeClass('interaction-error');
+        this.$('.narrative__instruction-inner').removeClass('instruction-error');
       }
     }
 
