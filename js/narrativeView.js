@@ -233,7 +233,7 @@ define([
 
       this.evaluateNavigation();
       this.evaluateCompletion();
-      this.evaluateInteraction();
+      this.shouldShowInstructionError();
       this.moveSliderToIndex(index);
     }
 
@@ -310,14 +310,12 @@ define([
       this.model.setActiveItem(index);
     }
 
-    evaluateInteraction() {
-      if (this.model.get('_isComplete')) return;
-      const index = this.model.getActiveItem().get('_index');
-      const prevItem = this.model.getItem(index - 1);
-      if (!prevItem >= 1) return;
-      if (!prevItem.get('_isVisited')) {
-        this.$('.narrative__instruction-inner').addClass('interaction-error');
-      }
+    // In mobile view, highlight instruction if user navigates to another
+    // item before completing, in case the strapline is missed
+    shouldShowInstructionError() {
+      const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
+      if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
+      this.$('.narrative__instruction-inner').addClass('instruction-error');
     }
 
     setupEventListeners() {
