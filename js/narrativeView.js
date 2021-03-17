@@ -310,8 +310,10 @@ define([
       this.model.setActiveItem(index);
     }
 
-    // In mobile view, highlight instruction if user navigates to another
-    // item before completing, in case the strapline is missed
+  /**
+   * In mobile view, highlight instruction if user navigates to another
+   * item before completing, in case the strapline is missed
+   */
     shouldShowInstructionError() {
       const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
       if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
