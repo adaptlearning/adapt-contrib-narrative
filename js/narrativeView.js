@@ -233,6 +233,7 @@ define([
 
       this.evaluateNavigation();
       this.evaluateCompletion();
+      this.shouldShowInstructionError();
       this.moveSliderToIndex(index);
     }
 
@@ -280,6 +281,7 @@ define([
     evaluateCompletion() {
       if (this.model.areAllItemsCompleted()) {
         this.trigger('allItems');
+        this.$('.narrative__instruction-inner').removeClass('instruction-error');
       }
     }
 
@@ -308,12 +310,21 @@ define([
       this.model.setActiveItem(index);
     }
 
+  /**
+   * In mobile view, highlight instruction if user navigates to another
+   * item before completing, in case the strapline is missed
+   */
+    shouldShowInstructionError() {
+      const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
+      if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
+      this.$('.narrative__instruction-inner').addClass('instruction-error');
+    }
+
     setupEventListeners() {
       if (this.model.get('_setCompletionOn') === 'inview') {
         this.setupInviewCompletion('.component__widget');
       }
     }
-
   }
 
   NarrativeView.template = 'narrative';
