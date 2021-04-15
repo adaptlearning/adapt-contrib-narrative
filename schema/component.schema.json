@@ -97,8 +97,8 @@
                 "properties": {
                   "src": {
                     "type": "string",
+                    "isObjectId": true,
                     "title": "Source",
-                    "default": "",
                     "_backboneForms": {
                       "type": "Asset",
                       "media": "image"
