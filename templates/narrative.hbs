@@ -18,8 +18,6 @@
           </div>
           {{/if}}
 
-          {{#if _graphic.alt}}{{{a11y_aria_image _graphic.alt}}}{{/if}}
-
           {{#if body}}
           <div class="narrative__content-body">
             <div class="narrative__content-body-inner">
@@ -81,20 +79,12 @@
 
     <div class="narrative__slide-container">
 
-      <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-        <div class="icon"></div>
-      </button>
-
-      <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-        <div class="icon"></div>
-      </button>
-
       <div class="narrative__slider u-clearfix" style="width: {{_totalWidth}}%">
 
         {{#each _items}}
         <div class="narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
 
-          <img class="narrative__slider-image" src="{{_graphic.src}}" aria-hidden="true">
+          <img class="narrative__slider-image" src="{{_graphic.src}}" {{#if _graphic.alt}}aria-label="{{a11y_normalize _graphic.alt}}"{{else}}aria-hidden="true"{{/if}}>
 
           {{#if _graphic.attribution}}
           <div class="component__attribution narrative__attribution">
@@ -108,6 +98,14 @@
         {{/each}}
 
       </div>
+
+      <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+        <div class="icon"></div>
+      </button>
+
+      <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+        <div class="icon"></div>
+      </button>
 
     </div>
 
