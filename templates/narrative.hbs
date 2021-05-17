@@ -13,7 +13,7 @@
           {{#if title}}
           <div class="narrative__content-title">
             <div class="narrative__content-title-inner" {{a11y_attrs_heading 'componentItem'}}>
-              {{{title}}}
+              {{{compile title}}}
             </div>
           </div>
           {{/if}}
@@ -59,7 +59,7 @@
 
             <div class="narrative__strapline-title">
               <div class="narrative__strapline-title-inner">
-                {{{strapline}}}
+                {{{compile strapline}}}
               </div>
             </div>
 
