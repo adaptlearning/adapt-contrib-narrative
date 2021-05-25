@@ -264,13 +264,13 @@ define([
       $left.toggleClass('u-visibility-hidden', isAtStart);
       $right.toggleClass('u-visibility-hidden', isAtEnd);
 
-      $left.attr('aria-label', Handlebars.compile(ariaLabelPrevious)({
+      $left.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelPrevious, {
         title: prevTitle,
         _globals: globals,
         itemNumber: isAtStart ? null : index,
         totalItems: itemCount
       }));
-      $right.attr('aria-label', Handlebars.compile(ariaLabelNext)({
+      $right.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelNext, {
         title: nextTitle,
         _globals: globals,
         itemNumber: isAtEnd ? null : index + 2,
