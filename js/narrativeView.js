@@ -219,8 +219,8 @@ define([
       this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
 
       const $slideGraphics = this.$('.narrative__slider-image-container');
-      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.children('.controls'), false);
-      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector).children('.controls'), true);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics, false);
+      Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
 
       const $narrativeItems = this.$('.narrative__content-item');
       $narrativeItems.addClass('u-visibility-hidden u-display-none');
@@ -233,6 +233,7 @@ define([
 
       this.evaluateNavigation();
       this.evaluateCompletion();
+      this.shouldShowInstructionError();
       this.moveSliderToIndex(index);
     }
 
@@ -263,13 +264,13 @@ define([
       $left.toggleClass('u-visibility-hidden', isAtStart);
       $right.toggleClass('u-visibility-hidden', isAtEnd);
 
-      $left.attr('aria-label', Handlebars.compile(ariaLabelPrevious)({
+      $left.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelPrevious, {
         title: prevTitle,
         _globals: globals,
         itemNumber: isAtStart ? null : index,
         totalItems: itemCount
       }));
-      $right.attr('aria-label', Handlebars.compile(ariaLabelNext)({
+      $right.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelNext, {
         title: nextTitle,
         _globals: globals,
         itemNumber: isAtEnd ? null : index + 2,
@@ -280,6 +281,7 @@ define([
     evaluateCompletion() {
       if (this.model.areAllItemsCompleted()) {
         this.trigger('allItems');
+        this.$('.narrative__instruction-inner').removeClass('instruction-error');
       }
     }
 
@@ -308,12 +310,21 @@ define([
       this.model.setActiveItem(index);
     }
 
+  /**
+   * In mobile view, highlight instruction if user navigates to another
+   * item before completing, in case the strapline is missed
+   */
+    shouldShowInstructionError() {
+      const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
+      if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
+      this.$('.narrative__instruction-inner').addClass('instruction-error');
+    }
+
     setupEventListeners() {
       if (this.model.get('_setCompletionOn') === 'inview') {
         this.setupInviewCompletion('.component__widget');
       }
     }
-
   }
 
   NarrativeView.template = 'narrative';
