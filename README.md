@@ -40,7 +40,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_component** (string): This value must be: `narrative`.
 
-**\_classes** (string): CSS class name to be applied to **Narrative**’s containing div. Supported class is `items-are-full-width` which increases the width of the narrative elements to 100% in desktop view. On smaller screens the items reset to the default mobile view. The class must be predefined in one of the Less files. Separate multiple classes with a space.
+**\_classes** (string): CSS class name to be applied to **Narrative**’s containing div. The class must be predefined in one of the Less files. Separate multiple classes with a space. `items-are-full-width` increases the width of the narrative elements to 100% in desktop view.
 
 **\_layout** (string): This defines the horizontal position of the component in the block. Acceptable values are `full`, `left` or `right`; however, `full` is typically the only option used as `left` or `right` do not allow much room for the component to display.
 
