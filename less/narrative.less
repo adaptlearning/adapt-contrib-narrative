@@ -213,4 +213,29 @@
       .u-display-none;
     }
   }
+
+  // Increases the width of all desktop elements to 100%
+  // --------------------------------------------------
+  @media (min-width: @device-width-medium) {
+    .items-are-full-width &__widget {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .items-are-full-width &__content {
+      width: 100%;
+      margin-left: inherit;
+      order: 1;
+    }
+
+    .items-are-full-width &__strapline {
+      order: 0;
+    }
+
+    .items-are-full-width &__slide-container,
+    .items-are-full-width &__indicators {
+      width: 100%;
+      order: 0;
+    }
+  }
 }
