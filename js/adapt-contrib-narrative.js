@@ -1,12 +1,8 @@
-define([
-  'core/js/adapt',
-  './narrativeView',
-  'core/js/models/itemsComponentModel'
-], function(Adapt, NarrativeView, ItemsComponentModel) {
+import Adapt from 'core/js/adapt';
+import NarrativeView from './narrativeView';
+import NarrativeModel from './narrativeModel';
 
-  return Adapt.register('narrative', {
-    model: ItemsComponentModel.extend({}),
-    view: NarrativeView
-  });
-
+export default Adapt.register('narrative', {
+  model: NarrativeModel,
+  view: NarrativeView
 });

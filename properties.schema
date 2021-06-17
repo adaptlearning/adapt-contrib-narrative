@@ -56,6 +56,32 @@
       "help": "This is the mobile only instruction text",
       "translatable": true
     },
+    "_textLocation": {
+      "type": "string",
+      "required": true,
+      "enum": ["above", "aside", "notify", "below", "inside"],
+      "default": "aside",
+      "title": "Text location",
+      "inputType": {
+        "type": "Select",
+        "options": ["above", "aside", "notify", "below", "inside"]
+      },
+      "validators": ["required"],
+      "help": "Set the text location relative to the image"
+    },
+    "_mobileTextLocation": {
+      "type": "string",
+      "required": true,
+      "enum": ["above", "aside", "notify", "below", "inside"],
+      "default": "notify",
+      "title": "Mobile text location",
+      "inputType": {
+        "type": "Select",
+        "options": ["above", "aside", "notify", "below", "inside"]
+      },
+      "validators": ["required"],
+      "help": "Set the text location relative to the image for mobile"
+    },
     "_hasNavigationInTextArea": {
       "type": "boolean",
       "required": true,

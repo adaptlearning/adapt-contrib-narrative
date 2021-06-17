@@ -48,6 +48,10 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component.
 
+**_textLocation** (string): This value will set the text location relative to the image. Acceptable values are `above`, `aside`, `notify`, `below`, `inside`. Defaults to `aside`.  
+
+**_mobileTextLocation** (string): This value will set the text location relative to the image. Acceptable values are `above`, `aside`, `notify`, `below`, `inside`. Defaults to `notify`.  
+
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
 **\_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom.

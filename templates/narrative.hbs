@@ -2,10 +2,10 @@
 
   {{> component this}}
 
-  <div class="component__widget narrative__widget{{#if _hasNavigationInTextArea}} narrative__text-controls{{/if}}">
+  <div class="component__widget narrative__widget">
 
-    <div class="narrative__content">
-      <div class="narrative__content-inner">
+    <div class="narrative__content narrative__content-aside narrative__content-above">
+      <div class="narrative__content-inner narrative__content-inner-aside narrative__content-inner-above">
 
         {{#each _items}}
         <div class="narrative__content-item{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}">
@@ -79,37 +79,135 @@
 
     <div class="narrative__slide-container">
 
-      <div class="narrative__slider u-clearfix" style="width: {{_totalWidth}}%">
+      <div class="narrative__slider-wrapper">
 
-        {{#each _items}}
-        <div class="narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
+        <div class="narrative__slider u-clearfix" style="width: {{_totalWidth}}%">
 
-          <img class="narrative__slider-image" src="{{_graphic.src}}" {{#if _graphic.alt}}aria-label="{{a11y_normalize _graphic.alt}}"{{else}}aria-hidden="true"{{/if}}>
+          {{#each _items}}
+          <div class="js-narrative-controls-swipe narrative__slider-image-container{{#if _isVisited}} is-visited{{/if}}{{#if _graphic.attribution}} has-attribution{{/if}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
 
-          {{#if _graphic.attribution}}
-          <div class="component__attribution narrative__attribution">
-            <div class="component__attribution-inner narrative__attribution-inner">
-              {{{_graphic.attribution}}}
+            <img class="narrative__slider-image" src="{{_graphic.src}}" {{#if _graphic.alt}}aria-label="{{a11y_normalize _graphic.alt}}"{{else}}aria-hidden="true"{{/if}}>
+
+            {{#if _graphic.attribution}}
+            <div class="component__attribution narrative__attribution">
+              <div class="component__attribution-inner narrative__attribution-inner">
+                {{{_graphic.attribution}}}
+              </div>
             </div>
+            {{/if}}
+
           </div>
-          {{/if}}
+          {{/each}}
 
         </div>
+
+        <div class="narrative__content narrative__content-inside">
+          <div class="narrative__content-inner narrative__content-inner-inside">
+          {{#each _items}}
+            <div class="narrative__content-item{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}">
+
+              {{#if title}}
+              <div class="narrative__content-title">
+                <div class="narrative__content-title-inner" {{a11y_attrs_heading 'componentItem'}}>
+                  {{{compile title}}}
+                </div>
+              </div>
+              {{/if}}
+
+              {{#if body}}
+              <div class="narrative__content-body">
+                <div class="narrative__content-body-inner">
+                  {{{compile body}}}
+                </div>
+              </div>
+              {{/if}}
+
+            </div>
+          {{/each}}
+          <div class="narrative__controls-container u-clearfix">
+
+            <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+              <div class="icon"></div>
+            </button>
+
+            <div class="narrative__indicators">
+              {{#each _items}}
+              <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
+              {{/each}}
+            </div>
+
+            <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+              <div class="icon"></div>
+            </button>
+          </div>
+          </div>
+
+        </div>
+
+        <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+          <div class="icon"></div>
+        </button>
+
+        <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+          <div class="icon"></div>
+        </button>
+
+      </div>
+
+      <div class="narrative__indicators narrative__indicators-below narrative__indicators-inside narrative__indicators-above narrative__slide-indicators">
+
+        {{#each _items}}
+        <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
         {{/each}}
 
       </div>
 
-      <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-        <div class="icon"></div>
-      </button>
 
-      <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-        <div class="icon"></div>
-      </button>
+      <div class="narrative__content  narrative__content-below">
+        <div class="narrative__content-inner narrative__content-inner-below">
+        {{#each _items}}
+          <div class="narrative__content-item{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}">
+
+            {{#if title}}
+            <div class="narrative__content-title">
+              <div class="narrative__content-title-inner" {{a11y_attrs_heading 'componentItem'}}>
+                {{{compile title}}}
+              </div>
+            </div>
+            {{/if}}
+
+            {{#if body}}
+            <div class="narrative__content-body">
+              <div class="narrative__content-body-inner">
+                {{{compile body}}}
+              </div>
+            </div>
+            {{/if}}
+
+          </div>
+        {{/each}}
+        <div class="narrative__controls-container u-clearfix">
+
+          <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
+            <div class="icon"></div>
+          </button>
+
+          <div class="narrative__indicators">
+            {{#each _items}}
+            <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>
+            {{/each}}
+          </div>
+
+          <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
+            <div class="icon"></div>
+          </button>
+        </div>
+        </div>
+      </div>
 
     </div>
 
-    <div class="narrative__indicators narrative__slide-indicators">
+    <div class="narrative__indicators narrative__indicators-aside narrative__indicators-notify narrative__slide-indicators">
 
       {{#each _items}}
       <div class="narrative__progress js-narrative-progress-click{{#if _isVisited}} is-visited{{/if}}" data-index="{{@index}}"></div>

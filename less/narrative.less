@@ -1,9 +1,17 @@
 .narrative {
   &__content {
     display: none;
+    position: relative;
+    width: 100%;
 
-    @media (min-width: @device-width-medium) {
+    .textlocation-above &-above,
+    .textlocation-aside &-aside,
+    .textlocation-below &-below,
+    .textlocation-inside &-inside {
       display: block;
+    }
+
+    .textlocation-aside &-aside {
       .u-float-right;
       margin-left: 2%;
       width: 38%;
@@ -13,16 +21,32 @@
         margin-right: 2%;
       }
     }
+
+    .textlocation-above &-above {
+      .u-float-right;
+    }
+
+    .textlocation-inside &-inside {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      padding: 2% ((1em + @icon-padding) * 2);
+      margin: 0;
+      max-height: 100%;
+      overflow-y: auto;
+    }
   }
 
   // Strapline
   // Clickable element on mobile, opens notify
   // --------------------------------------------------
   &__strapline {
+    display: none;
     position: relative;
 
-    @media (min-width: @device-width-medium) {
-      display: none;
+    .textlocation-notify & {
+      display: block;
     }
   }
 
@@ -89,13 +113,25 @@
     width: 100%;
     overflow-x: hidden;
 
-    @media (min-width: @device-width-medium) {
+    .textlocation-aside & {
       width: 60%;
     }
   }
 
+  &__slider-wrapper {
+    position: relative;
+  }
+
   &__slider-image-container {
     .u-float-left;
+
+    img {
+      .u-no-select;
+      -webkit-user-drag: none;
+      user-drag: none;
+      -webkit-touch-callout: none;
+    }
+
   }
 
   // Button controls
@@ -140,14 +176,25 @@
   // Progress indicators
   // --------------------------------------------------
   &__indicators {
-    display: flex;
+    display: none;
     flex-wrap: wrap;
     justify-content: center;
     width: 100%;
 
-    @media (min-width: @device-width-medium) {
-      width: 60%;
+    .textlocation-aside &-aside {
+      @media (min-width: @device-width-medium) {
+        width: 60%;
+      }
     }
+
+    .textlocation-above &-above,
+    .textlocation-aside &-aside,
+    .textlocation-below &-below,
+    .textlocation-inside &-inside,
+    .textlocation-notify &-notify {
+      display: flex;
+    }
+
   }
 
   &__progress {
@@ -179,16 +226,20 @@
     display: none;
   }
 
-  &__text-controls &__content {
-    position: relative;
+  .has-textcontrols:not(.textlocation-notify) &__controls,
+  .has-textcontrols:not(.textlocation-notify) &__indicators {
+    display: none;
+  }
+
+  .has-textcontrols &__content {
     padding-top: @icon-size + (@icon-padding * 2) + @item-padding;
   }
 
-  &__text-controls &__content &__indicators {
+  .has-textcontrols &__content &__indicators {
     display: flex;
   }
 
-  &__text-controls &__content &__controls-container {
+  .has-textcontrols &__content &__controls-container {
     position: absolute;
     top: 0;
     left: 0;
@@ -198,20 +249,11 @@
     justify-content: space-evenly;
   }
 
-  &__text-controls &__content &__controls {
+  .has-textcontrols &__content &__controls {
     position: relative;
     top: 0;
     display: block;
     transform: none;
-  }
-
-  // Hide slide controls and indicators until single column view
-  // --------------------------------------------------
-  @media (min-width: @device-width-medium) {
-    &__text-controls &__slide-container &__controls,
-    &__text-controls &__slide-indicators {
-      .u-display-none;
-    }
   }
 
   // Increases the width of all desktop elements to 100%
