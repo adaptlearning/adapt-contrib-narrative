@@ -50,7 +50,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being aside it.
 
-**\_isMobileTextBelowImage_** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button.
+**\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button.
 
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
