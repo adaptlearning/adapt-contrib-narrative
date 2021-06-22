@@ -8,7 +8,9 @@ class NarrativeView extends ComponentView {
     return {
       'click .js-narrative-strapline-open-popup': 'openPopup',
       'click .js-narrative-controls-click': 'onNavigationClicked',
-      'click .js-narrative-progress-click': 'onProgressClicked'
+      'click .js-narrative-progress-click': 'onProgressClicked',
+      'swipeleft .js-narrative-swipe': 'onSwipeLeft',
+      'swiperight .js-narrative-swipe': 'onSwipeRight'
     };
   }
 
@@ -76,11 +78,21 @@ class NarrativeView extends ComponentView {
     this.calculateMode();
 
     const isLargeMode = this.isLargeMode();
-    this.$el.toggleClass('mode-large', isLargeMode).toggleClass('mode-small', !isLargeMode);
+    const isTextBelowImage = this.isTextBelowImage();
+    this.$el
+      .toggleClass('mode-large', isLargeMode)
+      .toggleClass('mode-small', !isLargeMode)
+      .toggleClass('items-are-full-width', isTextBelowImage);
   }
 
   isLargeMode() {
     return this.model.get('_mode') === MODE.LARGE;
+  }
+
+  isTextBelowImage() {
+    return (Adapt.device.screenSize === 'large')
+      ? this.model.get('_isTextBelowImage')
+      : this.model.get('_isMobileTextBelowImage');
   }
 
   postRender() {
@@ -301,6 +313,16 @@ class NarrativeView extends ComponentView {
     let index = this.model.getActiveItem().get('_index');
     $btn.data('direction') === 'right' ? index++ : index--;
     this.model.setActiveItem(index);
+  }
+
+  onSwipeLeft() {
+    let index = this.model.getActiveItem().get('_index');
+    this.model.setActiveItem(++index);
+  }
+
+  onSwipeRight() {
+    let index = this.model.getActiveItem().get('_index');
+    this.model.setActiveItem(--index);
   }
 
   onProgressClicked(event) {

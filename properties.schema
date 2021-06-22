@@ -56,6 +56,24 @@
       "help": "This is the mobile only instruction text",
       "translatable": true
     },
+    "_hasTextBelowImage": {
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "title": "Move text area below image",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If enabled, the text area drops below the image instead of being aside it"
+    },
+    "_hasMobileTextBelowImage": {
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "title": "Move text area below image on mobile",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If enabled, on mobile, the text area drops below the image instead of being behind the strapline button"
+    },
     "_hasNavigationInTextArea": {
       "type": "boolean",
       "required": true,
