@@ -59,12 +59,12 @@
     "_textLocation": {
       "type": "string",
       "required": true,
-      "enum": ["above", "aside", "notify", "below", "inside"],
+      "enum": ["above", "aside", "below", "inside", "notify"],
       "default": "aside",
       "title": "Text location",
       "inputType": {
         "type": "Select",
-        "options": ["above", "aside", "notify", "below", "inside"]
+        "options": ["above", "aside", "below", "inside", "notify"]
       },
       "validators": ["required"],
       "help": "Set the text location relative to the image"
@@ -72,12 +72,12 @@
     "_mobileTextLocation": {
       "type": "string",
       "required": true,
-      "enum": ["above", "aside", "notify", "below", "inside"],
+      "enum": ["above", "aside", "notify", "below", "inside", "notify"],
       "default": "notify",
       "title": "Mobile text location",
       "inputType": {
         "type": "Select",
-        "options": ["above", "aside", "notify", "below", "inside"]
+        "options": ["above", "aside", "below", "inside", "notify"]
       },
       "validators": ["required"],
       "help": "Set the text location relative to the image for mobile"
