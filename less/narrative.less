@@ -23,7 +23,7 @@
   }
 
   .mode-large &__strapline {
-    display: none;
+    .u-display-none;
   }
 
   &__strapline-header {
@@ -231,13 +231,14 @@
   }
 
   .items-are-full-width &__content {
+    display: flex;
     width: 100%;
     margin-left: inherit;
     order: 1;
   }
 
   .items-are-full-width &__strapline {
-    order: 0;
+    .u-display-none;
   }
 
   .items-are-full-width &__slide-container,
@@ -246,12 +247,7 @@
     order: 0;
   }
 
-  .items-are-full-width &__strapline {
-    display: none;
+  .items-are-full-width &__indicators {
+    margin-bottom: @item-margin;
   }
-
-  .items-are-full-width &__content {
-    display: flex;
-  }
-
 }
