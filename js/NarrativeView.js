@@ -90,9 +90,10 @@ class NarrativeView extends ComponentView {
   }
 
   isTextBelowImage() {
-    return (Adapt.device.screenSize === 'large')
+    const isTextBelowImage = Adapt.device.screenSize === 'large')
       ? this.model.get('_isTextBelowImage')
       : this.model.get('_isMobileTextBelowImage');
+    return Boolean(isTextBelowImage);
   }
 
   postRender() {
