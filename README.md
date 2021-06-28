@@ -48,7 +48,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component.
 
-**\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being aside it.
+**\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being beside it.
 
 **\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button.
 
