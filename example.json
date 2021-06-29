@@ -13,6 +13,8 @@
         "_hasNavigationInTextArea": false,
         "_comment": "setCompletionOn = inview | allItems",
         "_setCompletionOn": "allItems",
+        "_isTextBelowImage": false,
+        "_isMobileTextBelowImage": false,
         "_items": [
             {
                 "title": "Narrative item 1 title",

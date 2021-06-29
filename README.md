@@ -40,13 +40,17 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_component** (string): This value must be: `narrative`.
 
-**\_classes** (string): CSS class name to be applied to **Narrative**’s containing div. The class must be predefined in one of the Less files. Separate multiple classes with a space.
+**\_classes** (string): CSS class name to be applied to **Narrative**’s containing div. The class must be predefined in one of the Less files. Separate multiple classes with a space. `items-are-full-width` increases the width of the narrative elements to 100% in desktop view.
 
 **\_layout** (string): This defines the horizontal position of the component in the block. Acceptable values are `full`, `left` or `right`; however, `full` is typically the only option used as `left` or `right` do not allow much room for the component to display.
 
 **instruction** (string): This optional text appears above the component. It is frequently used to guide the learner’s interaction with the component.
 
 **mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component.
+
+**\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being beside it.
+
+**\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button.
 
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
@@ -77,8 +81,8 @@ The attributes listed below are used in *components.json* to configure **Narrati
 On mobile devices, the narrative text is collapsed above the image. It is accessed by clicking an icon (+) next the to strapline.
 
 ----------------------------
-**Version number:**  6.3.0   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a><br>
-**Framework versions:** 5.5+<br>
+**Version number:**  6.4.0   <a href="https://community.adaptlearning.org/" target="_blank"><img src="https://github.com/adaptlearning/documentation/blob/master/04_wiki_assets/plug-ins/images/adapt-logo-mrgn-lft.jpg" alt="adapt learning logo" align="right"></a><br>
+**Framework versions:** 5.8+<br>
 **Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-narrative/graphs/contributors)<br>
 **Accessibility support:** WAI AA<br>
 **RTL support:** Yes<br>
