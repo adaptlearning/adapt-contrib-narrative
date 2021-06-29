@@ -41,6 +41,18 @@
             "translatable": true
           }
         },
+        "_isTextBelowImage": {
+          "type": "boolean",
+          "title": "Move text area below image",
+          "description": "If enabled, the text area drops below the image instead of being beside it",
+          "default": false
+        },
+        "_isMobileTextBelowImage": {
+          "type": "boolean",
+          "title": "Move text area below image on mobile",
+          "description": "If enabled, on mobile, the text area drops below the image instead of being behind the strapline button",
+          "default": false
+        },
         "_hasNavigationInTextArea": {
           "type": "boolean",
           "title": "Move navigation to text area",
