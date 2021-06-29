@@ -1,5 +1,5 @@
 .narrative {
-  &__content {
+  &:not(.items-are-full-width) &__content {
     display: none;
 
     @media (min-width: @device-width-medium) {
@@ -20,10 +20,10 @@
   // --------------------------------------------------
   &__strapline {
     position: relative;
+  }
 
-    @media (min-width: @device-width-medium) {
-      display: none;
-    }
+  .mode-large &__strapline {
+    .u-display-none;
   }
 
   &__strapline-header {
@@ -96,6 +96,15 @@
 
   &__slider-image-container {
     .u-float-left;
+  }
+
+  &__slider-image {
+    .u-no-select;
+    -webkit-user-drag: none;
+    -khtml-user-drag: none;
+    -moz-user-drag: none;
+    -o-user-drag: none;
+    user-drag: none;
   }
 
   // Button controls
@@ -214,28 +223,31 @@
     }
   }
 
-  // Increases the width of all desktop elements to 100%
+  // Increases the width of all elements to 100%
   // --------------------------------------------------
-  @media (min-width: @device-width-medium) {
-    .items-are-full-width &__widget {
-      display: flex;
-      flex-wrap: wrap;
-    }
+  .items-are-full-width &__widget {
+    display: flex;
+    flex-wrap: wrap;
+  }
 
-    .items-are-full-width &__content {
-      width: 100%;
-      margin-left: inherit;
-      order: 1;
-    }
+  .items-are-full-width &__content {
+    display: flex;
+    width: 100%;
+    margin-left: inherit;
+    order: 1;
+  }
 
-    .items-are-full-width &__strapline {
-      order: 0;
-    }
+  .items-are-full-width &__strapline {
+    .u-display-none;
+  }
 
-    .items-are-full-width &__slide-container,
-    .items-are-full-width &__indicators {
-      width: 100%;
-      order: 0;
-    }
+  .items-are-full-width &__slide-container,
+  .items-are-full-width &__indicators {
+    width: 100%;
+    order: 0;
+  }
+
+  .items-are-full-width &__indicators {
+    margin-bottom: @item-margin;
   }
 }
