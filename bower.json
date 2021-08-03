@@ -1,6 +1,6 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "6.5.0-beta.1",
+  "version": "6.4.0",
   "framework": ">=5.8",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
