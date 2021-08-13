@@ -5,6 +5,7 @@
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
   "component" : "narrative",
+  "targetAttribute": "_narrative",
   "displayName" : "Narrative",
   "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",

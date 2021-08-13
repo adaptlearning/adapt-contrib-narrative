@@ -1,0 +1,50 @@
+{
+  "$anchor": "narrative-course",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$patch": {
+    "source": {
+      "$ref": "course"
+    },
+    "with": {
+      "properties": {
+        "_globals": {
+          "type": "object",
+          "default": {},
+          "properties": {
+            "_narrative": {
+              "type": "object",
+              "default": {},
+              "properties": {
+                "ariaRegion": {
+                  "type": "string",
+                  "title": "ARIA region",
+                  "default": "Slide show. Select the next button to progress.",
+                  "_adapt": {
+                    "translatable": true
+                  }
+                },
+                "previous": {
+                  "type": "string",
+                  "title": "Previous",
+                  "default": "{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}",
+                  "_adapt": {
+                    "translatable": true
+                  }
+                },
+                "next": {
+                  "type": "string",
+                  "title": "Next",
+                  "default": "{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}",
+                  "_adapt": {
+                    "translatable": true
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

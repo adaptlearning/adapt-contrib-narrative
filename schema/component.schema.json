@@ -1,0 +1,153 @@
+{
+  "$anchor": "narrative-component",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "$merge": {
+    "source": {
+      "$ref": "component"
+    },
+    "with": {
+      "required": [
+        "_setCompletionOn"
+      ],
+      "properties": {
+        "_supportedLayout": {
+          "type": "string",
+          "title": "Supported layout",
+          "default": "full-width",
+          "enum": [
+            "full-width",
+            "half-width",
+            "both"
+          ],
+          "_adapt": {
+            "editorOnly": true
+          }
+        },
+        "instruction": {
+          "type": "string",
+          "title": "Instruction",
+          "default": "",
+          "_adapt": {
+            "translatable": true
+          }
+        },
+        "mobileInstruction": {
+          "type": "string",
+          "title": "Mobile instruction",
+          "description": "This is the mobile only instruction text",
+          "default": "",
+          "_adapt": {
+            "translatable": true
+          }
+        },
+        "_isTextBelowImage": {
+          "type": "boolean",
+          "title": "Move text area below image",
+          "description": "If enabled, the text area drops below the image instead of being beside it",
+          "default": false
+        },
+        "_isMobileTextBelowImage": {
+          "type": "boolean",
+          "title": "Move text area below image on mobile",
+          "description": "If enabled, on mobile, the text area drops below the image instead of being behind the strapline button",
+          "default": false
+        },
+        "_hasNavigationInTextArea": {
+          "type": "boolean",
+          "title": "Move navigation to text area",
+          "description": "If enabled, all navigation elements will be moved to the text area",
+          "default": false
+        },
+        "_setCompletionOn": {
+          "type": "string",
+          "title": "Completion criteria",
+          "description": "Whether completion is based on the learner having viewed all the narrative items - or just having viewed the component",
+          "default": "allItems",
+          "enum": [
+            "inview",
+            "allItems"
+          ],
+          "_backboneForms": "Select"
+        },
+        "_items": {
+          "type": "array",
+          "title": "Items",
+          "items": {
+            "type": "object",
+            "properties": {
+              "title": {
+                "type": "string",
+                "title": "Title",
+                "description": "",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                }
+              },
+              "_ariaLevel": {
+                "type": "number",
+                "title": "Title ARIA level",
+                "default": 0
+              },
+              "body": {
+                "type": "string",
+                "title": "Body",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                },
+                "_backboneForms": "TextArea"
+              },
+              "_graphic": {
+                "type": "object",
+                "title": "Graphic",
+                "default": {},
+                "required": [
+                  "src"
+                ],
+                "properties": {
+                  "src": {
+                    "type": "string",
+                    "isObjectId": true,
+                    "title": "Source",
+                    "_backboneForms": {
+                      "type": "Asset",
+                      "media": "image"
+                    }
+                  },
+                  "alt": {
+                    "type": "string",
+                    "title": "Alternative text",
+                    "description": "A description of the image; required when it has meaning that must be conveyed to the learner. For 'decorative' images, leave this blank",
+                    "default": "",
+                    "_adapt": {
+                      "translatable": true
+                    }
+                  },
+                  "attribution": {
+                    "type": "string",
+                    "title": "Attribution",
+                    "description": "Text to be displayed as an attribution",
+                    "default": "",
+                    "_adapt": {
+                      "translatable": true
+                    }
+                  }
+                }
+              },
+              "strapline": {
+                "type": "string",
+                "title": "Strapline",
+                "default": "",
+                "_adapt": {
+                  "translatable": true
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
