@@ -3,7 +3,7 @@
   "version": "6.5.0",
   "framework": ">=5.8",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
-  "issues": "https://github.com/adaptlearning/adapt_framework/issues/new",
+  "bugs": "https://github.com/adaptlearning/adapt-contrib-narrative/issues",
   "component" : "narrative",
   "targetAttribute": "_narrative",
   "displayName" : "Narrative",
