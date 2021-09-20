@@ -32,7 +32,6 @@ class NarrativeView extends ComponentView {
       'change:_isVisited': this.onItemsVisitedChange
     });
 
-    this.checkIfResetOnRevisit();
     this.calculateWidths();
   }
 
@@ -104,14 +103,6 @@ class NarrativeView extends ComponentView {
 
     if (Adapt.config.get('_disableAnimation')) {
       this.$el.addClass('disable-animation');
-    }
-  }
-
-  checkIfResetOnRevisit() {
-    const isResetOnRevisit = this.model.get('_isResetOnRevisit');
-    // If reset is enabled set defaults
-    if (isResetOnRevisit) {
-      this.model.reset(isResetOnRevisit);
     }
   }
 
