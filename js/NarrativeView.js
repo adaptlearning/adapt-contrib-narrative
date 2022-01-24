@@ -37,6 +37,9 @@ class NarrativeView extends ComponentView {
 
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
+    if (this.isTextBelowImage()) {
+      item.toggleVisited(true);
+    }
     this.setStage(item);
     this.setFocus(item.get('_index'));
   }
