@@ -1,8 +1,4 @@
-define(function() {
-
-  return new ENUM([
-    'SMALL',
-    'LARGE'
-  ]);
-
-});
+export default ENUM([
+  'SMALL',
+  'LARGE'
+]);
