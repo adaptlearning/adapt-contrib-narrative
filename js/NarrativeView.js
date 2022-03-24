@@ -1,4 +1,8 @@
 import Adapt from 'core/js/adapt';
+import components from 'core/js/components';
+import a11y from 'core/js/a11y';
+import device from 'core/js/device';
+import notify from 'core/js/notify';
 import ComponentView from 'core/js/views/componentView';
 import MODE from './modeEnum';
 
@@ -63,7 +67,7 @@ class NarrativeView extends ComponentView {
     const $elementToFocus = this.isLargeMode() ?
       this.$(`.narrative__content-item${dataIndexAttr}`) :
       this.$(`.narrative__strapline-btn${dataIndexAttr}`);
-    Adapt.a11y.focusFirst($elementToFocus);
+    a11y.focusFirst($elementToFocus);
   }
 
   onItemsVisitedChange(item, _isVisited) {
@@ -72,7 +76,7 @@ class NarrativeView extends ComponentView {
   }
 
   calculateMode() {
-    const mode = Adapt.device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
+    const mode = device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
     this.model.set('_mode', mode);
   }
 
@@ -92,7 +96,7 @@ class NarrativeView extends ComponentView {
   }
 
   isTextBelowImage() {
-    const isTextBelowImage = (Adapt.device.screenSize === 'large')
+    const isTextBelowImage = (device.screenSize === 'large')
       ? this.model.get('_isTextBelowImage')
       : this.model.get('_isMobileTextBelowImage');
     return Boolean(isTextBelowImage);
@@ -173,7 +177,7 @@ class NarrativeView extends ComponentView {
   }
 
   replaceWithHotgraphic() {
-    const HotgraphicView = Adapt.getViewClass('hotgraphic');
+    const HotgraphicView = components.getViewClass('hotgraphic');
     if (!HotgraphicView) return;
 
     const model = this.prepareHotgraphicModel();
@@ -224,17 +228,17 @@ class NarrativeView extends ComponentView {
     this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
 
     const $slideGraphics = this.$('.narrative__slider-image-container');
-    Adapt.a11y.toggleAccessibleEnabled($slideGraphics, false);
-    Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
+    a11y.toggleAccessibleEnabled($slideGraphics, false);
+    a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
 
     const $narrativeItems = this.$('.narrative__content-item');
     $narrativeItems.addClass('u-visibility-hidden u-display-none');
-    Adapt.a11y.toggleAccessible($narrativeItems, false);
-    Adapt.a11y.toggleAccessible($narrativeItems.filter(indexSelector).removeClass('u-visibility-hidden u-display-none'), true);
+    a11y.toggleAccessible($narrativeItems, false);
+    a11y.toggleAccessible($narrativeItems.filter(indexSelector).removeClass('u-visibility-hidden u-display-none'), true);
 
     const $narrativeStraplineButtons = this.$('.narrative__strapline-btn');
-    Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
-    Adapt.a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(indexSelector), true);
+    a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
+    a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(indexSelector), true);
 
     this.evaluateNavigation();
     this.evaluateCompletion();
@@ -292,7 +296,7 @@ class NarrativeView extends ComponentView {
 
   openPopup() {
     const currentItem = this.model.getActiveItem();
-    Adapt.notify.popup({
+    notify.popup({
       title: currentItem.get('title'),
       body: currentItem.get('body')
     });
