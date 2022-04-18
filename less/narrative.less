@@ -250,4 +250,12 @@
   .items-are-full-width &__indicators {
     margin-bottom: @item-margin;
   }
+
+  // No Strapline 
+  // Settings for mobile when clickable elements are set in text area only
+  // --------------------------------------------------
+  .mode-small &__text-controls &__slide-container &__controls, 
+  .mode-small &__text-controls &__slide-indicators {
+    .u-display-none;
+  }
 }
