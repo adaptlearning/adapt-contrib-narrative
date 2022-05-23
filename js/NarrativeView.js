@@ -4,7 +4,6 @@ import a11y from 'core/js/a11y';
 import device from 'core/js/device';
 import notify from 'core/js/notify';
 import ComponentView from 'core/js/views/componentView';
-import device from 'core/js/device';
 import MODE from './modeEnum';
 
 class NarrativeView extends ComponentView {
