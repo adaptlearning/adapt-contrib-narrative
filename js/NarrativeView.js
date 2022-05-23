@@ -1,7 +1,9 @@
 import Adapt from 'core/js/adapt';
+import components from 'core/js/components';
 import a11y from 'core/js/a11y';
-import ComponentView from 'core/js/views/componentView';
 import device from 'core/js/device';
+import notify from 'core/js/notify';
+import ComponentView from 'core/js/views/componentView';
 import MODE from './modeEnum';
 
 class NarrativeView extends ComponentView {
@@ -175,7 +177,7 @@ class NarrativeView extends ComponentView {
   }
 
   replaceWithHotgraphic() {
-    const HotgraphicView = Adapt.getViewClass('hotgraphic');
+    const HotgraphicView = components.getViewClass('hotgraphic');
     if (!HotgraphicView) return;
 
     const model = this.prepareHotgraphicModel();
@@ -294,7 +296,7 @@ class NarrativeView extends ComponentView {
 
   openPopup() {
     const currentItem = this.model.getActiveItem();
-    Adapt.notify.popup({
+    notify.popup({
       title: currentItem.get('title'),
       body: currentItem.get('body')
     });
