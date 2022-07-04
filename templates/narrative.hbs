@@ -12,7 +12,7 @@
 
           {{#if title}}
           <div class="narrative__content-title">
-            <div class="narrative__content-title-inner" {{a11y_attrs_heading 'componentItem'}}>
+            <div class="narrative__content-title-inner" role="heading" aria-level="{{a11y_aria_level @root/_id 'componentItem' _ariaLevel}}">
               {{{compile title}}}
             </div>
           </div>
