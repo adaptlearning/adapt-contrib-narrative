@@ -50,6 +50,7 @@
   }
 
   &__strapline-title {
+    display: block;
     margin-right: @icon-size + (@item-padding * 2);
     padding: @item-padding;
     // Override button line height to match icon size
@@ -251,10 +252,10 @@
     margin-bottom: @item-margin;
   }
 
-  // No Strapline 
+  // No Strapline
   // Settings for mobile when clickable elements are set in text area only
   // --------------------------------------------------
-  .mode-small &__text-controls &__slide-container &__controls, 
+  .mode-small &__text-controls &__slide-container &__controls,
   .mode-small &__text-controls &__slide-indicators {
     .u-display-none;
   }

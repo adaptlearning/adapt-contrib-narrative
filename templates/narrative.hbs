@@ -32,7 +32,7 @@
         <div class="narrative__controls-container u-clearfix">
 
           <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-            <div class="icon"></div>
+            <span class="icon"></span>
           </button>
 
           <div class="narrative__indicators">
@@ -42,7 +42,7 @@
           </div>
 
           <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-            <div class="icon"></div>
+            <span class="icon"></span>
           </button>
         </div>
 
@@ -57,17 +57,17 @@
           {{#each _items}}
           <button class="narrative__strapline-btn js-narrative-strapline-open-popup{{#if _isVisited}} is-visited{{/if}}" aria-label="{{{strapline}}}" style="width: {{../_itemWidth}}%" data-index="{{@index}}">
 
-            <div class="narrative__strapline-title">
-              <div class="narrative__strapline-title-inner">
+            <span class="narrative__strapline-title">
+              <span class="narrative__strapline-title-inner">
                 {{{compile strapline}}}
-              </div>
-            </div>
+              </span>
+            </span>
 
-            <div class="btn-icon narrative__strapline-icon">
-              <div class="icon"></div>
-            </div>
+            <span class="btn-icon narrative__strapline-icon">
+              <span class="icon"></span>
+            </span>
 
-            <div class="focus-rect"></div>
+            <span class="focus-rect"></span>
 
           </button>
           {{/each}}
@@ -100,11 +100,11 @@
       </div>
 
       <button data-direction="left" class="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.previous}}">
-        <div class="icon"></div>
+        <span class="icon"></span>
       </button>
 
       <button data-direction="right" class="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click" aria-label="{{_globals._accessibility._ariaLabels.next}}">
-        <div class="icon"></div>
+        <span class="icon"></span>
       </button>
 
     </div>
