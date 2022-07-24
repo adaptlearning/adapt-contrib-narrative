@@ -1,12 +1,12 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "7.1.0",
+  "version": "7.2.0",
   "framework": ">=5.20.1",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "bugs": "https://github.com/adaptlearning/adapt-contrib-narrative/issues",
-  "component" : "narrative",
+  "component": "narrative",
   "targetAttribute": "_narrative",
-  "displayName" : "Narrative",
+  "displayName": "Narrative",
   "description": "A component that displays an image gallery with accompanying text",
   "main": "/js/adapt-contrib-narrative.js",
   "keywords": [
@@ -31,18 +31,25 @@
     "plugins": [
       [
         "@semantic-release/commit-analyzer",
-        { "preset": "eslint" }
+        {
+          "preset": "eslint"
+        }
       ],
       [
         "@semantic-release/release-notes-generator",
-        { "preset": "eslint" }
+        {
+          "preset": "eslint"
+        }
       ],
       "@semantic-release/npm",
       "@semantic-release/github",
       [
         "@semantic-release/git",
         {
-          "assets": [ "package.json", "bower.json" ],
+          "assets": [
+            "package.json",
+            "bower.json"
+          ],
           "message": "Chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
         }
       ]
