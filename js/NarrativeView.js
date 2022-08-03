@@ -220,8 +220,6 @@ class NarrativeView extends ComponentView {
 
     this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
 
-    $('#a11y-focuser')[0].focus();
-
     const $slideGraphics = this.$('.narrative__slider-image-container');
     Adapt.a11y.toggleAccessibleEnabled($slideGraphics, false);
     Adapt.a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
