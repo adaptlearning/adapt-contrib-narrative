@@ -270,8 +270,8 @@ class NarrativeView extends ComponentView {
     const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
     const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
-    $left.toggleClass('u-visibility-hidden', isAtStart);
-    $right.toggleClass('u-visibility-hidden', isAtEnd);
+    a11y.toggleEnabled($left, !isAtStart);
+    a11y.toggleEnabled($right, !isAtEnd);
 
     $left.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelPrevious, {
       title: prevTitle,
