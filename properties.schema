@@ -40,7 +40,7 @@
     "instruction": {
       "type": "string",
       "required": false,
-      "default": "",
+      "default": "Select the next and back arrows to find out more.",
       "inputType": "Text",
       "validators": [],
       "help": "This is the instruction text",
@@ -49,7 +49,7 @@
     "mobileInstruction": {
       "type": "string",
       "required": false,
-      "default": "",
+      "default": "Select the plus icon followed by the next arrow to find out more.",
       "title": "Mobile Instruction",
       "inputType": "Text",
       "validators": [],
