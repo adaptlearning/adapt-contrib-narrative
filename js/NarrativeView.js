@@ -346,6 +346,6 @@ class NarrativeView extends ComponentView {
   }
 }
 
-NarrativeView.template = 'narrative';
+NarrativeView.template = 'narrative.jsx';
 
 export default NarrativeView;
