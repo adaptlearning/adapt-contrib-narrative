@@ -83,7 +83,7 @@ class NarrativeView extends ComponentView {
     this.calculateMode();
 
     const isTextBelowImage = this.isTextBelowImage();
-    this.$el.toggleClass('items-are-full-width', isTextBelowImage);
+    this.model.set('_isTextBelowImageResolved', isTextBelowImage);
   }
 
   isLargeMode() {
@@ -102,10 +102,6 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
 
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
-
-    if (Adapt.config.get('_disableAnimation')) {
-      this.$el.addClass('disable-animation');
-    }
   }
 
   setupNarrative() {

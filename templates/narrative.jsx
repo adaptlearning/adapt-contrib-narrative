@@ -15,13 +15,15 @@ export default function Narrative(props) {
     openPopup,
     _itemWidth,
     _totalWidth,
-    _mode
+    _mode,
+    _isTextBelowImageResolved
   } = props;
 
   return (
     <div className={classes([
       'component__inner narrative__inner',
-      _mode === MODE.LARGE ? 'mode-large' : 'mode-small'
+      _mode === MODE.LARGE ? 'mode-large' : 'mode-small',
+      _isTextBelowImageResolved && 'items-are-full-width'
     ])}>
 
       <templates.header {...props} />
