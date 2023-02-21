@@ -1,6 +1,6 @@
 import Adapt from 'core/js/adapt';
 import React from 'react';
-import { templates, classes } from 'core/js/reactHelpers';
+import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
 
@@ -9,6 +9,8 @@ export default function Narrative(props) {
   const {
     _items,
     _hasNavigationInTextArea,
+    onNavigationClicked,
+    openPopup,
     _totalWidth
   } = props;
 
@@ -41,7 +43,7 @@ export default function Narrative(props) {
                     className="narrative__content-title-inner"
                     role="heading"
                     aria-level="{{a11y_aria_level @root/_id 'componentItem' _ariaLevel}}"
-                    dangerouslySetInnerHTML={{ __html: title }} />
+                    dangerouslySetInnerHTML={{ __html: compile(title, props) }} />
                 </div>
                 }
 
@@ -49,7 +51,7 @@ export default function Narrative(props) {
                 <div className="narrative__content-body">
                   <div
                     className="narrative__content-body-inner"
-                    dangerouslySetInnerHTML={{ __html: body }}
+                    dangerouslySetInnerHTML={{ __html: compile(body, props) }}
                   />
                 </div>
                 }
@@ -62,8 +64,9 @@ export default function Narrative(props) {
 
               <button
                 data-direction="left"
-                className="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click"
+                className="btn-icon narrative__controls narrative__controls-left"
                 aria-label={ariaLabels.previous}
+                onClick={onNavigationClicked}
               >
                 <span className="icon" aria-hidden="true" />
               </button>
@@ -84,8 +87,9 @@ export default function Narrative(props) {
 
               <button
                 data-direction="right"
-                className="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click"
+                className="btn-icon narrative__controls narrative__controls-right"
                 aria-label={ariaLabels.next}
+                onClick={onNavigationClicked}
               >
                 <span className="icon" aria-hidden="true" />
               </button>
@@ -107,11 +111,12 @@ export default function Narrative(props) {
 
                 <button
                   className={classes([
-                    'narrative__strapline-btn js-narrative-strapline-open-popup',
+                    'narrative__strapline-btn',
                     _isVisited && 'is-visited'
                   ])}
                   aria-label={strapline}
                   style={{ width: _itemWidth + '%' }}
+                  onClick={openPopup}
                   data-index={_index}
                   key={_index}
                 >
@@ -119,7 +124,7 @@ export default function Narrative(props) {
                   <span className="narrative__strapline-title">
                     <span
                       className="narrative__strapline-title-inner"
-                      dangerouslySetInnerHTML={{ __html: strapline }}
+                      dangerouslySetInnerHTML={{ __html: compile(strapline, props) }}
                     />
                   </span>
 
@@ -180,16 +185,18 @@ export default function Narrative(props) {
 
           <button
             data-direction="left"
-            className="btn-icon narrative__controls narrative__controls-left js-narrative-controls-click"
+            className="btn-icon narrative__controls narrative__controls-left"
             aria-label={ariaLabels.previous}
+            onClick={onNavigationClicked}
           >
             <span className="icon" aria-hidden="true" />
           </button>
 
           <button
             data-direction="right"
-            className="btn-icon narrative__controls narrative__controls-right js-narrative-controls-click"
+            className="btn-icon narrative__controls narrative__controls-right"
             aria-label={ariaLabels.next}
+            onClick={onNavigationClicked}
           >
             <span className="icon" aria-hidden="true" />
           </button>

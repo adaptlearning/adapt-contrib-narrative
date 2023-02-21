@@ -10,8 +10,6 @@ class NarrativeView extends ComponentView {
 
   events() {
     return {
-      'click .js-narrative-strapline-open-popup': 'openPopup',
-      'click .js-narrative-controls-click': 'onNavigationClicked',
       'click .js-narrative-progress-click': 'onProgressClicked',
       'swipeleft .js-narrative-swipe': 'onSwipeLeft',
       'swiperight .js-narrative-swipe': 'onSwipeRight'
@@ -22,6 +20,8 @@ class NarrativeView extends ComponentView {
     super.initialize(...args);
 
     this._isInitial = true;
+    this.onNavigationClicked = this.onNavigationClicked.bind(this);
+    this.openPopup = this.openPopup.bind(this);
   }
 
   preRender() {
@@ -307,9 +307,10 @@ class NarrativeView extends ComponentView {
     });
   }
 
-  onNavigationClicked(event) {
-    const $btn = $(event.currentTarget);
+  onNavigationClicked(e) {
+    const $btn = $(e.currentTarget);
     let index = this.model.getActiveItem().get('_index');
+
     $btn.data('direction') === 'right' ? index++ : index--;
     this.model.setActiveItem(index);
   }
