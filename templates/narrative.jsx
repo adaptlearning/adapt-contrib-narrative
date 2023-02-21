@@ -1,5 +1,6 @@
 import Adapt from 'core/js/adapt';
 import React from 'react';
+import a11y from 'core/js/a11y';
 import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
@@ -28,7 +29,7 @@ export default function Narrative(props) {
         <div className="narrative__content">
           <div className="narrative__content-inner">
 
-            {_items.map(({ _index, _isVisited, title, body }) =>
+            {_items.map(({ _index, _isVisited, title, body, _ariaLevel }) =>
 
               <div
                 className={classes([
@@ -43,7 +44,7 @@ export default function Narrative(props) {
                   <div
                     className="narrative__content-title-inner"
                     role="heading"
-                    aria-level="{{a11y_aria_level @root/_id 'componentItem' _ariaLevel}}"
+                    aria-level={a11y.ariaLevel({ level: 'componentItem', override: (_ariaLevel || null) })}
                     dangerouslySetInnerHTML={{ __html: compile(title, props) }} />
                 </div>
                 }
