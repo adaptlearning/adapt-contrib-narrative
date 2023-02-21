@@ -108,7 +108,7 @@ export default function Narrative(props) {
               style={{ width: _totalWidth + '%' }}
             >
 
-              {_items.map(({ _index, _isVisited, strapline, _itemWidth }) =>
+              {_items.map(({ _index, _isVisited, strapline }) =>
 
                 <button
                   className={classes([
@@ -116,7 +116,7 @@ export default function Narrative(props) {
                     _isVisited && 'is-visited'
                   ])}
                   aria-label={strapline}
-                  style={{ width: _itemWidth + '%' }}
+                  style={{ width: `${_itemWidth}%` }}
                   onClick={openPopup}
                   data-index={_index}
                   key={_index}
@@ -170,12 +170,12 @@ export default function Narrative(props) {
                 />
 
                 {_graphic.attribution &&
-              <div className="component__attribution narrative__attribution">
-                <div
-                  className="component__attribution-inner narrative__attribution-inner"
-                  dangerouslySetInnerHTML={{ __html: _graphic.attribution }}
-                />
-              </div>
+                <div className="component__attribution narrative__attribution">
+                  <div
+                    className="component__attribution-inner narrative__attribution-inner"
+                    dangerouslySetInnerHTML={{ __html: _graphic.attribution }}
+                  />
+                </div>
                 }
 
               </div>
