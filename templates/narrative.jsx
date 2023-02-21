@@ -166,7 +166,7 @@ export default function Narrative(props) {
                 <img
                   className="narrative__slider-image js-narrative-swipe"
                   src={_graphic.src}
-                  aria-label={_graphic.alt || null}
+                  aria-label={a11y.normalize(_graphic.alt) || null}
                   aria-hidden={!_graphic.alt || null}
                 />
 
