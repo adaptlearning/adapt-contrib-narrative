@@ -11,6 +11,7 @@ export default function Narrative(props) {
     _hasNavigationInTextArea,
     onNavigationClicked,
     openPopup,
+    _itemWidth,
     _totalWidth
   } = props;
 
@@ -148,7 +149,7 @@ export default function Narrative(props) {
             style={{ width: _totalWidth + '%' }}
           >
 
-            {_items.map(({ _index, _isVisited, _graphic, _itemWidth }) =>
+            {_items.map(({ _index, _isVisited, _graphic }) =>
 
               <div
                 className={classes([
@@ -156,7 +157,7 @@ export default function Narrative(props) {
                   _isVisited && 'is-visited',
                   _graphic.attribution && 'has-attribution'
                 ])}
-                style={{ width: _itemWidth + '%' }}
+                style={{ width: `${_itemWidth}%` }}
                 data-index={_index}
                 key={_index}
               >
