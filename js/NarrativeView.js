@@ -10,7 +10,6 @@ class NarrativeView extends ComponentView {
 
   events() {
     return {
-      'click .js-narrative-progress-click': 'onProgressClicked',
       'swipeleft .js-narrative-swipe': 'onSwipeLeft',
       'swiperight .js-narrative-swipe': 'onSwipeRight'
     };
@@ -323,11 +322,6 @@ class NarrativeView extends ComponentView {
   onSwipeRight() {
     let index = this.model.getActiveItem().get('_index');
     this.model.setActiveItem(--index);
-  }
-
-  onProgressClicked(event) {
-    const index = $(event.target).data('index');
-    this.model.setActiveItem(index);
   }
 
   /**

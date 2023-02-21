@@ -76,7 +76,7 @@ export default function Narrative(props) {
                 {_items.map(({ _index, _isVisited }) =>
 
                   <div className={classes([
-                    'narrative__progress js-narrative-progress-click',
+                    'narrative__progress',
                     _isVisited && 'is-visited'
                   ])}
                   data-index={_index}
@@ -105,7 +105,7 @@ export default function Narrative(props) {
           <div className="narrative__strapline-header">
             <div
               className="narrative__strapline-header-inner u-clearfix"
-              style={{ width: _totalWidth + '%' }}
+              style={{ width: `${_totalWidth}%` }}
             >
 
               {_items.map(({ _index, _isVisited, strapline }) =>
@@ -146,7 +146,7 @@ export default function Narrative(props) {
 
           <div
             className="narrative__slider u-clearfix"
-            style={{ width: _totalWidth + '%' }}
+            style={{ width: `${_totalWidth}%` }}
           >
 
             {_items.map(({ _index, _isVisited, _graphic }) =>
@@ -209,7 +209,7 @@ export default function Narrative(props) {
           {_items.map(({ _index, _isVisited }) =>
             <div
               className={classes([
-                'narrative__progress js-narrative-progress-click',
+                'narrative__progress',
                 _isVisited && 'is-visited'
               ])}
               data-index={_index}
