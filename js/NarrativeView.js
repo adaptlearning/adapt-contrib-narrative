@@ -82,12 +82,8 @@ class NarrativeView extends ComponentView {
   renderMode() {
     this.calculateMode();
 
-    const isLargeMode = this.isLargeMode();
     const isTextBelowImage = this.isTextBelowImage();
-    this.$el
-      .toggleClass('mode-large', isLargeMode)
-      .toggleClass('mode-small', !isLargeMode)
-      .toggleClass('items-are-full-width', isTextBelowImage);
+    this.$el.toggleClass('items-are-full-width', isTextBelowImage);
   }
 
   isLargeMode() {

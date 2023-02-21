@@ -1,6 +1,7 @@
 import Adapt from 'core/js/adapt';
 import React from 'react';
 import a11y from 'core/js/a11y';
+import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
@@ -13,11 +14,15 @@ export default function Narrative(props) {
     onNavigationClicked,
     openPopup,
     _itemWidth,
-    _totalWidth
+    _totalWidth,
+    _mode
   } = props;
 
   return (
-    <div className='component__inner narrative__inner'>
+    <div className={classes([
+      'component__inner narrative__inner',
+      _mode === MODE.LARGE ? 'mode-large' : 'mode-small'
+    ])}>
 
       <templates.header {...props} />
 
