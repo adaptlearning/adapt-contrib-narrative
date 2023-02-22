@@ -216,8 +216,6 @@ class NarrativeView extends ComponentView {
       item.toggleVisited(true);
     }
 
-    this.$('.narrative__progress').removeClass('is-selected').filter(indexSelector).addClass('is-selected');
-
     const $slideGraphics = this.$('.narrative__slider-image-container');
     a11y.toggleAccessibleEnabled($slideGraphics, false);
     a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);

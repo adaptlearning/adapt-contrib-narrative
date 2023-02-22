@@ -81,11 +81,12 @@ export default function Narrative(props) {
               </button>
 
               <div className="narrative__indicators">
-                {_items.map(({ _index, _isVisited }) =>
+                {_items.map(({ _index, _isVisited, _isActive }) =>
 
                   <div className={classes([
                     'narrative__progress',
-                    _isVisited && 'is-visited'
+                    _isVisited && 'is-visited',
+                    _isActive && 'is-selected'
                   ])}
                   data-index={_index}
                   key={_index}
@@ -214,11 +215,12 @@ export default function Narrative(props) {
 
         <div className="narrative__indicators narrative__slide-indicators">
 
-          {_items.map(({ _index, _isVisited }) =>
+          {_items.map(({ _index, _isVisited, _isActive }) =>
             <div
               className={classes([
                 'narrative__progress',
-                _isVisited && 'is-visited'
+                _isVisited && 'is-visited',
+                _isActive && 'is-selected'
               ])}
               data-index={_index}
               key={_index}
