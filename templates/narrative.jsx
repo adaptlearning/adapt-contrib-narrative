@@ -10,6 +10,7 @@ export default function Narrative(props) {
 
   const {
     _items,
+    _translateXOffset,
     _hasNavigationInTextArea,
     onNavigationClicked,
     openPopup,
@@ -114,7 +115,10 @@ export default function Narrative(props) {
           <div className="narrative__strapline-header">
             <div
               className="narrative__strapline-header-inner u-clearfix"
-              style={{ width: `${_totalWidth}%` }}
+              style={{
+                width: `${_totalWidth}%`,
+                transform: `translateX(${_translateXOffset}%)`
+              }}
             >
 
               {_items.map(({ _index, _isVisited, strapline }) =>
@@ -155,7 +159,10 @@ export default function Narrative(props) {
 
           <div
             className="narrative__slider u-clearfix"
-            style={{ width: `${_totalWidth}%` }}
+            style={{
+              width: `${_totalWidth}%`,
+              transform: `translateX(${_translateXOffset}%)`
+            }}
           >
 
             {_items.map(({ _index, _isVisited, _graphic }) =>

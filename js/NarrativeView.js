@@ -199,12 +199,8 @@ class NarrativeView extends ComponentView {
     if (Adapt.config.get('_defaultDirection') === 'ltr') {
       offset *= -1;
     }
-    const cssValue = `translateX(${offset}%)`;
-    const $sliderElm = this.$('.narrative__slider');
-    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
 
-    $sliderElm.css('transform', cssValue);
-    $straplineHeaderElm.css('transform', cssValue);
+    this.model.set('_translateXOffset', offset);
   }
 
   setStage(item) {
