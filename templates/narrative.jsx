@@ -38,13 +38,15 @@ export default function Narrative(props) {
         <div className="narrative__content">
           <div className="narrative__content-inner">
 
-            {_items.map(({ _index, _isVisited, title, body, _ariaLevel }) =>
+            {_items.map(({ _index, _isActive, _isVisited, title, body, _ariaLevel }) =>
 
               <div
                 className={classes([
                   'narrative__content-item',
+                  _isActive && 'is-active',
                   _isVisited && 'is-visited'
                 ])}
+                aria-hidden={!_isActive || null}
                 data-index={_index}
                 key={_index}>
 
@@ -174,15 +176,17 @@ export default function Narrative(props) {
             }}
           >
 
-            {_items.map(({ _index, _isVisited, _graphic }) =>
+            {_items.map(({ _index, _isActive, _isVisited, _graphic }) =>
 
               <div
                 className={classes([
                   'narrative__slider-image-container',
+                  _isActive && 'is-active',
                   _isVisited && 'is-visited',
                   _graphic.attribution && 'has-attribution'
                 ])}
                 style={{ width: `${_itemWidth}%` }}
+                aria-hidden={!_isActive || null}
                 data-index={_index}
                 key={_index}
               >

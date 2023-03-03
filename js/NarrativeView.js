@@ -211,25 +211,10 @@ class NarrativeView extends ComponentView {
 
   setStage(item) {
     const index = item.get('_index');
-    const indexSelector = `[data-index="${index}"]`;
 
     if (this.isLargeMode()) {
-      // Set the visited attribute for large screen devices
       item.toggleVisited(true);
     }
-
-    const $slideGraphics = this.$('.narrative__slider-image-container');
-    a11y.toggleAccessibleEnabled($slideGraphics, false);
-    a11y.toggleAccessibleEnabled($slideGraphics.filter(indexSelector), true);
-
-    const $narrativeItems = this.$('.narrative__content-item');
-    $narrativeItems.addClass('u-visibility-hidden u-display-none');
-    a11y.toggleAccessible($narrativeItems, false);
-    a11y.toggleAccessible($narrativeItems.filter(indexSelector).removeClass('u-visibility-hidden u-display-none'), true);
-
-    const $narrativeStraplineButtons = this.$('.narrative__strapline-btn');
-    a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
-    a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(indexSelector), true);
 
     this.setupBackNextLabels();
     this.evaluateCompletion();
@@ -302,7 +287,6 @@ class NarrativeView extends ComponentView {
     this.model.set('backLabel', backLabel);
     this.model.set('nextLabel', nextLabel);
   }
-
 
   evaluateCompletion() {
     if (this.model.areAllItemsCompleted()) {
