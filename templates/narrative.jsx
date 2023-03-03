@@ -196,6 +196,7 @@ export default function Narrative(props) {
                   src={_graphic.src}
                   aria-label={a11y.normalize(_graphic.alt) || null}
                   aria-hidden={!_graphic.alt || null}
+                  draggable="false"
                 />
 
                 {_graphic.attribution &&
