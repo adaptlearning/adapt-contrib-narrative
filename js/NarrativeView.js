@@ -32,8 +32,7 @@ class NarrativeView extends ComponentView {
     this.renderMode();
 
     this.listenTo(this.model.getChildren(), {
-      'change:_isActive': this.onItemsActiveChange,
-      'change:_isVisited': this.onItemsVisitedChange
+      'change:_isActive': this.onItemsActiveChange
     });
 
     this.calculateWidths();
@@ -73,11 +72,6 @@ class NarrativeView extends ComponentView {
       this.$(`.narrative__content-item${dataIndexAttr}`) :
       this.$(`.narrative__strapline-btn${dataIndexAttr}`);
     a11y.focusFirst($elementToFocus);
-  }
-
-  onItemsVisitedChange(item, _isVisited) {
-    if (!_isVisited) return;
-    this.$(`[data-index="${item.get('_index')}"]`).addClass('is-visited');
   }
 
   calculateMode() {
