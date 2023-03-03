@@ -52,27 +52,6 @@ class NarrativeView extends ComponentView {
     this.setStage(item);
   }
 
-  // setFocus(itemIndex) {
-  //   const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
-  //   const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-  //   if (hasStraplineTransition) {
-  //     $straplineHeaderElm.one('transitionend', () => {
-  //       this.focusOnNarrativeElement(itemIndex);
-  //     });
-  //     return;
-  //   }
-
-  //   this.focusOnNarrativeElement(itemIndex);
-  // }
-
-  // focusOnNarrativeElement(itemIndex) {
-  //   const dataIndexAttr = `[data-index='${itemIndex}']`;
-  //   const $elementToFocus = this.isLargeMode() ?
-  //     this.$(`.narrative__content-item${dataIndexAttr}`) :
-  //     this.$(`.narrative__strapline-btn${dataIndexAttr}`);
-  //   a11y.focusFirst($elementToFocus);
-  // }
-
   calculateMode() {
     const mode = device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
     this.model.set('_mode', mode);
