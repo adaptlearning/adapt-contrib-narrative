@@ -1,4 +1,15 @@
 .narrative {
+  &__instruction-inner.instruction-error {
+    color: @validation-error;
+    .icon;
+    .icon-exclamation;
+
+    &::before {
+      display: inline-block;
+      vertical-align: middle;
+    }
+  }
+
   &__inner:not(.items-are-full-width) &__content {
     display: none;
 
