@@ -5,6 +5,7 @@ import device from 'core/js/device';
 import notify from 'core/js/notify';
 import ComponentView from 'core/js/views/componentView';
 import MODE from './modeEnum';
+import { compile } from 'core/js/reactHelpers';
 
 class NarrativeView extends ComponentView {
 
@@ -40,11 +41,16 @@ class NarrativeView extends ComponentView {
 
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
+
     if (this.isTextBelowImage()) {
       item.toggleVisited(true);
     }
+
+    const index = item.get('_index');
+
+    this.manageBackNextStates(index);
     this.setStage(item);
-    this.setFocus(item.get('_index'));
+    this.setFocus(index);
   }
 
   setFocus(itemIndex) {
@@ -139,7 +145,7 @@ class NarrativeView extends ComponentView {
     const previousMode = this.model.get('_mode');
     this.renderMode();
     if (previousMode !== this.model.get('_mode')) this.replaceInstructions();
-    this.evaluateNavigation();
+    this.setupBackNextLabels();
     const activeItem = this.model.getActiveItem();
     if (activeItem) this.setStage(activeItem);
   }
@@ -225,52 +231,78 @@ class NarrativeView extends ComponentView {
     a11y.toggleAccessibleEnabled($narrativeStraplineButtons, false);
     a11y.toggleAccessibleEnabled($narrativeStraplineButtons.filter(indexSelector), true);
 
-    this.evaluateNavigation();
+    this.setupBackNextLabels();
     this.evaluateCompletion();
     this.shouldShowInstructionError();
     this.moveSliderToIndex(index);
   }
 
-  evaluateNavigation() {
-    const active = this.model.getActiveItem();
-    if (!active) return;
+  /**
+   * Controls whether the back and next buttons should be enabled
+   *
+   * @param {Number} [index] Item's index value. Defaults to the currently active item.
+   */
+  manageBackNextStates(index = this.model.getActiveItem().get('_index')) {
+    const totalItems = this.model.getChildren().length;
+    const canCycleThroughPagination = this.model.get('_canCycleThroughPagination');
 
-    const index = active.get('_index');
-    const itemCount = this.model.getChildren().length;
+    const shouldEnableBack = index > 0 || canCycleThroughPagination;
+    const shouldEnableNext = index < totalItems - 1 || canCycleThroughPagination;
+
+    this.model.set('shouldEnableBack', shouldEnableBack);
+    this.model.set('shouldEnableNext', shouldEnableNext);
+  }
+
+  /**
+   * Construct back and next aria labels
+   *
+   * @param {Number} [index] Item's index value.
+   */
+  setupBackNextLabels(index = this.model.getActiveItem().get('_index')) {
+    const totalItems = this.model.getChildren().length;
+    const canCycleThroughPagination = this.model.get('_canCycleThroughPagination');
 
     const isAtStart = index === 0;
-    const isAtEnd = index === itemCount - 1;
-
-    const $left = this.$('.narrative__controls-left');
-    const $right = this.$('.narrative__controls-right');
+    const isAtEnd = index === totalItems - 1;
 
     const globals = Adapt.course.get('_globals');
-
-    const ariaLabelsGlobals = globals._accessibility._ariaLabels;
     const narrativeGlobals = globals._components._narrative;
 
-    const ariaLabelPrevious = narrativeGlobals.previous || ariaLabelsGlobals.previous;
-    const ariaLabelNext = narrativeGlobals.next || ariaLabelsGlobals.next;
+    let prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
+    let nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
-    const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
-    const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
+    let backItem = isAtStart ? null : index;
+    let nextItem = isAtEnd ? null : index + 2;
 
-    a11y.toggleEnabled($left, !isAtStart);
-    a11y.toggleEnabled($right, !isAtEnd);
+    if (canCycleThroughPagination) {
+      if (isAtStart) {
+        prevTitle = this.model.getItem(totalItems - 1).get('title');
+        backItem = totalItems;
+      }
+      if (isAtEnd) {
+        nextTitle = this.model.getItem(0).get('title');
+        nextItem = 1;
+      }
+    }
 
-    $left.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelPrevious, {
+    const backLabel = compile(narrativeGlobals.previous, {
+      _globals: globals,
       title: prevTitle,
+      itemNumber: backItem,
+      totalItems
+    });
+
+    const nextLabel = compile(narrativeGlobals.next, {
       _globals: globals,
-      itemNumber: isAtStart ? null : index,
-      totalItems: itemCount
-    }));
-    $right.attr('aria-label', Handlebars.helpers.compile_a11y_normalize(ariaLabelNext, {
       title: nextTitle,
-      _globals: globals,
-      itemNumber: isAtEnd ? null : index + 2,
-      totalItems: itemCount
-    }));
+      itemNumber: nextItem,
+      totalItems
+    });
+
+    this.model.set('backLabel', backLabel);
+    this.model.set('nextLabel', nextLabel);
   }
+
 
   evaluateCompletion() {
     if (this.model.areAllItemsCompleted()) {

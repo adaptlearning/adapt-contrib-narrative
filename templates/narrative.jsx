@@ -1,12 +1,9 @@
-import Adapt from 'core/js/adapt';
 import React from 'react';
 import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
-
-  const ariaLabels = Adapt.course.get('_globals')?._accessibility?._ariaLabels;
 
   const {
     _items,
@@ -17,7 +14,11 @@ export default function Narrative(props) {
     _itemWidth,
     _totalWidth,
     _mode,
-    _isTextBelowImageResolved
+    _isTextBelowImageResolved,
+    backLabel,
+    nextLabel,
+    shouldEnableBack,
+    shouldEnableNext
   } = props;
 
   return (
@@ -74,8 +75,12 @@ export default function Narrative(props) {
 
               <button
                 data-direction="left"
-                className="btn-icon narrative__controls narrative__controls-left"
-                aria-label={ariaLabels.previous}
+                className={classes([
+                  'btn-icon narrative__controls narrative__controls-left',
+                  !shouldEnableBack && 'is-disabled'
+                ])}
+                aria-label={backLabel}
+                aria-disabled={!shouldEnableBack || null}
                 onClick={onNavigationClicked}
               >
                 <span className="icon" aria-hidden="true" />
@@ -98,8 +103,12 @@ export default function Narrative(props) {
 
               <button
                 data-direction="right"
-                className="btn-icon narrative__controls narrative__controls-right"
-                aria-label={ariaLabels.next}
+                className={classes([
+                  'btn-icon narrative__controls narrative__controls-right',
+                  !shouldEnableNext && 'is-disabled'
+                ])}
+                aria-label={nextLabel}
+                aria-disabled={!shouldEnableNext || null}
                 onClick={onNavigationClicked}
               >
                 <span className="icon" aria-hidden="true" />
@@ -202,8 +211,12 @@ export default function Narrative(props) {
 
           <button
             data-direction="left"
-            className="btn-icon narrative__controls narrative__controls-left"
-            aria-label={ariaLabels.previous}
+            className={classes([
+              'btn-icon narrative__controls narrative__controls-left',
+              !shouldEnableBack && 'is-disabled'
+            ])}
+            aria-label={backLabel}
+            aria-disabled={!shouldEnableBack || null}
             onClick={onNavigationClicked}
           >
             <span className="icon" aria-hidden="true" />
@@ -211,8 +224,12 @@ export default function Narrative(props) {
 
           <button
             data-direction="right"
-            className="btn-icon narrative__controls narrative__controls-right"
-            aria-label={ariaLabels.next}
+            className={classes([
+              'btn-icon narrative__controls narrative__controls-right',
+              !shouldEnableNext && 'is-disabled'
+            ])}
+            aria-label={nextLabel}
+            aria-disabled={!shouldEnableNext || null}
             onClick={onNavigationClicked}
           >
             <span className="icon" aria-hidden="true" />
