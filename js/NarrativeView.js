@@ -1,6 +1,5 @@
 import Adapt from 'core/js/adapt';
 import components from 'core/js/components';
-import a11y from 'core/js/a11y';
 import device from 'core/js/device';
 import notify from 'core/js/notify';
 import ComponentView from 'core/js/views/componentView';
@@ -19,7 +18,8 @@ class NarrativeView extends ComponentView {
   initialize(...args) {
     super.initialize(...args);
 
-    this._isInitial = true;
+    this.model.set('_isInitial', true);
+    this.model.set('_activeItemIndex', 0);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
   }
@@ -46,37 +46,37 @@ class NarrativeView extends ComponentView {
     }
 
     const index = item.get('_index');
+    this.model.set('_activeItemIndex', index);
 
     this.manageBackNextStates(index);
     this.setStage(item);
-    this.setFocus(index);
   }
 
-  setFocus(itemIndex) {
-    if (this._isInitial) return;
-    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
-    const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-    if (hasStraplineTransition) {
-      $straplineHeaderElm.one('transitionend', () => {
-        this.focusOnNarrativeElement(itemIndex);
-      });
-      return;
-    }
+  // setFocus(itemIndex) {
+  //   const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
+  //   const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
+  //   if (hasStraplineTransition) {
+  //     $straplineHeaderElm.one('transitionend', () => {
+  //       this.focusOnNarrativeElement(itemIndex);
+  //     });
+  //     return;
+  //   }
 
-    this.focusOnNarrativeElement(itemIndex);
-  }
+  //   this.focusOnNarrativeElement(itemIndex);
+  // }
 
-  focusOnNarrativeElement(itemIndex) {
-    const dataIndexAttr = `[data-index='${itemIndex}']`;
-    const $elementToFocus = this.isLargeMode() ?
-      this.$(`.narrative__content-item${dataIndexAttr}`) :
-      this.$(`.narrative__strapline-btn${dataIndexAttr}`);
-    a11y.focusFirst($elementToFocus);
-  }
+  // focusOnNarrativeElement(itemIndex) {
+  //   const dataIndexAttr = `[data-index='${itemIndex}']`;
+  //   const $elementToFocus = this.isLargeMode() ?
+  //     this.$(`.narrative__content-item${dataIndexAttr}`) :
+  //     this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+  //   a11y.focusFirst($elementToFocus);
+  // }
 
   calculateMode() {
     const mode = device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
     this.model.set('_mode', mode);
+    this.model.set('_isLargeMode', mode === MODE.LARGE);
   }
 
   renderMode() {
@@ -124,7 +124,7 @@ class NarrativeView extends ComponentView {
       this.replaceInstructions();
     }
     this.setupEventListeners();
-    this._isInitial = false;
+    this.model.set('_isInitial', false);
   }
 
   calculateWidths() {
