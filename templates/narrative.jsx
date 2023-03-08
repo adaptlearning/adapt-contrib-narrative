@@ -47,7 +47,9 @@ export default function Narrative(props) {
       $(`.narrative__content-item${dataIndexAttr}`) :
       $(`.narrative__strapline-btn${dataIndexAttr}`);
 
-    a11y.focusFirst($elementToFocus);
+    if ($elementToFocus.length) {
+      a11y.focusFirst($elementToFocus);
+    }
   };
 
   return (
