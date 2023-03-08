@@ -166,7 +166,7 @@ class NarrativeView extends ComponentView {
   }
 
   replaceInstructions() {
-    if (this.isLargeMode()) {
+    if (this.isLargeMode() || this.isTextBelowImage()) {
       this.$('.narrative__instruction-inner').html(this.model.get('instruction'));
       return;
     }
