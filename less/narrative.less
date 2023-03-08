@@ -179,7 +179,9 @@
   html:not(.disable-animation) & {
     &__slider,
     &__strapline-header-inner {
-      .transition(transform 400ms ease-in-out);
+      @media (prefers-reduced-motion: no-preference) {
+        .transition(transform 400ms ease-in-out);
+      }
     }
   }
 
