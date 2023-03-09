@@ -27,7 +27,7 @@
         "instruction": {
           "type": "string",
           "title": "Instruction",
-          "default": "",
+          "default": "Select the next and back arrows to find out more.",
           "_adapt": {
             "translatable": true
           }
@@ -36,7 +36,7 @@
           "type": "string",
           "title": "Mobile instruction",
           "description": "This is the mobile only instruction text",
-          "default": "",
+          "default": "Select the plus icon followed by the next arrow to find out more.",
           "_adapt": {
             "translatable": true
           }
