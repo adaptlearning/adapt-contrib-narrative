@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef } from 'react';
 import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
@@ -24,6 +24,8 @@ export default function Narrative(props) {
     _activeItemIndex
   } = props;
 
+  const narrativeWidgetRef = useRef(null);
+
   useEffect(() => {
     if (_isInitial || _activeItemIndex === undefined) return;
 
@@ -41,11 +43,9 @@ export default function Narrative(props) {
   });
 
   const focusOnNarrativeElement = (itemIndex) => {
-    const dataIndexAttr = `[data-index='${itemIndex}']`;
-
-    const $elementToFocus = _isLargeMode ?
-      $(`.narrative__content-item${dataIndexAttr}`) :
-      $(`.narrative__strapline-btn${dataIndexAttr}`);
+    const focusClass = _isLargeMode ? '.narrative__content-item' : '.narrative__strapline-btn';
+    const dataAttr = `[data-index='${itemIndex}']`;
+    const $elementToFocus = $(narrativeWidgetRef.current).find(focusClass + dataAttr);
 
     if (!$elementToFocus.length) return;
 
@@ -57,14 +57,17 @@ export default function Narrative(props) {
       'component__inner narrative__inner',
       _mode === MODE.LARGE ? 'mode-large' : 'mode-small',
       _isTextBelowImageResolved && 'items-are-full-width'
-    ])}>
+    ])}
+    >
 
       <templates.header {...props} />
 
       <div className={classes([
         'component__widget narrative__widget',
         _hasNavigationInTextArea && 'narrative__text-controls'
-      ])}>
+      ])}
+      ref={narrativeWidgetRef}
+      >
 
         <div className="narrative__content">
           <div className="narrative__content-inner">
@@ -79,7 +82,8 @@ export default function Narrative(props) {
                 ])}
                 aria-hidden={!_isActive || null}
                 data-index={_index}
-                key={_index}>
+                key={_index}
+              >
 
                 {title &&
                 <div className="narrative__content-title">
