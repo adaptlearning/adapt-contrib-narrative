@@ -306,7 +306,7 @@ class NarrativeView extends ComponentView {
   shouldShowInstructionError() {
     const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
     if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
-    this.$('.narrative__instruction-inner').addClass('instruction-error');
+    this.$('.narrative__instruction').addClass('has-error');
   }
 
   setupEventListeners() {
