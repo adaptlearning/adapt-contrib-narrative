@@ -1,4 +1,13 @@
 .narrative {
+  &__instruction.has-error {
+    display: flex;
+    color: @validation-error;
+
+    .icon {
+      .icon-exclamation;
+    }
+  }
+
   &__inner:not(.items-are-full-width) &__content {
     display: none;
 

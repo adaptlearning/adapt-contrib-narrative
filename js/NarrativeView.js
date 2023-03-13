@@ -264,7 +264,7 @@ class NarrativeView extends ComponentView {
   evaluateCompletion() {
     if (this.model.areAllItemsCompleted()) {
       this.trigger('allItems');
-      this.$('.narrative__instruction-inner').removeClass('instruction-error');
+      this.$('.narrative__instruction').removeClass('has-error');
     }
   }
 
