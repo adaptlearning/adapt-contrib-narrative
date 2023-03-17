@@ -111,6 +111,8 @@ class NarrativeView extends ComponentView {
     if (Adapt.config.get('_disableAnimation')) {
       this.$el.addClass('disable-animation');
     }
+    
+    this.$('.narrative__slide-container')[0].addEventListener('scroll', this.onScroll, true);
   }
 
   setupNarrative() {
@@ -343,6 +345,10 @@ class NarrativeView extends ComponentView {
     if (this.model.get('_setCompletionOn') === 'inview') {
       this.setupInviewCompletion('.component__widget');
     }
+  }
+
+  preRemove() {
+    this.$('.narrative__slide-container')[0].removeEventListener('scroll', this.onScroll, true);
   }
 }
 
