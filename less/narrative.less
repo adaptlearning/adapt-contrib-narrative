@@ -1,5 +1,14 @@
 .narrative {
-  &:not(.items-are-full-width) &__content {
+  &__instruction.has-error {
+    display: flex;
+    color: @validation-error;
+
+    .icon {
+      .icon-exclamation;
+    }
+  }
+
+  &__inner:not(.items-are-full-width) &__content {
     display: none;
 
     @media (min-width: @device-width-medium) {
@@ -13,6 +22,11 @@
         margin-right: 2%;
       }
     }
+  }
+
+  &__content-item:not(.is-active) {
+    .u-display-none;
+    .u-visibility-hidden;
   }
 
   // Strapline
@@ -92,11 +106,6 @@
 
   &__slider-image {
     .u-no-select;
-    -webkit-user-drag: none;
-    -khtml-user-drag: none;
-    -moz-user-drag: none;
-    -o-user-drag: none;
-    user-drag: none;
   }
 
   // Button controls
@@ -155,7 +164,6 @@
     height: @icon-size / 2;
     width: @icon-size / 2;
     margin: 0.25rem;
-    cursor: pointer;
     background-color: @background;
   }
 
@@ -169,7 +177,9 @@
   html:not(.disable-animation) & {
     &__slider,
     &__strapline-header-inner {
-      .transition(transform 400ms ease-in-out);
+      @media (prefers-reduced-motion: no-preference) {
+        .transition(transform 400ms ease-in-out);
+      }
     }
   }
 
