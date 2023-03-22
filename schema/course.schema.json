@@ -12,32 +12,39 @@
           "type": "object",
           "default": {},
           "properties": {
-            "_narrative": {
+            "_components": {
               "type": "object",
               "default": {},
               "properties": {
-                "ariaRegion": {
-                  "type": "string",
-                  "title": "ARIA region",
-                  "default": "Slide show. Select the next button to progress.",
-                  "_adapt": {
-                    "translatable": true
-                  }
-                },
-                "previous": {
-                  "type": "string",
-                  "title": "Previous",
-                  "default": "{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}",
-                  "_adapt": {
-                    "translatable": true
-                  }
-                },
-                "next": {
-                  "type": "string",
-                  "title": "Next",
-                  "default": "{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}",
-                  "_adapt": {
-                    "translatable": true
+                "_narrative": {
+                  "type": "object",
+                  "title": "Narrative",
+                  "default": {},
+                  "properties": {
+                    "ariaRegion": {
+                      "type": "string",
+                      "title": "ARIA region",
+                      "default": "Slide show. Select the next button to progress.",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    },
+                    "previous": {
+                      "type": "string",
+                      "title": "Previous",
+                      "default": "{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    },
+                    "next": {
+                      "type": "string",
+                      "title": "Next",
+                      "default": "{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    }
                   }
                 }
               }
