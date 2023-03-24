@@ -81,7 +81,7 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
 
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));    
-    this.$('.narrative__slide-container')[0].addEventListener('scroll', this.onScroll, true);
+    this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
   }
 
   setupNarrative() {
@@ -322,7 +322,7 @@ class NarrativeView extends ComponentView {
   }
 
   preRemove() {
-    this.$('.narrative__slide-container')[0].removeEventListener('scroll', this.onScroll, true);
+    this.$('.narrative__slide-container')[0]?.removeEventListener('scroll', this.onScroll, true);
   }
 }
 
