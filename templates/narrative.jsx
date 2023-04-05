@@ -6,6 +6,8 @@ import { templates, compile, classes } from 'core/js/reactHelpers';
 export default function Narrative(props) {
 
   const {
+    _id,
+    _isActive,
     _items,
     _translateXOffset,
     _hasNavigationInTextArea,
@@ -27,7 +29,7 @@ export default function Narrative(props) {
   const narrativeWidgetRef = useRef(null);
 
   useEffect(() => {
-    if (_isInitial || _activeItemIndex === undefined) return;
+    if (_isInitial || _activeItemIndex === undefined || !_isActive) return;
 
     const itemIndex = _activeItemIndex;
     const $straplineHeaderElm = $('.narrative__strapline-header-inner');
@@ -90,7 +92,7 @@ export default function Narrative(props) {
                   <div
                     className="narrative__content-title-inner"
                     role="heading"
-                    aria-level={a11y.ariaLevel({ level: 'componentItem', override: (_ariaLevel || null) })}
+                    aria-level={a11y.ariaLevel({ id: _id, level: 'componentItem', override: (_ariaLevel || null) })}
                     dangerouslySetInnerHTML={{ __html: compile(title, props) }} />
                 </div>
                 }
