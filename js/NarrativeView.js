@@ -80,8 +80,7 @@ class NarrativeView extends ComponentView {
     this.renderMode();
     this.setupNarrative();
 
-    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));    
-    this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
+    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
   }
 
   setupNarrative() {
@@ -299,11 +298,6 @@ class NarrativeView extends ComponentView {
     let index = this.model.getActiveItem().get('_index');
     this.model.setActiveItem(--index);
   }
-  
-  onScroll (event) {
-    event.preventDefault();
-    event.target.scrollTo(0, 0);
-  }
 
   /**
    * In mobile view, highlight instruction if user navigates to another
@@ -319,10 +313,6 @@ class NarrativeView extends ComponentView {
     if (this.model.get('_setCompletionOn') === 'inview') {
       this.setupInviewCompletion('.component__widget');
     }
-  }
-
-  preRemove() {
-    this.$('.narrative__slide-container')[0]?.removeEventListener('scroll', this.onScroll, true);
   }
 }
 
