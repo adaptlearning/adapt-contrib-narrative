@@ -6,7 +6,6 @@ import { templates, compile, classes } from 'core/js/reactHelpers';
 export default function Narrative(props) {
 
   const {
-    _id,
     _isActive,
     _items,
     _translateXOffset,
@@ -92,7 +91,7 @@ export default function Narrative(props) {
                   <div
                     className="narrative__content-title-inner"
                     role="heading"
-                    aria-level={a11y.ariaLevel({ id: _id, level: 'componentItem', override: (_ariaLevel || null) })}
+                    aria-level={a11y.ariaLevel({ level: 'componentItem', override: (_ariaLevel || null) })}
                     dangerouslySetInnerHTML={{ __html: compile(title, props) }} />
                 </div>
                 }
