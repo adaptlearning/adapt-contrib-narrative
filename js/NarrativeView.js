@@ -23,7 +23,7 @@ class NarrativeView extends ComponentView {
     this.model.set('_activeItemIndex', 0);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
-    this.narrativeReady = false;
+    this.isNarrativeReady = false;
   }
 
   preRender() {
@@ -72,7 +72,7 @@ class NarrativeView extends ComponentView {
     this.manageBackNextStates(index);
     this.setStage(item);
 
-    if (!this.narrativeReady || this._isInitial) return;
+    if (!this.isNarrativeReady || this._isInitial) return;
     this.setFocus(item);
   }
 
