@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
@@ -20,38 +20,10 @@ export default function Narrative(props) {
     shouldEnableBack,
     shouldEnableNext,
     _isInitial,
-    _isLargeMode,
-    _activeItemIndex,
     setFocus
   } = props;
 
   const narrativeWidgetRef = useRef(null);
-
-  useEffect(() => {
-    if (_isInitial || _activeItemIndex === undefined) return;
-
-    const itemIndex = _activeItemIndex;
-    const $straplineHeaderElm = $('.narrative__strapline-header-inner');
-    const hasStraplineTransition = !_isLargeMode && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-    if (hasStraplineTransition) {
-      $straplineHeaderElm.one('transitionend', () => {
-        focusOnNarrativeElement(itemIndex);
-      });
-      return;
-    }
-
-    focusOnNarrativeElement(itemIndex);
-  });
-
-  const focusOnNarrativeElement = (itemIndex) => {
-    const focusClass = _isLargeMode ? '.narrative__content-item' : '.narrative__strapline-btn';
-    const dataAttr = `[data-index='${itemIndex}']`;
-    const $elementToFocus = $(narrativeWidgetRef.current).find(focusClass + dataAttr);
-
-    if (!$elementToFocus.length) return;
-
-    a11y.focusFirst($elementToFocus);
-  };
 
   return (
     <div className={classes([
