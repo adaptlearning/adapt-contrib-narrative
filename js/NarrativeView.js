@@ -42,7 +42,9 @@ class NarrativeView extends ComponentView {
 
   setFocus(event) {
     const itemIndex = $(event.currentTarget).data('index');
-    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
+    // find the widget element from the button's ancestors
+    const $widgetElement = $(event.currentTarget).parents('.narrative__widget');
+    const $straplineHeaderElm = $widgetElement.find('.narrative__strapline-header-inner');
     const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
     if (hasStraplineTransition) {
       $straplineHeaderElm.one('transitionend', () => {
