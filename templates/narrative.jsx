@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React from 'react';
 import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
@@ -18,12 +18,8 @@ export default function Narrative(props) {
     backLabel,
     nextLabel,
     shouldEnableBack,
-    shouldEnableNext,
-    _isInitial,
-    setFocus
+    shouldEnableNext
   } = props;
-
-  const narrativeWidgetRef = useRef(null);
 
   return (
     <div className={classes([
@@ -39,7 +35,6 @@ export default function Narrative(props) {
         'component__widget narrative__widget',
         _hasNavigationInTextArea && 'narrative__text-controls'
       ])}
-      ref={narrativeWidgetRef}
       >
 
         <div className="narrative__content">
@@ -56,10 +51,6 @@ export default function Narrative(props) {
                 aria-hidden={!_isActive || null}
                 data-index={_index}
                 key={_index}
-                onChange={() => {
-                  if (!_isActive || _isInitial) return;
-                  setFocus();
-                }}
               >
 
                 {title &&

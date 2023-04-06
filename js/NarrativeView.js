@@ -23,7 +23,6 @@ class NarrativeView extends ComponentView {
     this.model.set('_activeItemIndex', 0);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
-    this.setFocus = this.setFocus.bind(this);
   }
 
   preRender() {
@@ -40,10 +39,10 @@ class NarrativeView extends ComponentView {
     this.calculateWidths();
   }
 
-  setFocus(event) {
-    const itemIndex = $(event.currentTarget).data('index');
+  setFocus(event, itemIndex) {
     // find the widget element from the button's ancestors
-    const $widgetElement = $(event.currentTarget).parents('.narrative__widget');
+    const $navigationButton = $(event.currentTarget);
+    const $widgetElement = $navigationButton.parents('.narrative__widget');
     const $straplineHeaderElm = $widgetElement.find('.narrative__strapline-header-inner');
     const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
     if (hasStraplineTransition) {
@@ -111,7 +110,6 @@ class NarrativeView extends ComponentView {
   }
 
   setupNarrative() {
-    this.renderMode();
     const items = this.model.getChildren();
     if (!items || !items.length) return;
 
@@ -314,6 +312,7 @@ class NarrativeView extends ComponentView {
 
     $btn.data('direction') === 'right' ? index++ : index--;
     this.model.setActiveItem(index);
+    this.setFocus(e, index);
   }
 
   onSwipeLeft() {
@@ -342,9 +341,8 @@ class NarrativeView extends ComponentView {
   }
 
   setupEventListeners() {
-    if (this.model.get('_setCompletionOn') === 'inview') {
-      this.setupInviewCompletion('.component__widget');
-    }
+    if (this.model.get('_setCompletionOn') !== 'inview') return;
+    this.setupInviewCompletion('.component__widget');
   }
 
   preRemove() {
