@@ -23,6 +23,7 @@ class NarrativeView extends ComponentView {
     this.model.set('_activeItemIndex', 0);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
+    this.narrativeReady = false;
   }
 
   preRender() {
@@ -32,18 +33,13 @@ class NarrativeView extends ComponentView {
     });
     this.renderMode();
 
-    this.listenTo(this.model.getChildren(), {
-      'change:_isActive': this.onItemsActiveChange
-    });
+    this.listenTo(this.model.getChildren(), 'change:_isActive', this.onItemsActiveChange);
 
     this.calculateWidths();
   }
 
-  setFocus(event, itemIndex) {
-    // find the widget element from the button's ancestors
-    const $navigationButton = $(event.currentTarget);
-    const $widgetElement = $navigationButton.parents('.narrative__widget');
-    const $straplineHeaderElm = $widgetElement.find('.narrative__strapline-header-inner');
+  setFocus(itemIndex) {
+    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
     const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
     if (hasStraplineTransition) {
       $straplineHeaderElm.one('transitionend', () => {
@@ -75,6 +71,9 @@ class NarrativeView extends ComponentView {
 
     this.manageBackNextStates(index);
     this.setStage(item);
+
+    if (!this.narrativeReady || this._isInitial) return;
+    this.setFocus(item);
   }
 
   calculateMode() {
@@ -104,9 +103,9 @@ class NarrativeView extends ComponentView {
   postRender() {
     this.renderMode();
     this.setupNarrative();
-
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
+    this.narrativeReady = true;
   }
 
   setupNarrative() {
@@ -312,7 +311,6 @@ class NarrativeView extends ComponentView {
 
     $btn.data('direction') === 'right' ? index++ : index--;
     this.model.setActiveItem(index);
-    this.setFocus(e, index);
   }
 
   onSwipeLeft() {
