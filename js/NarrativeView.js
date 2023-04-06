@@ -1,4 +1,5 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
 import components from 'core/js/components';
 import device from 'core/js/device';
 import notify from 'core/js/notify';
@@ -22,6 +23,7 @@ class NarrativeView extends ComponentView {
     this.model.set('_activeItemIndex', 0);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
+    this.setFocus = this.setFocus.bind(this);
   }
 
   preRender() {
@@ -36,6 +38,28 @@ class NarrativeView extends ComponentView {
     });
 
     this.calculateWidths();
+  }
+
+  setFocus(event) {
+    const itemIndex = $(event.currentTarget).data('index');
+    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
+    const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
+    if (hasStraplineTransition) {
+      $straplineHeaderElm.one('transitionend', () => {
+        this.focusOnNarrativeElement(itemIndex);
+      });
+      return;
+    }
+
+    this.focusOnNarrativeElement(itemIndex);
+  }
+
+  focusOnNarrativeElement(itemIndex) {
+    const dataIndexAttr = `[data-index='${itemIndex}']`;
+    const $elementToFocus = this.isLargeMode() ?
+      this.$(`.narrative__content-item${dataIndexAttr}`) :
+      this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+    a11y.focusFirst($elementToFocus);
   }
 
   onItemsActiveChange(item, _isActive) {
@@ -80,7 +104,7 @@ class NarrativeView extends ComponentView {
     this.renderMode();
     this.setupNarrative();
 
-    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));    
+    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
   }
 
@@ -299,7 +323,7 @@ class NarrativeView extends ComponentView {
     let index = this.model.getActiveItem().get('_index');
     this.model.setActiveItem(--index);
   }
-  
+
   onScroll (event) {
     event.preventDefault();
     event.target.scrollTo(0, 0);

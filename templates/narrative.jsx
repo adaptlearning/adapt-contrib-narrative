@@ -6,7 +6,6 @@ import { templates, compile, classes } from 'core/js/reactHelpers';
 export default function Narrative(props) {
 
   const {
-    _isActive,
     _items,
     _translateXOffset,
     _hasNavigationInTextArea,
@@ -22,13 +21,14 @@ export default function Narrative(props) {
     shouldEnableNext,
     _isInitial,
     _isLargeMode,
-    _activeItemIndex
+    _activeItemIndex,
+    setFocus
   } = props;
 
   const narrativeWidgetRef = useRef(null);
 
   useEffect(() => {
-    if (_isInitial || _activeItemIndex === undefined || !_isActive) return;
+    if (_isInitial || _activeItemIndex === undefined) return;
 
     const itemIndex = _activeItemIndex;
     const $straplineHeaderElm = $('.narrative__strapline-header-inner');
@@ -84,6 +84,10 @@ export default function Narrative(props) {
                 aria-hidden={!_isActive || null}
                 data-index={_index}
                 key={_index}
+                onChange={() => {
+                  if (!_isActive || _isInitial) return;
+                  setFocus();
+                }}
               >
 
                 {title &&
