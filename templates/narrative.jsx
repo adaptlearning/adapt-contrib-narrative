@@ -135,7 +135,7 @@ export default function Narrative(props) {
               }}
             >
 
-              {_items.map(({ _index, _isVisited, strapline }) =>
+              {_items.map(({ _index, _isActive, _isVisited, strapline }) =>
 
                 <button
                   className={classes([
@@ -143,6 +143,8 @@ export default function Narrative(props) {
                     _isVisited && 'is-visited'
                   ])}
                   aria-label={strapline}
+                  tabIndex={_isActive ? 0 : -1}
+                  aria-hidden={!_isActive || null}
                   style={{ width: `${_itemWidth}%` }}
                   onClick={openPopup}
                   data-index={_index}
