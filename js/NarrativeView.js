@@ -38,15 +38,14 @@ class NarrativeView extends ComponentView {
   }
 
   setFocus(itemIndex) {
-    const $straplineHeaderElm = this.$('.narrative__strapline-header-inner');
-    const hasStraplineTransition = !this.isLargeMode() && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-    if (hasStraplineTransition) {
-      $straplineHeaderElm.one('transitionend', () => {
-        this.focusOnNarrativeElement(itemIndex);
-      });
+    const $animatedElement = this.isLargeMode()
+      ? this.$('.narrative__slider')
+      : this.$('.narrative__strapline-header-inner');
+    const hasAnimation = ($animatedElement.css('transitionDuration') !== '0s');
+    if (hasAnimation) {
+      $animatedElement.one('transitionend', () => this.focusOnNarrativeElement(itemIndex));
       return;
     }
-
     this.focusOnNarrativeElement(itemIndex);
   }
 
@@ -104,7 +103,6 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
-    this.narrativeReady = true;
   }
 
   setupNarrative() {
