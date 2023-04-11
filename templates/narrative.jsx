@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
@@ -19,39 +19,8 @@ export default function Narrative(props) {
     backLabel,
     nextLabel,
     shouldEnableBack,
-    shouldEnableNext,
-    _isInitial,
-    _isLargeMode,
-    _activeItemIndex
+    shouldEnableNext
   } = props;
-
-  const narrativeWidgetRef = useRef(null);
-
-  useEffect(() => {
-    if (_isInitial || _activeItemIndex === undefined) return;
-
-    const itemIndex = _activeItemIndex;
-    const $straplineHeaderElm = $('.narrative__strapline-header-inner');
-    const hasStraplineTransition = !_isLargeMode && ($straplineHeaderElm.css('transitionDuration') !== '0s');
-    if (hasStraplineTransition) {
-      $straplineHeaderElm.one('transitionend', () => {
-        focusOnNarrativeElement(itemIndex);
-      });
-      return;
-    }
-
-    focusOnNarrativeElement(itemIndex);
-  });
-
-  const focusOnNarrativeElement = (itemIndex) => {
-    const focusClass = _isLargeMode ? '.narrative__content-item' : '.narrative__strapline-btn';
-    const dataAttr = `[data-index='${itemIndex}']`;
-    const $elementToFocus = $(narrativeWidgetRef.current).find(focusClass + dataAttr);
-
-    if (!$elementToFocus.length) return;
-
-    a11y.focusFirst($elementToFocus);
-  };
 
   return (
     <div className={classes([
@@ -67,7 +36,6 @@ export default function Narrative(props) {
         'component__widget narrative__widget',
         _hasNavigationInTextArea && 'narrative__text-controls'
       ])}
-      ref={narrativeWidgetRef}
       >
 
         <div className="narrative__content">
@@ -168,7 +136,7 @@ export default function Narrative(props) {
               }}
             >
 
-              {_items.map(({ _index, _isVisited, strapline }) =>
+              {_items.map(({ _index, _isActive, _isVisited, strapline }) =>
 
                 <button
                   className={classes([
@@ -176,6 +144,8 @@ export default function Narrative(props) {
                     _isVisited && 'is-visited'
                   ])}
                   aria-label={strapline}
+                  tabIndex={_isActive ? 0 : -1}
+                  aria-hidden={!_isActive || null}
                   style={{ width: `${_itemWidth}%` }}
                   onClick={openPopup}
                   data-index={_index}

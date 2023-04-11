@@ -1,4 +1,5 @@
 import Adapt from 'core/js/adapt';
+import a11y from 'core/js/a11y';
 import components from 'core/js/components';
 import device from 'core/js/device';
 import notify from 'core/js/notify';
@@ -31,11 +32,29 @@ class NarrativeView extends ComponentView {
     });
     this.renderMode();
 
-    this.listenTo(this.model.getChildren(), {
-      'change:_isActive': this.onItemsActiveChange
-    });
+    this.listenTo(this.model.getChildren(), 'change:_isActive', this.onItemsActiveChange);
 
     this.calculateWidths();
+  }
+
+  setFocus(itemIndex) {
+    const $animatedElement = this.isLargeMode()
+      ? this.$('.narrative__slider')
+      : this.$('.narrative__strapline-header-inner');
+    const hasAnimation = ($animatedElement.css('transitionDuration') !== '0s');
+    if (hasAnimation) {
+      $animatedElement.one('transitionend', () => this.focusOnNarrativeElement(itemIndex));
+      return;
+    }
+    this.focusOnNarrativeElement(itemIndex);
+  }
+
+  focusOnNarrativeElement(itemIndex) {
+    const dataIndexAttr = `[data-index='${itemIndex}']`;
+    const $elementToFocus = this.isLargeMode() ?
+      this.$(`.narrative__content-item${dataIndexAttr}`) :
+      this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+    a11y.focusFirst($elementToFocus);
   }
 
   onItemsActiveChange(item, _isActive) {
@@ -50,6 +69,9 @@ class NarrativeView extends ComponentView {
 
     this.manageBackNextStates(index);
     this.setStage(item);
+
+    if (this.model.get('_isInitial')) return;
+    this.setFocus(index);
   }
 
   calculateMode() {
@@ -79,13 +101,11 @@ class NarrativeView extends ComponentView {
   postRender() {
     this.renderMode();
     this.setupNarrative();
-
-    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));    
+    this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
   }
 
   setupNarrative() {
-    this.renderMode();
     const items = this.model.getChildren();
     if (!items || !items.length) return;
 
@@ -299,7 +319,7 @@ class NarrativeView extends ComponentView {
     let index = this.model.getActiveItem().get('_index');
     this.model.setActiveItem(--index);
   }
-  
+
   onScroll (event) {
     event.preventDefault();
     event.target.scrollTo(0, 0);
@@ -316,9 +336,8 @@ class NarrativeView extends ComponentView {
   }
 
   setupEventListeners() {
-    if (this.model.get('_setCompletionOn') === 'inview') {
-      this.setupInviewCompletion('.component__widget');
-    }
+    if (this.model.get('_setCompletionOn') !== 'inview') return;
+    this.setupInviewCompletion('.component__widget');
   }
 
   preRemove() {
