@@ -1,5 +1,6 @@
 import Adapt from 'core/js/adapt';
 import a11y from 'core/js/a11y';
+import data from 'core/js/data';
 import components from 'core/js/components';
 import device from 'core/js/device';
 import notify from 'core/js/notify';
@@ -174,7 +175,15 @@ class NarrativeView extends ComponentView {
     const model = this.prepareHotgraphicModel();
     const newHotgraphic = new HotgraphicView({ model });
 
-    this.$el.parents('.component__container').append(newHotgraphic.$el);
+    const parentView = data.findViewByModelId(model.get('_parentId'));
+    const $container = parentView.$el.find('.component__container');
+    $container.append(newHotgraphic.$el);
+
+    const parentChildViews = parentView.getChildViews();
+    const currentIndex = parentChildViews.findIndex(view => view === this);
+    parentChildViews[currentIndex] = newHotgraphic;
+    parentView.setChildViews(parentChildViews);
+
     this.remove();
     _.defer(() => {
       Adapt.trigger('device:resize');
