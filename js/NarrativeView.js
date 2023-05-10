@@ -75,7 +75,7 @@ class NarrativeView extends ComponentView {
   }
 
   calculateMode() {
-    const mode = device.screenSize === 'large' ? MODE.LARGE : MODE.SMALL;
+    const mode = device.isScreenSizeMin('medium') ? MODE.LARGE : MODE.SMALL;
     this.model.set('_mode', mode);
     this.model.set('_isLargeMode', mode === MODE.LARGE);
   }
@@ -92,7 +92,7 @@ class NarrativeView extends ComponentView {
   }
 
   isTextBelowImage() {
-    const isTextBelowImage = (device.screenSize === 'large')
+    const isTextBelowImage = (device.isScreenSizeMin('medium'))
       ? this.model.get('_isTextBelowImage')
       : this.model.get('_isMobileTextBelowImage');
     return Boolean(isTextBelowImage);
