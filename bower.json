@@ -1,7 +1,7 @@
 {
   "name": "adapt-contrib-narrative",
-  "version": "7.4.5",
-  "framework": ">=5.20.1",
+  "version": "7.4.6",
+  "framework": ">=5.31.2",
   "homepage": "https://github.com/adaptlearning/adapt-contrib-narrative",
   "bugs": "https://github.com/adaptlearning/adapt-contrib-narrative/issues",
   "component": "narrative",
@@ -22,7 +22,7 @@
     "@semantic-release/npm": "^9.0.1",
     "@semantic-release/release-notes-generator": "^10.0.3",
     "conventional-changelog-eslint": "^3.0.9",
-    "semantic-release": "^19.0.3"
+    "semantic-release": "^21.0.1"
   },
   "scripts": {
     "postversion": "cp package.json bower.json"
