@@ -46,7 +46,10 @@ class NarrativeView extends ComponentView {
       $animatedElement.one('transitionend', () => this.focusOnNarrativeElement(itemIndex));
       return;
     }
-    this.focusOnNarrativeElement(itemIndex);
+    // Allow dom to settle before moving focus
+    requestAnimationFrame(() => {
+      this.focusOnNarrativeElement(itemIndex);
+    });
   }
 
   focusOnNarrativeElement(itemIndex) {
@@ -55,6 +58,9 @@ class NarrativeView extends ComponentView {
       this.$(`.narrative__content-item${dataIndexAttr}`) :
       this.$(`.narrative__strapline-btn${dataIndexAttr}`);
     a11y.focusFirst($elementToFocus);
+    // Set button labels after focus to stop the change reading on a focused button
+    this.setupBackNextLabels();
+    this.manageBackNextStates();
   }
 
   onItemsActiveChange(item, _isActive) {
@@ -67,10 +73,13 @@ class NarrativeView extends ComponentView {
     const index = item.get('_index');
     this.model.set('_activeItemIndex', index);
 
-    this.manageBackNextStates(index);
     this.setStage(item);
 
-    if (this.model.get('_isInitial')) return;
+    if (this.model.get('_isInitial')) {
+      this.setupBackNextLabels();
+      this.manageBackNextStates();
+      return;
+    }
     this.setFocus(index);
   }
 
@@ -210,7 +219,6 @@ class NarrativeView extends ComponentView {
       item.toggleVisited(true);
     }
 
-    this.setupBackNextLabels();
     this.evaluateCompletion();
     this.shouldShowInstructionError();
     this.moveSliderToIndex(index);
