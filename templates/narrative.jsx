@@ -85,10 +85,10 @@ export default function Narrative(props) {
                   'btn-icon narrative__controls narrative__controls-left',
                   !shouldEnableBack && 'is-disabled'
                 ])}
-                aria-label={backLabel}
                 aria-disabled={!shouldEnableBack || null}
                 onClick={onNavigationClicked}
               >
+                <span className="aria-label" dangerouslySetInnerHTML={{ __html: backLabel }} />
                 <span className="icon" aria-hidden="true" />
               </button>
 
@@ -113,10 +113,10 @@ export default function Narrative(props) {
                   'btn-icon narrative__controls narrative__controls-right',
                   !shouldEnableNext && 'is-disabled'
                 ])}
-                aria-label={nextLabel}
                 aria-disabled={!shouldEnableNext || null}
                 onClick={onNavigationClicked}
               >
+                <span className="aria-label" dangerouslySetInnerHTML={{ __html: nextLabel }} />
                 <span className="icon" aria-hidden="true" />
               </button>
 
@@ -226,10 +226,10 @@ export default function Narrative(props) {
               'btn-icon narrative__controls narrative__controls-left',
               !shouldEnableBack && 'is-disabled'
             ])}
-            aria-label={backLabel}
             aria-disabled={!shouldEnableBack || null}
             onClick={onNavigationClicked}
           >
+            <span className="aria-label" dangerouslySetInnerHTML={{ __html: backLabel }} />
             <span className="icon" aria-hidden="true" />
           </button>
 
@@ -239,10 +239,10 @@ export default function Narrative(props) {
               'btn-icon narrative__controls narrative__controls-right',
               !shouldEnableNext && 'is-disabled'
             ])}
-            aria-label={nextLabel}
             aria-disabled={!shouldEnableNext || null}
             onClick={onNavigationClicked}
           >
+            <span className="aria-label" dangerouslySetInnerHTML={{ __html: nextLabel }} />
             <span className="icon" aria-hidden="true" />
           </button>
 
