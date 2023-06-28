@@ -52,6 +52,8 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button.
 
+**\_isStackedOnMobile** (boolean): If enabled, on mobile, text and images will be stacked vertically. No interaction will be required to view all items as the user will simply scroll down.
+
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
 
 **\_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom.
