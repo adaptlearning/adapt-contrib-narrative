@@ -11,6 +11,8 @@ import { compile } from 'core/js/reactHelpers';
 class NarrativeView extends ComponentView {
 
   events() {
+    if (this.model.get('_isStackedOnMobile')) return;
+
     return {
       'swipeleft .js-narrative-swipe': 'onSwipeLeft',
       'swiperight .js-narrative-swipe': 'onSwipeRight'
