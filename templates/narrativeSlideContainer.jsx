@@ -1,7 +1,6 @@
 import React from 'react';
-import a11y from 'core/js/a11y';
 import MODE from '../js/modeEnum';
-import { classes } from 'core/js/reactHelpers';
+import { templates, classes } from 'core/js/reactHelpers';
 
 export default function NarrativeSlideContainer(props) {
 
@@ -49,22 +48,7 @@ export default function NarrativeSlideContainer(props) {
             key={_index}
           >
 
-            <img
-              className="narrative__slider-image js-narrative-swipe"
-              src={_graphic.src}
-              aria-label={a11y.normalize(_graphic.alt) || null}
-              aria-hidden={!_graphic.alt || null}
-              draggable="false"
-            />
-
-            {_graphic.attribution &&
-            <div className="component__attribution narrative__attribution">
-              <div
-                className="component__attribution-inner narrative__attribution-inner"
-                dangerouslySetInnerHTML={{ __html: _graphic.attribution }}
-              />
-            </div>
-            }
+            <templates.narrativeImage {..._graphic} />
 
           </div>
 

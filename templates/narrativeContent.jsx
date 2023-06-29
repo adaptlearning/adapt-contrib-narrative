@@ -1,19 +1,22 @@
 import React from 'react';
 import a11y from 'core/js/a11y';
+import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
 
   const {
     _id,
-    _items
+    _items,
+    _mode,
+    _isStackedOnMobile
   } = props;
 
   return (
     <div className="narrative__content">
       <div className="narrative__content-inner">
 
-        {_items.map(({ _index, _isActive, _isVisited, title, body, _ariaLevel }) =>
+        {_items.map(({ _index, _isActive, _isVisited, title, body, _ariaLevel, _graphic }) =>
 
           <div
             className={classes([
@@ -25,6 +28,12 @@ export default function Narrative(props) {
             data-index={_index}
             key={_index}
           >
+
+            {(_graphic && _isStackedOnMobile && _mode !== MODE.LARGE) &&
+              <div className="narrative__content-image">
+                <templates.narrativeImage {..._graphic} />
+              </div>
+            }
 
             {title &&
             <div className="narrative__content-title">
