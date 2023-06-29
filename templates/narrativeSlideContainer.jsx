@@ -1,11 +1,14 @@
 import React from 'react';
 import a11y from 'core/js/a11y';
+import MODE from '../js/modeEnum';
 import { classes } from 'core/js/reactHelpers';
 
 export default function NarrativeSlideContainer(props) {
 
   const {
     _items,
+    _mode,
+    _isStackedOnMobile,
     _translateXOffset,
     onNavigationClicked,
     _itemWidth,
@@ -15,6 +18,10 @@ export default function NarrativeSlideContainer(props) {
     shouldEnableBack,
     shouldEnableNext
   } = props;
+
+  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+    return false;
+  }
 
   return (
     <div className="narrative__slide-container">

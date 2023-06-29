@@ -1,11 +1,22 @@
 import React from 'react';
+import MODE from '../js/modeEnum';
 import { classes } from 'core/js/reactHelpers';
 
 export default function NarrativeIndicators(props) {
+  const {
+    _items,
+    _mode,
+    _isStackedOnMobile
+  } = props;
+
+  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+    return false;
+  }
+
   return (
     <div className="narrative__indicators narrative__slide-indicators">
 
-      {props._items.map(({ _index, _isVisited, _isActive }) =>
+      {_items.map(({ _index, _isVisited, _isActive }) =>
         <div
           className={classes([
             'narrative__progress',

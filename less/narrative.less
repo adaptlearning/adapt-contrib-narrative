@@ -260,4 +260,18 @@
   .mode-small &__text-controls &__slide-indicators {
     .u-display-none;
   }
+
+  // Stacked mobile layout
+  // --------------------------------------------------
+  &__widget.is-stacked {
+    .narrative__content {
+      display: block;
+    }
+    .narrative__content-item {
+      display: block !important;
+      visibility: visible !important;
+      margin-bottom: (@item-margin * 3);
+    }
+  }
+
 }

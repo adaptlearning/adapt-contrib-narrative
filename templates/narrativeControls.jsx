@@ -1,15 +1,22 @@
 import React from 'react';
+import MODE from '../js/modeEnum';
 import { classes } from 'core/js/reactHelpers';
 
 export default function NarrativeControls(props) {
   const {
     _items,
+    _mode,
+    _isStackedOnMobile,
     onNavigationClicked,
     backLabel,
     nextLabel,
     shouldEnableBack,
     shouldEnableNext
   } = props;
+
+  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+    return false;
+  }
 
   return (
     <div className="narrative__controls-container u-clearfix">

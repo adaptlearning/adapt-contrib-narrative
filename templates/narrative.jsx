@@ -7,6 +7,7 @@ export default function Narrative(props) {
   const {
     _hasNavigationInTextArea,
     _mode,
+    _isStackedOnMobile,
     _isTextBelowImageResolved
   } = props;
 
@@ -22,7 +23,8 @@ export default function Narrative(props) {
 
       <div className={classes([
         'component__widget narrative__widget',
-        _hasNavigationInTextArea && 'narrative__text-controls'
+        _hasNavigationInTextArea && 'narrative__text-controls',
+        (_isStackedOnMobile && _mode !== MODE.LARGE) && 'is-stacked'
       ])}
       >
 

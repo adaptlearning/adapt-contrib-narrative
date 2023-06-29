@@ -1,15 +1,22 @@
 import React from 'react';
+import MODE from '../js/modeEnum';
 import { compile, classes } from 'core/js/reactHelpers';
 
 export default function NarrativeStrapline(props) {
 
   const {
     _items,
+    _mode,
+    _isStackedOnMobile,
     _translateXOffset,
     openPopup,
     _itemWidth,
     _totalWidth
   } = props;
+
+  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+    return false;
+  }
 
   return (
     <div className="narrative__strapline">
