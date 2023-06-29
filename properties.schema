@@ -74,6 +74,15 @@
       "validators": [],
       "help": "If enabled, on mobile, the text area drops below the image instead of being behind the strapline button"
     },
+    "_isStackedOnMobile": {
+      "type": "boolean",
+      "required": true,
+      "default": false,
+      "title": "Stack images and text on mobile",
+      "inputType": "Checkbox",
+      "validators": [],
+      "help": "If enabled, on mobile, text and images will be stacked vertically. No interaction will be required to view all items as the user will simply scroll down."
+    },
     "_hasNavigationInTextArea": {
       "type": "boolean",
       "required": true,
