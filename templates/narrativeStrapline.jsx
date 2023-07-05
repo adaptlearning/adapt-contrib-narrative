@@ -1,12 +1,11 @@
 import React from 'react';
-import MODE from '../js/modeEnum';
 import { compile, classes } from 'core/js/reactHelpers';
 
 export default function NarrativeStrapline(props) {
 
   const {
     _items,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile,
     _translateXOffset,
     openPopup,
@@ -14,7 +13,7 @@ export default function NarrativeStrapline(props) {
     _totalWidth
   } = props;
 
-  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+  if (_isStackedOnMobile && !_isLargeMode) {
     return false;
   }
 

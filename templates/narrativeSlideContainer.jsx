@@ -1,12 +1,11 @@
 import React from 'react';
-import MODE from '../js/modeEnum';
 import { templates, classes } from 'core/js/reactHelpers';
 
 export default function NarrativeSlideContainer(props) {
 
   const {
     _items,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile,
     _translateXOffset,
     onNavigationClicked,
@@ -18,7 +17,7 @@ export default function NarrativeSlideContainer(props) {
     shouldEnableNext
   } = props;
 
-  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+  if (_isStackedOnMobile && !_isLargeMode) {
     return false;
   }
 

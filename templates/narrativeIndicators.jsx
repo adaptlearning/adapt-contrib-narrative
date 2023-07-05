@@ -1,15 +1,14 @@
 import React from 'react';
-import MODE from '../js/modeEnum';
 import { classes } from 'core/js/reactHelpers';
 
 export default function NarrativeIndicators(props) {
   const {
     _items,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile
   } = props;
 
-  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+  if (_isStackedOnMobile && !_isLargeMode) {
     return false;
   }
 

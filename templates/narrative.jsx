@@ -1,12 +1,11 @@
 import React from 'react';
-import MODE from '../js/modeEnum';
 import { templates, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
 
   const {
     _hasNavigationInTextArea,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile,
     _isTextBelowImageResolved
   } = props;
@@ -14,7 +13,7 @@ export default function Narrative(props) {
   return (
     <div className={classes([
       'component__inner narrative__inner',
-      _mode === MODE.LARGE ? 'mode-large' : 'mode-small',
+      _isLargeMode ? 'mode-large' : 'mode-small',
       _isTextBelowImageResolved && 'items-are-full-width'
     ])}
     >
@@ -24,7 +23,7 @@ export default function Narrative(props) {
       <div className={classes([
         'component__widget narrative__widget',
         _hasNavigationInTextArea && 'narrative__text-controls',
-        (_isStackedOnMobile && _mode !== MODE.LARGE) && 'is-stacked'
+        (_isStackedOnMobile && !_isLargeMode) && 'is-stacked'
       ])}
       >
 

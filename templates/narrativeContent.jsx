@@ -1,6 +1,5 @@
 import React from 'react';
 import a11y from 'core/js/a11y';
-import MODE from '../js/modeEnum';
 import { templates, compile, classes } from 'core/js/reactHelpers';
 
 export default function Narrative(props) {
@@ -8,7 +7,7 @@ export default function Narrative(props) {
   const {
     _id,
     _items,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile
   } = props;
 
@@ -29,7 +28,7 @@ export default function Narrative(props) {
             key={_index}
           >
 
-            {(_graphic && _isStackedOnMobile && _mode !== MODE.LARGE) &&
+            {(_graphic && _isStackedOnMobile && !_isLargeMode) &&
               <div className="narrative__content-image">
                 <templates.narrativeImage {..._graphic} />
               </div>

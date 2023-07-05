@@ -1,11 +1,10 @@
 import React from 'react';
-import MODE from '../js/modeEnum';
 import { classes } from 'core/js/reactHelpers';
 
 export default function NarrativeControls(props) {
   const {
     _items,
-    _mode,
+    _isLargeMode,
     _isStackedOnMobile,
     onNavigationClicked,
     backLabel,
@@ -14,7 +13,7 @@ export default function NarrativeControls(props) {
     shouldEnableNext
   } = props;
 
-  if (_isStackedOnMobile && _mode !== MODE.LARGE) {
+  if (_isStackedOnMobile && !_isLargeMode) {
     return false;
   }
 
