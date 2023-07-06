@@ -48,15 +48,15 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **mobileInstruction** (string): This is optional instruction text that will be shown when viewed on mobile. It may be used to guide the learner’s interaction with the component. When using `_isStackedOnMobile: true`, this attribute will be ignored.
 
-**\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being beside it.
+**\_isTextBelowImage** (boolean): If enabled, the text area drops below the image instead of being beside it. The default value is `false`
 
-**\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button. When using `_isStackedOnMobile: true`, this attribute will be ignored.
+**\_isMobileTextBelowImage** (boolean): If enabled, on mobile, the text area drops below the image instead of being behind the strapline button. When using `_isStackedOnMobile: true`, this attribute will be ignored. The default value is `false`
 
-**\_isStackedOnMobile** (boolean): If enabled, on mobile, text and images will be stacked vertically. No interaction will be required to view all items as the user will simply scroll down. When disabled, the strapline mobile layout will be used.
+**\_isStackedOnMobile** (boolean): If enabled, on mobile, text and images will be stacked vertically. No interaction will be required to view all items as the user will simply scroll down. When disabled, the strapline mobile layout will be used. The default value is `false`
 
-**\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region.
+**\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region. The default value is `false`
 
-**\_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom. When using `_isStackedOnMobile: true`, this attribute will be ignored as completion is always set to `"inview"`.
+**\_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom. When using `_isStackedOnMobile: true`, this attribute will be ignored as completion is always set to `"inview"`. The default value is `"allItems"`
 
 **\_items** (array): Multiple items may be created. Each item represents one slide and contains values for the narrative (**title**, **body**), the image (**\_graphic**), and the slide's header when viewed on a mobile device (**\_strapLine**).
 
