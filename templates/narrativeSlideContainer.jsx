@@ -47,7 +47,11 @@ export default function NarrativeSlideContainer(props) {
             key={_index}
           >
 
-            <templates.narrativeImage {..._graphic} />
+            <templates.image {..._graphic}
+              classNamePrefixes={['narrative__slider-image js-narrative-swipe']}
+              attributionClassNamePrefixes={['component', 'narrative']}
+              draggable="false"
+            />
 
           </div>
 

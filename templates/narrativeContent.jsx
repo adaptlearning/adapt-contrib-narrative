@@ -30,7 +30,11 @@ export default function Narrative(props) {
 
             {(_graphic && _isStackedOnMobile && !_isLargeMode) &&
               <div className="narrative__content-image">
-                <templates.narrativeImage {..._graphic} />
+                <templates.image {..._graphic}
+                  classNamePrefixes={['narrative__slider-image js-narrative-swipe']}
+                  attributionClassNamePrefixes={['component', 'narrative']}
+                  draggable="false"
+                />
               </div>
             }
 
