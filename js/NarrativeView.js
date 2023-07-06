@@ -94,6 +94,7 @@ class NarrativeView extends ComponentView {
 
   renderMode() {
     this.calculateMode();
+    this.setupEventListeners();
 
     const isTextBelowImage = this.isTextBelowImage();
     this.model.set('_isTextBelowImageResolved', isTextBelowImage);
@@ -354,8 +355,19 @@ class NarrativeView extends ComponentView {
     this.$('.narrative__instruction').addClass('has-error');
   }
 
+  shouldUseInviewCompletion() {
+    const config = this.model;
+    const setCompletionOn = config.get('_setCompletionOn');
+    const isMobileAndStacked = config.get('_isStackedOnMobile') && !config.get('_isLargeMode');
+
+    if (setCompletionOn === 'inview' || isMobileAndStacked) { return true; }
+
+    return false;
+  }
+
   setupEventListeners() {
-    if (this.model.get('_setCompletionOn') !== 'inview') return;
+    if (!this.shouldUseInviewCompletion()) return;
+
     this.setupInviewCompletion('.component__widget');
   }
 
