@@ -14,7 +14,8 @@ export default function Narrative(props) {
     <div className={classes([
       'component__inner narrative__inner',
       _isLargeMode ? 'mode-large' : 'mode-small',
-      _isTextBelowImageResolved && 'items-are-full-width'
+      _isTextBelowImageResolved && 'items-are-full-width',
+      (_isStackedOnMobile && !_isLargeMode) && 'is-stacked'
     ])}
     >
 
@@ -22,8 +23,7 @@ export default function Narrative(props) {
 
       <div className={classes([
         'component__widget narrative__widget',
-        _hasNavigationInTextArea && 'narrative__text-controls',
-        (_isStackedOnMobile && !_isLargeMode) && 'is-stacked'
+        _hasNavigationInTextArea && 'narrative__text-controls'
       ])}
       >
 
