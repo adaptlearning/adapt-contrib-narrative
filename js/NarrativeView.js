@@ -360,9 +360,9 @@ class NarrativeView extends ComponentView {
     const setCompletionOn = config.get('_setCompletionOn');
     const isMobileAndStacked = config.get('_isStackedOnMobile') && !config.get('_isLargeMode');
 
-    if (setCompletionOn === 'inview' || isMobileAndStacked) { return true; }
+    if (!isMobileAndStacked && setCompletionOn !== 'inview') { return false; }
 
-    return false;
+    return true;
   }
 
   setupEventListeners() {
