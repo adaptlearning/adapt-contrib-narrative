@@ -39,7 +39,7 @@ class NarrativeView extends ComponentView {
   }
 
   setFocus(itemIndex) {
-    const $animatedElement = this.isLargeMode()
+    const $animatedElement = this.isLargeMode() || this.model.get('_isMobileTextBelowImage')
       ? this.$('.narrative__slider')
       : this.$('.narrative__strapline-header-inner');
     const hasAnimation = ($animatedElement.css('transitionDuration') !== '0s');
@@ -55,9 +55,9 @@ class NarrativeView extends ComponentView {
 
   focusOnNarrativeElement(itemIndex) {
     const dataIndexAttr = `[data-index='${itemIndex}']`;
-    const $elementToFocus = this.isLargeMode() ?
-      this.$(`.narrative__content-item${dataIndexAttr}`) :
-      this.$(`.narrative__strapline-btn${dataIndexAttr}`);
+    const $elementToFocus = this.isLargeMode() || this.model.get('_isMobileTextBelowImage')
+      ? this.$(`.narrative__content-item${dataIndexAttr}`)
+      : this.$(`.narrative__strapline-btn${dataIndexAttr}`);
     a11y.focusFirst($elementToFocus);
     // Set button labels after focus to stop the change reading on a focused button
     this.setupBackNextLabels();
