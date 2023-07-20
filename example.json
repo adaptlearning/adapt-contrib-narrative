@@ -15,6 +15,7 @@
         "_setCompletionOn": "allItems",
         "_isTextBelowImage": false,
         "_isMobileTextBelowImage": false,
+        "_isStackedOnMobile": false,
         "_items": [
             {
                 "title": "Narrative item 1 title",
