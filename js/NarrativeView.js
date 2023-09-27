@@ -90,14 +90,20 @@ class NarrativeView extends ComponentView {
     const mode = device.isScreenSizeMin('medium') ? MODE.LARGE : MODE.SMALL;
     this.model.set('_mode', mode);
     this.model.set('_isLargeMode', mode === MODE.LARGE);
+    return mode;
   }
 
   renderMode() {
-    this.calculateMode();
+    const mode = this.calculateMode();
     this.setupEventListeners();
 
     const isTextBelowImage = this.isTextBelowImage();
     this.model.set('_isTextBelowImageResolved', isTextBelowImage);
+
+    const isLargeMode = (mode === MODE.LARGE);
+    const isSmallModeAndTextBelowImage = (mode === MODE.SMALL && isTextBelowImage);
+    const hasNavigationInTextArea = this.model.get('_hasNavigationInTextArea') && (isLargeMode || isSmallModeAndTextBelowImage);
+    this.model.set('_hasNavigationInTextAreaResolved', hasNavigationInTextArea);
   }
 
   isLargeMode() {

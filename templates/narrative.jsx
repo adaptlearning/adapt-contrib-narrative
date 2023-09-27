@@ -4,7 +4,7 @@ import { templates, classes } from 'core/js/reactHelpers';
 export default function Narrative(props) {
 
   const {
-    _hasNavigationInTextArea,
+    _hasNavigationInTextAreaResolved,
     _isLargeMode,
     _isStackedOnMobile,
     _isTextBelowImageResolved
@@ -23,7 +23,7 @@ export default function Narrative(props) {
 
       <div className={classes([
         'component__widget narrative__widget',
-        _hasNavigationInTextArea && 'narrative__text-controls'
+        _hasNavigationInTextAreaResolved && 'narrative__text-controls'
       ])}
       >
 
