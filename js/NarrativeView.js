@@ -138,10 +138,6 @@ class NarrativeView extends ComponentView {
     }
 
     this.calculateWidths();
-
-    if (!this.isLargeMode() && !this.model.get('_wasHotgraphic')) {
-      this.replaceInstructions();
-    }
     this.setupEventListeners();
     this.model.set('_isInitial', false);
   }
@@ -155,9 +151,7 @@ class NarrativeView extends ComponentView {
   }
 
   resizeControl() {
-    const previousMode = this.model.get('_mode');
     this.renderMode();
-    if (previousMode !== this.model.get('_mode')) this.replaceInstructions();
     this.setupBackNextLabels();
     const activeItem = this.model.getActiveItem();
     if (activeItem) this.setStage(activeItem);
@@ -173,17 +167,6 @@ class NarrativeView extends ComponentView {
 
   closeNotify() {
     this.evaluateCompletion();
-  }
-
-  replaceInstructions() {
-    if (this.isLargeMode() || this.isTextBelowImage()) {
-      this.$('.narrative__instruction-inner').html(this.model.get('instruction'));
-      return;
-    }
-
-    if (this.model.get('mobileInstruction') && !this.model.get('_wasHotgraphic')) {
-      this.$('.narrative__instruction-inner').html(this.model.get('mobileInstruction'));
-    }
   }
 
   replaceWithHotgraphic() {
