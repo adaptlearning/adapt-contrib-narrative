@@ -91,11 +91,6 @@
                   "translatable": true
                 }
               },
-              "_ariaLevel": {
-                "type": "number",
-                "title": "Title ARIA level",
-                "default": 0
-              },
               "body": {
                 "type": "string",
                 "title": "Body",
