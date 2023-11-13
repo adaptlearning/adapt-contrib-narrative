@@ -123,15 +123,6 @@
             "help": "",
             "translatable": true
           },
-          "_ariaLevel": {
-            "type": "number",
-            "required": true,
-            "default": 0,
-            "title": "Narrative title level",
-            "inputType": "Number",
-            "validators": ["required", "number"],
-            "help": "Aria level for title"
-          },
           "body": {
             "type": "string",
             "required": false,

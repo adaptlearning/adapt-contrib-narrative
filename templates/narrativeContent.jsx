@@ -15,7 +15,7 @@ export default function Narrative(props) {
     <div className="narrative__content">
       <div className="narrative__content-inner">
 
-        {_items.map(({ _index, _isActive, _isVisited, title, body, _ariaLevel, _graphic }) =>
+        {_items.map(({ _index, _isActive, _isVisited, title, body, _graphic }) =>
 
           <div
             className={classes([
@@ -43,7 +43,7 @@ export default function Narrative(props) {
               <div
                 className="narrative__content-title-inner"
                 role="heading"
-                aria-level={a11y.ariaLevel({ id: _id, level: 'componentItem', override: (_ariaLevel || null) })}
+                aria-level={a11y.ariaLevel({ id: _id, level: 'componentItem' })}
                 dangerouslySetInnerHTML={{ __html: compile(title, props) }} />
             </div>
             }
