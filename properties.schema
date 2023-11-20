@@ -169,12 +169,12 @@
           },
           "strapline": {
             "type": "string",
-            "required": true,
+            "required": false,
             "default": "",
             "title": "Narrative strapline",
             "inputType": "Text",
-            "validators": ["required"],
-            "help": "",
+            "validators": [],
+            "help": "Optional if a succinct title is required for the strapline mobile layout. Leave empty to default to title text",
             "translatable": true
           }
         }
