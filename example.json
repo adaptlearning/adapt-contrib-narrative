@@ -25,7 +25,7 @@
                     "alt": "",
                     "attribution": "Copyright © 2019"
                 },
-                "strapline": "Narrative item 1 strapline"
+                "strapline": ""
             },
             {
                 "title": "Narrative item 2 title",
@@ -35,7 +35,7 @@
                     "alt": "",
                     "attribution": ""
                 },
-                "strapline": "Narrative item 2 strapline"
+                "strapline": ""
             },
             {
                 "title": "Narrative item 3 title",
@@ -45,7 +45,7 @@
                     "alt": "",
                     "attribution": ""
                 },
-                "strapline": "Narrative item 3 strapline"
+                "strapline": ""
             }
         ],
         "_pageLevelProgress": {
