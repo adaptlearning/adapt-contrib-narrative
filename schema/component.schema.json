@@ -140,6 +140,7 @@
               "strapline": {
                 "type": "string",
                 "title": "Strapline",
+                "description": "Optional if a succinct title is required for the strapline mobile layout. Leave empty to default to title text",
                 "default": "",
                 "_adapt": {
                   "translatable": true
