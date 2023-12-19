@@ -14,13 +14,8 @@
     @media (min-width: @device-width-medium) {
       display: block;
       .u-float-right;
-      margin-left: 2%;
+      margin-inline-start: 2%;
       width: 38%;
-
-      .dir-rtl & {
-        margin-left: inherit;
-        margin-right: 2%;
-      }
     }
   }
 
@@ -54,17 +49,12 @@
 
   &__strapline-title {
     display: block;
-    margin-right: @icon-size + (@item-padding * 2);
+    margin-inline-end: @icon-size + (@item-padding * 2);
     padding: @item-padding;
     overflow: hidden;
     text-overflow: ellipsis;
     // Override button line height to match icon size
     line-height: @icon-size;
-
-    .dir-rtl & {
-      margin-right: inherit;
-      margin-left: @icon-size + (@item-padding * 2);
-    }
   }
 
   &__strapline-title-inner {
