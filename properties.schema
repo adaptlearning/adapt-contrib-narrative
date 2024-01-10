@@ -15,7 +15,7 @@
     "previous": {
       "type": "string",
       "required": true,
-      "default": "{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}",
+      "default": "{{#if title}}Back to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -23,7 +23,7 @@
     "next": {
       "type": "string",
       "required": true,
-      "default": "{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}",
+      "default": "{{#if title}}Forward to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
       "inputType": "Text",
       "validators": [],
       "translatable": true
