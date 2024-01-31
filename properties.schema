@@ -115,11 +115,11 @@
         "properties": {
           "title": {
             "type": "string",
-            "required": false,
+            "required": true,
             "default": "",
             "title": "Narrative display title",
             "inputType": "Text",
-            "validators": [],
+            "validators": ["required"],
             "help": "",
             "translatable": true
           },
