@@ -20,5 +20,10 @@ export default class NarrativeModel extends ItemsComponentModel {
     const activeItem = this.getActiveItem();
     if (activeItem) numberArray.push(activeItem.get('_index'));
     this.set('_userAnswer', numberArray);
-  }  
+  }
+
+  setActiveItem(index) {
+    super.setActiveItem(index);
+    this.storeUserAnswer();
+  }
 }
