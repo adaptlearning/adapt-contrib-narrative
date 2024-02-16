@@ -9,7 +9,7 @@
 [Visit the **Narrative** wiki](https://github.com/adaptlearning/adapt-contrib-narrative/wiki) for more information about its functionality and for explanations of key properties.
 
 ## Installation
- 
+
 As one of Adapt's *[core components](https://github.com/adaptlearning/adapt_framework/wiki/Core-Plug-ins-in-the-Adapt-Learning-Framework#components),* **Narrative** is included with the [installation of the Adapt framework](https://github.com/adaptlearning/adapt_framework/wiki/Manual-installation-of-the-Adapt-framework#installation) and the [installation of the Adapt authoring tool](https://github.com/adaptlearning/adapt_authoring/wiki/Installing-Adapt-Origin).
 
 * If **Narrative** has been uninstalled from the Adapt framework, it may be reinstalled.
@@ -72,7 +72,7 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 >>**attribution** (string): Optional text to be displayed as an [attribution](https://wiki.creativecommons.org/Best_practices_for_attribution). By default it is displayed below the image. Adjust positioning by modifying CSS. Text can contain HTML tags, e.g., `Copyright © 2015 by Lukasz 'Severiaan' Grela`.
 
->**strapline** (string): This text is displayed as a title above the image when `device.screenSize` is `small` (i.e., when viewed on mobile devices). When using `_isStackedOnMobile: true`, this attribute will be ignored.
+>**strapline** (string): Optional if a succinct title is required for strapline mobile layout. The title is displayed above the image in the strapline button. Leave empty to default to **title** text. When using `_isStackedOnMobile: true`, this attribute will be ignored.
 
 ### Accessibility
 
@@ -88,4 +88,4 @@ On mobile devices by default, the narrative text is collapsed above the image. I
 **Author / maintainer:** Adapt Core Team with [contributors](https://github.com/adaptlearning/adapt-contrib-narrative/graphs/contributors)<br>
 **Accessibility support:** WAI AA<br>
 **RTL support:** Yes<br>
-**Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), Edge, IE11, Safari 14 for macOS/iOS/iPadOS, Opera<br>
+**Cross-platform coverage:** Chrome, Chrome for Android, Firefox (ESR + latest version), Edge, Safari 14 for macOS/iOS/iPadOS, Opera<br>

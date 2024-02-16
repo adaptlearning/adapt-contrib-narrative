@@ -29,7 +29,7 @@ export default function NarrativeStrapline(props) {
           }}
         >
 
-          {_items.map(({ _index, _isActive, _isVisited, strapline }) =>
+          {_items.map(({ _index, _isActive, _isVisited, strapline, title }) =>
 
             <button
               className={classes([
@@ -48,7 +48,7 @@ export default function NarrativeStrapline(props) {
               <span className="narrative__strapline-title">
                 <span
                   className="narrative__strapline-title-inner"
-                  dangerouslySetInnerHTML={{ __html: compile(strapline, props) }}
+                  dangerouslySetInnerHTML={{ __html: compile(strapline || title, props) }}
                 />
               </span>
 

@@ -15,7 +15,7 @@
     "previous": {
       "type": "string",
       "required": true,
-      "default": "{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}",
+      "default": "{{#if title}}Back to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -23,7 +23,7 @@
     "next": {
       "type": "string",
       "required": true,
-      "default": "{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}",
+      "default": "{{#if title}}Forward to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
       "inputType": "Text",
       "validators": [],
       "translatable": true
@@ -115,22 +115,13 @@
         "properties": {
           "title": {
             "type": "string",
-            "required": false,
+            "required": true,
             "default": "",
             "title": "Narrative display title",
             "inputType": "Text",
-            "validators": [],
+            "validators": ["required"],
             "help": "",
             "translatable": true
-          },
-          "_ariaLevel": {
-            "type": "number",
-            "required": true,
-            "default": 0,
-            "title": "Narrative title level",
-            "inputType": "Number",
-            "validators": ["required", "number"],
-            "help": "Aria level for title"
           },
           "body": {
             "type": "string",
@@ -178,12 +169,12 @@
           },
           "strapline": {
             "type": "string",
-            "required": true,
+            "required": false,
             "default": "",
             "title": "Narrative strapline",
             "inputType": "Text",
-            "validators": ["required"],
-            "help": "",
+            "validators": [],
+            "help": "Optional if a succinct title is required for the strapline mobile layout. Leave empty to default to title text",
             "translatable": true
           }
         }

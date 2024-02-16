@@ -91,11 +91,6 @@
                   "translatable": true
                 }
               },
-              "_ariaLevel": {
-                "type": "number",
-                "title": "Title ARIA level",
-                "default": 0
-              },
               "body": {
                 "type": "string",
                 "title": "Body",
@@ -145,6 +140,7 @@
               "strapline": {
                 "type": "string",
                 "title": "Strapline",
+                "description": "Optional if a succinct title is required for the strapline mobile layout. Leave empty to default to title text",
                 "default": "",
                 "_adapt": {
                   "translatable": true
