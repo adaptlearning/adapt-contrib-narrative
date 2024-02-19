@@ -18,7 +18,6 @@ describe('Narrative', function () {
 
   beforeEach(function () {
     cy.getData()
-    cy.visit('/');
   });
 
   it('should display the narrative component', function () {
