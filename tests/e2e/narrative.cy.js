@@ -6,7 +6,6 @@ describe('Narrative', function () {
       cy.get('.narrative__content-item.is-active').should('contain', narrativeItems[i+1].title)
       cy.get('.narrative__progress').eq(i+1).should('have.class', 'is-selected')
     }
-    // look into rtl - cy.get('.narrative__controls-left.is-disabled').should('exist')
     cy.get('.narrative__controls-right.is-disabled').should('exist')
     for (let i = itemsCount-2; i >= 0; i--) {
       cy.get('.narrative__controls-left').eq(1).click()
