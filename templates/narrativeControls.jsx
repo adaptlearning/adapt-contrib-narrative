@@ -21,7 +21,7 @@ export default function NarrativeControls(props) {
     <div className="narrative__controls-container u-clearfix">
 
       <button
-        data-direction="left"
+        data-direction="back"
         className={classes([
           'btn-icon narrative__controls narrative__controls-left',
           !shouldEnableBack && 'is-disabled'
@@ -49,7 +49,7 @@ export default function NarrativeControls(props) {
       </div>
 
       <button
-        data-direction="right"
+        data-direction="next"
         className={classes([
           'btn-icon narrative__controls narrative__controls-right',
           !shouldEnableNext && 'is-disabled'

@@ -313,20 +313,36 @@ class NarrativeView extends ComponentView {
 
   onNavigationClicked(e) {
     const $btn = $(e.currentTarget);
-    let index = this.model.getActiveItem().get('_index');
+    const direction = $btn.data('direction');
+    const index = this.getNextIndex(direction);
 
-    $btn.data('direction') === 'right' ? index++ : index--;
     this.model.setActiveItem(index);
   }
 
-  onSwipeLeft() {
+  getNextIndex(direction) {
     let index = this.model.getActiveItem().get('_index');
-    this.model.setActiveItem(++index);
+    const lastIndex = this.model.getChildren().length - 1;
+
+    switch (direction) {
+      case 'back':
+        if (index > 0) return --index;
+        if (this.model.get('_canCycleThroughPagination')) return lastIndex;
+        break;
+      case 'next':
+        if (index < lastIndex) return ++index;
+        if (this.model.get('_canCycleThroughPagination')) return 0;
+    }
+    return -1;
+  }
+
+  onSwipeLeft() {
+    const index = this.getNextIndex('next');
+    this.model.setActiveItem(index);
   }
 
   onSwipeRight() {
-    let index = this.model.getActiveItem().get('_index');
-    this.model.setActiveItem(--index);
+    const index = this.getNextIndex('back');
+    this.model.setActiveItem(index);
   }
 
   onScroll (event) {
@@ -339,6 +355,7 @@ class NarrativeView extends ComponentView {
    * item before completing, in case the strapline is missed
    */
   shouldShowInstructionError() {
+    if (this.model.get('_isLargeMode')) return;
     const prevItemIndex = this.model.getActiveItem().get('_index') - 1;
     if (prevItemIndex < 0 || this.model.getItem(prevItemIndex).get('_isVisited')) return;
     this.$('.narrative__instruction').addClass('has-error');

@@ -65,6 +65,12 @@
           "description": "If enabled, all navigation elements will be moved to the text area",
           "default": false
         },
+        "_canCycleThroughPagination": {
+          "type": "boolean",
+          "title": "Loop items",
+          "description": "If enabled, the navigation buttons will cycle continuously through the items (i.e. clicking next whilst on the last item will cause the first item to be shown)",
+          "default": false
+        },
         "_setCompletionOn": {
           "type": "string",
           "title": "Completion criteria",

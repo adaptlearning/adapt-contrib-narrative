@@ -56,6 +56,9 @@ The attributes listed below are used in *components.json* to configure **Narrati
 
 **\_hasNavigationInTextArea** (boolean): Determines the location of the arrows (icons) used to navigate from slide to slide. Navigation can overlay the image or the text. Set to `true` to have the navigation controls appear in the text region. The default value is `false`
 
+### \_canCycleThroughPagination (boolean):
+Enables the items to be cycled through endlessly using either the previous or next icon. When set to `true`, clicking "next" on the final stage will display the very first stage. When set to `false`, the final stage will display only a "previous" icon. The default is `false`.
+
 **\_setCompletionOn** (string): This value determines when the component registers as complete. Acceptable values are `"allItems"` and `"inview"`. `"allItems"` requires the learner to navigate to each slide. `"inview"` requires the **Narrative** component to enter the view port completely, top and bottom. When using `_isStackedOnMobile: true`, this attribute will be ignored as completion is always set to `"inview"`. The default value is `"allItems"`
 
 **\_items** (array): Multiple items may be created. Each item represents one slide and contains values for the narrative (**title**, **body**), the image (**\_graphic**), and the slide's header when viewed on a mobile device (**\_strapLine**).
