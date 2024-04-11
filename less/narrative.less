@@ -185,7 +185,7 @@
     padding-top: @icon-size + (@icon-padding * 2) + @item-padding;
   }
 
-  &__text-controls &__content &__indicators {
+  .mode-small &__text-controls &__content &__indicators {
     display: flex;
     width: 100%;
   }
@@ -197,7 +197,7 @@
     right: 0;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-start;
   }
 
   &__text-controls &__content &__controls {
@@ -207,11 +207,10 @@
     transform: none;
   }
 
-  // Hide slide controls and indicators until single column view
+  // Hide slide controls until single column view
   // --------------------------------------------------
   @media (min-width: @device-width-medium) {
-    &__text-controls &__slide-container &__controls,
-    &__text-controls &__slide-indicators {
+    &__text-controls &__slide-container &__controls {
       .u-display-none;
     }
   }

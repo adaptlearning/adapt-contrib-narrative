@@ -37,7 +37,7 @@ export default function NarrativeControls(props) {
         {_items.map(({ _index, _isVisited, _isActive }) =>
 
           <div className={classes([
-            'narrative__progress',
+            'narrative__progress test-controls-jsx',
             _isVisited && 'is-visited',
             _isActive && 'is-selected'
           ])}
