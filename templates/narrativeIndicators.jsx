@@ -24,7 +24,9 @@ export default function NarrativeIndicators(props) {
           ])}
           data-index={_index}
           key={_index}
-        />
+        >
+          <span className="icon" aria-hidden="true" />
+        </div>
       )}
 
     </div>

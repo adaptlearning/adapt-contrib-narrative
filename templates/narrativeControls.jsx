@@ -36,14 +36,17 @@ export default function NarrativeControls(props) {
       <div className="narrative__indicators">
         {_items.map(({ _index, _isVisited, _isActive }) =>
 
-          <div className={classes([
-            'narrative__progress',
-            _isVisited && 'is-visited',
-            _isActive && 'is-selected'
-          ])}
-          data-index={_index}
-          key={_index}
-          />
+          <div
+            className={classes([
+              'narrative__progress',
+              _isVisited && 'is-visited',
+              _isActive && 'is-selected'
+            ])}
+            data-index={_index}
+            key={_index}
+          >
+            <span className="icon" aria-hidden="true" />
+          </div>
 
         )}
       </div>
