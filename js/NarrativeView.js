@@ -247,7 +247,6 @@ class NarrativeView extends ComponentView {
    */
   setupBackNextLabels(index = this.model.getActiveItem().get('_index')) {
     const totalItems = this.model.getChildren().length;
-    const canCycleThroughPagination = this.model.get('_canCycleThroughPagination');
 
     const isAtStart = index === 0;
     const isAtEnd = index === totalItems - 1;
@@ -261,15 +260,13 @@ class NarrativeView extends ComponentView {
     let backItem = isAtStart ? null : index;
     let nextItem = isAtEnd ? null : index + 2;
 
-    if (canCycleThroughPagination) {
-      if (isAtStart) {
-        prevTitle = this.model.getItem(totalItems - 1).get('title');
-        backItem = totalItems;
-      }
-      if (isAtEnd) {
-        nextTitle = this.model.getItem(0).get('title');
-        nextItem = 1;
-      }
+    if (isAtStart) {
+      prevTitle = this.model.getItem(totalItems - 1).get('title');
+      backItem = totalItems;
+    }
+    if (isAtEnd) {
+      nextTitle = this.model.getItem(0).get('title');
+      nextItem = 1;
     }
 
     const backLabel = compile(narrativeGlobals.previous, {
