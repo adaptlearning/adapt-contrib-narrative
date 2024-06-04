@@ -232,10 +232,9 @@ class NarrativeView extends ComponentView {
    */
   manageBackNextStates(index = this.model.getActiveItem().get('_index')) {
     const totalItems = this.model.getChildren().length;
-    const canCycleThroughPagination = this.model.get('_canCycleThroughPagination');
 
-    const shouldEnableBack = index > 0 || canCycleThroughPagination;
-    const shouldEnableNext = index < totalItems - 1 || canCycleThroughPagination;
+    const shouldEnableBack = index > 0;
+    const shouldEnableNext = index < totalItems - 1;
 
     this.model.set('shouldEnableBack', shouldEnableBack);
     this.model.set('shouldEnableNext', shouldEnableNext);
