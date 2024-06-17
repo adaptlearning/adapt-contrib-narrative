@@ -150,15 +150,29 @@
     }
   }
 
+  @progress-size: 1rem;
+  @progress-border-size: (@progress-size / 4) / 2;
+
   &__progress {
-    height: @icon-size / 2;
-    width: @icon-size / 2;
-    margin: 0.25rem;
+    height: @progress-size;
+    width: @progress-size;
+    margin: (@progress-size / 4);
     background-color: @background;
+    color: @background-inverted;
+    border: @progress-border-size solid @background;
   }
 
   &__progress.is-selected {
-    background-color: lighten(@background, 10%);
+    background-color: @background-inverted;
+    color: @background;
+  }
+
+  &__progress.is-visited .icon {
+    .icon-tick;
+
+    &:before {
+      font-size: @progress-size - (@progress-border-size * 2);
+    }
   }
 
   // When the disable animation class is not present add a transition effect
@@ -185,9 +199,10 @@
     padding-top: @icon-size + (@icon-padding * 2) + @item-padding;
   }
 
-  &__text-controls &__content &__indicators {
+  .mode-small &__text-controls &__content &__indicators {
     display: flex;
     width: 100%;
+    margin-bottom: 0;
   }
 
   &__text-controls &__content &__controls-container {
@@ -197,7 +212,7 @@
     right: 0;
     display: flex;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: flex-start;
   }
 
   &__text-controls &__content &__controls {
@@ -207,11 +222,10 @@
     transform: none;
   }
 
-  // Hide slide controls and indicators until single column view
+  // Hide slide controls until single column view
   // --------------------------------------------------
   @media (min-width: @device-width-medium) {
-    &__text-controls &__slide-container &__controls,
-    &__text-controls &__slide-indicators {
+    &__text-controls &__slide-container &__controls {
       .u-display-none;
     }
   }
