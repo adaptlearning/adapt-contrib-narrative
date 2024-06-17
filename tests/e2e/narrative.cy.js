@@ -21,9 +21,9 @@ describe('Narrative', function () {
 
   it('should display the narrative component', function () {
     const narrativeComponents = this.data.components.filter(component => component._component === 'narrative');
+    const stripHtml = cy.helpers.stripHtml;
     narrativeComponents.forEach(narrativeComponent => {
       cy.visit(`/#/preview/${narrativeComponent._id}`);
-      const stripHtml = cy.helpers.stripHtml;
 
       cy.testContainsOrNotExists('.narrative__body', stripHtml(narrativeComponent.body));
       cy.testContainsOrNotExists('.narrative__title', stripHtml(narrativeComponent.displayTitle));
