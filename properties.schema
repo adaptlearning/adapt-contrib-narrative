@@ -27,6 +27,16 @@
       "inputType": "Text",
       "validators": [],
       "translatable": true
+    },
+    "titleDialog": {
+      "type": "string",
+      "required": true,
+      "title": "Dialog title",
+      "description": "Default fallback title to use for dialog popups when not set on an item",
+      "default": "Item {{itemNumber}} of {{totalItems}}",
+      "inputType": "Text",
+      "validators": [],
+      "translatable": true
     }
   },
   "properties": {

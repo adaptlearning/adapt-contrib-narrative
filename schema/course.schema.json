@@ -44,6 +44,15 @@
                       "_adapt": {
                         "translatable": true
                       }
+                    },
+                    "titleDialog": {
+                      "type": "string",
+                      "title": "Dialog title",
+                      "help": "Default fallback title to use for dialog popups when not set on an item",
+                      "default": "Item {{itemNumber}} of {{totalItems}}",
+                      "_adapt": {
+                        "translatable": true
+                      }
                     }
                   }
                 }
