@@ -47,9 +47,18 @@
                     },
                     "titleDialog": {
                       "type": "string",
-                      "title": "Dialog title",
+                      "title": "Dialog default title",
                       "help": "Default fallback title to use for dialog popups when not set on an item",
                       "default": "Item {{itemNumber}} of {{totalItems}}",
+                      "_adapt": {
+                        "translatable": true
+                      }
+                    },
+                    "titleStrapline": {
+                      "type": "string",
+                      "title": "Strapline default title",
+                      "help": "Default fallback title to use for strapline buttons when not set on an item",
+                      "default": "Find out more",
                       "_adapt": {
                         "translatable": true
                       }

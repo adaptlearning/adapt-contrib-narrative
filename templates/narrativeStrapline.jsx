@@ -1,4 +1,5 @@
 import React from 'react';
+import Adapt from 'core/js/adapt';
 import { compile, classes } from 'core/js/reactHelpers';
 
 export default function NarrativeStrapline(props) {
@@ -16,6 +17,8 @@ export default function NarrativeStrapline(props) {
   if (_isStackedOnMobile && !_isLargeMode) {
     return false;
   }
+
+  const globals = Adapt.course.get('_globals')._components._narrative;
 
   return (
     <div className="narrative__strapline">
@@ -48,7 +51,7 @@ export default function NarrativeStrapline(props) {
               <span className="narrative__strapline-title">
                 <span
                   className="narrative__strapline-title-inner"
-                  dangerouslySetInnerHTML={{ __html: compile(strapline || title, props) }}
+                  dangerouslySetInnerHTML={{ __html: compile(strapline || title || globals.titleStrapline, props) }}
                 />
               </span>
 
