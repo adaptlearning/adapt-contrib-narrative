@@ -295,9 +295,21 @@ class NarrativeView extends ComponentView {
   }
 
   openPopup() {
+    const globals = Adapt.course.get('_globals');
+    const narrativeGlobals = globals._components._narrative;
+    const totalItems = this.model.getChildren().length;
     const currentItem = this.model.getActiveItem();
+    const index = currentItem.get('_index');
+    const defaultTitle = compile(narrativeGlobals.titleDialog, {
+      itemNumber: index + 1,
+      totalItems
+    });
+    const title = currentItem.get('title') || currentItem.get('strapline') || defaultTitle;
+    const isAltTitle = Boolean(!currentItem.get('title'));
+
     notify.popup({
-      title: currentItem.get('title'),
+      isAltTitle,
+      title,
       body: currentItem.get('body')
     });
 
