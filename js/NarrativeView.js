@@ -254,11 +254,14 @@ class NarrativeView extends ComponentView {
     const globals = Adapt.course.get('_globals');
     const narrativeGlobals = globals._components._narrative;
 
-    const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
-    const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
+    const prevItem = !isAtStart && this.model.getItem(index - 1);
+    const nextItem = !isAtEnd && this.model.getItem(index + 1);
 
-    const prevBody = isAtStart ? '' : this.model.getItem(index - 1).get('body');
-    const nextBody = isAtEnd ? '' : this.model.getItem(index + 1).get('body');
+    const prevTitle = prevItem ? prevItem.get('title') : '';
+    const prevBody = prevItem ? prevItem.get('body') : '';
+
+    const nextTitle = nextItem ? nextItem.get('title') : '';
+    const nextBody = nextItem ? nextItem.get('body') : '';
 
     const prevItemNumber = isAtStart ? null : index;
     const nextItemNumber = isAtEnd ? null : index + 2;
