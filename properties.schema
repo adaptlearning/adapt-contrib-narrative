@@ -15,7 +15,7 @@
     "previous": {
       "type": "string",
       "required": true,
-      "default": "{{#any title body}}{{#if title}} Back to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/any}}",
+      "default": "{{#any title body}}{{#if title}}Back to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/any}}",
       "inputType": "Text",
       "validators": [],
       "translatable": true
