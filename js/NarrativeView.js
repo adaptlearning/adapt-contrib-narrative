@@ -254,7 +254,6 @@ class NarrativeView extends ComponentView {
     const globals = Adapt.course.get('_globals');
     const narrativeGlobals = globals._components._narrative;
 
-    // !! WHY isn't the previous item here the same as backItem below? index - 1 vs. index
     const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
     const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
