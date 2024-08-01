@@ -32,7 +32,7 @@
                     "previous": {
                       "type": "string",
                       "title": "Previous",
-                      "default": "{{#if title}}Back to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
+                      "default": "{{#any title body}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/any}}",
                       "_adapt": {
                         "translatable": true
                       }
@@ -40,7 +40,7 @@
                     "next": {
                       "type": "string",
                       "title": "Next",
-                      "default": "{{#if title}}Forward to {{{title}}}{{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}} (item {{itemNumber}} of {{totalItems}})",
+                      "default": "{{#any title body}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/any}}",
                       "_adapt": {
                         "translatable": true
                       }

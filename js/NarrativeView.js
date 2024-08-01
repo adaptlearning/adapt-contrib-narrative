@@ -257,26 +257,27 @@ class NarrativeView extends ComponentView {
     const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
     const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
+    const prevBody = isAtStart ? '' : this.model.getItem(index - 1).get('body');
+    const nextBody = isAtEnd ? '' : this.model.getItem(index + 1).get('body');
+
     const backItem = isAtStart ? null : index;
     const nextItem = isAtEnd ? null : index + 2;
 
-    const backLabel = isAtStart ?
-      globals._accessibility._ariaLabels.previous :
-      compile(narrativeGlobals.previous, {
-        _globals: globals,
-        title: prevTitle,
-        itemNumber: backItem,
-        totalItems
-      });
+    const backLabel = compile(narrativeGlobals.previous, {
+      _globals: globals,
+      title: prevTitle,
+      body: prevBody,
+      itemNumber: backItem,
+      totalItems
+    });
 
-    const nextLabel = isAtEnd ?
-      globals._accessibility._ariaLabels.next :
-      compile(narrativeGlobals.next, {
-        _globals: globals,
-        title: nextTitle,
-        itemNumber: nextItem,
-        totalItems
-      });
+    const nextLabel = compile(narrativeGlobals.next, {
+      _globals: globals,
+      title: nextTitle,
+      body: nextBody,
+      itemNumber: nextItem,
+      totalItems
+    });
 
     this.model.set('backLabel', backLabel);
     this.model.set('nextLabel', nextLabel);
