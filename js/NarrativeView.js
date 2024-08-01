@@ -254,20 +254,21 @@ class NarrativeView extends ComponentView {
     const globals = Adapt.course.get('_globals');
     const narrativeGlobals = globals._components._narrative;
 
+    // !! WHY isn't the previous item here the same as backItem below? index - 1 vs. index
     const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
     const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
     const prevBody = isAtStart ? '' : this.model.getItem(index - 1).get('body');
     const nextBody = isAtEnd ? '' : this.model.getItem(index + 1).get('body');
 
-    const backItem = isAtStart ? null : index;
-    const nextItem = isAtEnd ? null : index + 2;
+    const prevItemNumber = isAtStart ? null : index;
+    const nextItemNumber = isAtEnd ? null : index + 2;
 
     const backLabel = compile(narrativeGlobals.previous, {
       _globals: globals,
       title: prevTitle,
       body: prevBody,
-      itemNumber: backItem,
+      itemNumber: prevItemNumber,
       totalItems
     });
 
@@ -275,7 +276,7 @@ class NarrativeView extends ComponentView {
       _globals: globals,
       title: nextTitle,
       body: nextBody,
-      itemNumber: nextItem,
+      itemNumber: nextItemNumber,
       totalItems
     });
 
