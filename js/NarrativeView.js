@@ -254,34 +254,29 @@ class NarrativeView extends ComponentView {
     const globals = Adapt.course.get('_globals');
     const narrativeGlobals = globals._components._narrative;
 
-    let prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
-    let nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
+    const prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
+    const nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
 
-    let backItem = isAtStart ? null : index;
-    let nextItem = isAtEnd ? null : index + 2;
+    const backItem = isAtStart ? null : index;
+    const nextItem = isAtEnd ? null : index + 2;
 
-    if (isAtStart) {
-      prevTitle = this.model.getItem(totalItems - 1).get('title');
-      backItem = totalItems;
-    }
-    if (isAtEnd) {
-      nextTitle = this.model.getItem(0).get('title');
-      nextItem = 1;
-    }
+    const backLabel = isAtStart ?
+      globals._accessibility._ariaLabels.previous :
+      compile(narrativeGlobals.previous, {
+        _globals: globals,
+        title: prevTitle,
+        itemNumber: backItem,
+        totalItems
+      });
 
-    const backLabel = compile(narrativeGlobals.previous, {
-      _globals: globals,
-      title: prevTitle,
-      itemNumber: backItem,
-      totalItems
-    });
-
-    const nextLabel = compile(narrativeGlobals.next, {
-      _globals: globals,
-      title: nextTitle,
-      itemNumber: nextItem,
-      totalItems
-    });
+    const nextLabel = isAtEnd ?
+      globals._accessibility._ariaLabels.next :
+      compile(narrativeGlobals.next, {
+        _globals: globals,
+        title: nextTitle,
+        itemNumber: nextItem,
+        totalItems
+      });
 
     this.model.set('backLabel', backLabel);
     this.model.set('nextLabel', nextLabel);
