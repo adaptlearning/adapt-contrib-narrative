@@ -247,40 +247,31 @@ class NarrativeView extends ComponentView {
    */
   setupBackNextLabels(index = this.model.getActiveItem().get('_index')) {
     const totalItems = this.model.getChildren().length;
-
     const isAtStart = index === 0;
-    const isAtEnd = index === totalItems - 1;
-
-    const globals = Adapt.course.get('_globals');
-    const narrativeGlobals = globals._components._narrative;
-
-    let prevTitle = isAtStart ? '' : this.model.getItem(index - 1).get('title');
-    let nextTitle = isAtEnd ? '' : this.model.getItem(index + 1).get('title');
-
-    let backItem = isAtStart ? null : index;
-    let nextItem = isAtEnd ? null : index + 2;
-
-    if (isAtStart) {
-      prevTitle = this.model.getItem(totalItems - 1).get('title');
-      backItem = totalItems;
-    }
-    if (isAtEnd) {
-      nextTitle = this.model.getItem(0).get('title');
-      nextItem = 1;
-    }
+    const isAtEnd = (index === totalItems - 1);
+    const _globals = Adapt.course.get('_globals');
+    const narrativeGlobals = _globals._components._narrative;
+    const prevItem = isAtStart ? null : this.model.getItem(index - 1);
+    const nextItem = isAtEnd ? null : this.model.getItem(index + 1);
+    const prevTitle = prevItem?.get('title') ?? '';
+    const nextTitle = nextItem?.get('title') ?? '';
+    const prevItemNumber = isAtStart ? null : index;
+    const nextItemNumber = isAtEnd ? null : index + 2;
 
     const backLabel = compile(narrativeGlobals.previous, {
-      _globals: globals,
+      _globals,
       title: prevTitle,
-      itemNumber: backItem,
-      totalItems
+      itemNumber: prevItemNumber,
+      totalItems,
+      isAtStart
     });
 
     const nextLabel = compile(narrativeGlobals.next, {
-      _globals: globals,
+      _globals,
       title: nextTitle,
-      itemNumber: nextItem,
-      totalItems
+      itemNumber: nextItemNumber,
+      totalItems,
+      isAtEnd
     });
 
     this.model.set('backLabel', backLabel);
