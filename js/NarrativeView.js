@@ -258,10 +258,7 @@ class NarrativeView extends ComponentView {
     const nextItem = !_isAtEnd && this.model.getItem(index + 1);
 
     const prevTitle = prevItem ? prevItem.get('title') : '';
-    const prevBody = prevItem ? prevItem.get('body') : '';
-
     const nextTitle = nextItem ? nextItem.get('title') : '';
-    const nextBody = nextItem ? nextItem.get('body') : '';
 
     const prevItemNumber = _isAtStart ? null : index;
     const nextItemNumber = _isAtEnd ? null : index + 2;
@@ -269,7 +266,6 @@ class NarrativeView extends ComponentView {
     const backLabel = compile(narrativeGlobals.previous, {
       _globals,
       title: prevTitle,
-      body: prevBody,
       itemNumber: prevItemNumber,
       totalItems,
       _isAtStart
@@ -278,7 +274,6 @@ class NarrativeView extends ComponentView {
     const nextLabel = compile(narrativeGlobals.next, {
       _globals,
       title: nextTitle,
-      body: nextBody,
       itemNumber: nextItemNumber,
       totalItems,
       _isAtEnd
