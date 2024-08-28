@@ -7,6 +7,7 @@ import notify from 'core/js/notify';
 import ComponentView from 'core/js/views/componentView';
 import MODE from './modeEnum';
 import { compile } from 'core/js/reactHelpers';
+import { transitionsEnded } from 'core/js/transitions';
 
 class NarrativeView extends ComponentView {
 
@@ -40,15 +41,12 @@ class NarrativeView extends ComponentView {
     this.calculateWidths();
   }
 
-  setFocus(itemIndex) {
+  async setFocus(itemIndex) {
     const $animatedElement = this.isLargeMode() || this.model.get('_isMobileTextBelowImage')
       ? this.$('.narrative__slider')
       : this.$('.narrative__strapline-header-inner');
-    const hasAnimation = ($animatedElement.css('transitionDuration') !== '0s');
-    if (hasAnimation) {
-      $animatedElement.one('transitionend', () => this.focusOnNarrativeElement(itemIndex));
-      return;
-    }
+    await transitionsEnded($animatedElement);
+
     // Allow dom to settle before moving focus
     requestAnimationFrame(() => {
       this.focusOnNarrativeElement(itemIndex);
