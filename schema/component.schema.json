@@ -110,7 +110,6 @@
                 "properties": {
                   "src": {
                     "type": "string",
-                    "isObjectId": true,
                     "title": "Source",
                     "_backboneForms": {
                       "type": "Asset",
