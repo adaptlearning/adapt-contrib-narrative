@@ -1,26 +1,39 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+let narratives, course, courseNarrativeGlobals;
 
-describe('Narrative - v3.0.3 > v4.0.0', async () => {
-  let narratives, course, courseNarrativeGlobals;
-  whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<=3.0.3' });
+describe('Narrative - v3.0.3 to v4.0.0', async () => {
+  whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<=7.10.3' });
   whereContent('Narrative - where narrative', async content => {
-    narratives = content.filter(({ _component }) => _component === 'narrative')
+    narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
   });
-  mutateContent('Narrative - add item _ariaLevel attribute', async content => {
+  mutateContent('Narrative - add item _ariaLevel attribute', async (content) => {
     narratives.forEach(item => {
-      item._items.forEach(_items => _items._ariaLevel = 0);
+      item._items.forEach(_items => {
+        _items._ariaLevel = 0;
+      });
     });
     return true;
   });
-  mutateContent('Narrative - modify globals ariaRegion attribute', async content => {
+  mutateContent('Narrative - modify globals ariaRegion attribute', async (content) => {
     course = content.filter(({ _type }) => _type === 'course');
     courseNarrativeGlobals = course?._globals?._components?._narrative;
-    if (courseNarrativeGlobals) courseNarrativeGlobals.ariaRegion = "Narrative. Select the next button to progress.";
+    if (courseNarrativeGlobals) {
+      courseNarrativeGlobals.ariaRegion = 'Narrative. Select the next button to progress.';
+    }
     return true;
   });
-  checkContent('Narrative - check item _ariaLevel attribute', async content => {
-    const isValid = courseNarrativeGlobals.includes("Narrative. Select the next button to progress.")
+  checkContent('Narrative - check globals ariaRegion attribute', async (content) => {
+    if (courseNarrativeGlobals) {
+      const isValid = courseNarrativeGlobals.filter(({ ariaRegion }) => ariaRegion === 'Narrative. Select the next button to progress.');
+      console.log(isValid);
+      if (!isValid) throw new Error('Narrative - ariaRegion attribute missing');
+    }
+    return true;
+  });
+  checkContent('Narrative - check item _ariaLevel', async (content) => {
+    console.log(narratives);
+    const isValid = narratives.filter(({ _ariaLevel }) => _ariaLevel === 0);
     if (!isValid) throw new Error('Narrative - _ariaLevel attribute missing');
     return true;
   });
