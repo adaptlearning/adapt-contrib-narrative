@@ -1,5 +1,5 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-let narratives, course, courseNarrativeGlobals;
+let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v6.1.0 to v6.2.0', async () => {
   whereFromPlugin('Narrative - from v6.1.0', { name: 'adapt-contrib-narrative', version: '<6.1.0' });
@@ -8,10 +8,11 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
     if (narratives) return true;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
-    course = content.filter(({ _type }) => _type === 'course');
-    if (course?._globals?._components?._narrative) return true
+    course = content.find(({ _type }) => _type === 'course');
+    if (course?._globals?._components?._narrative) return true;
+
     course._globals._components = course._globals._components || {};
-    courseNarrativeGlobals = course?._globals?._components?._narrative || {};
+    courseNarrativeGlobals = course._globals._components._narrative = {};
     return true;
   });
   mutateContent('Narrative - add previous globals', async (content) => {

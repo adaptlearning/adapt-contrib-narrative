@@ -1,5 +1,5 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-let narratives;
+let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v7.3.1 to v7.4.0', async () => {
   whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.3.1' });
@@ -82,17 +82,17 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
 describe('Narrative - v7.7.1 to v7.8.0', async () => {
   const originalPreviousMsg = '{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}';
   const originalNextMsg = '{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}';
-  let course, courseNarrativeGlobals;
   whereFromPlugin('Narrative - from v7.7.1', { name: 'adapt-contrib-narrative', version: '<7.7.1' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
-    course = content.filter(({ _type }) => _type === 'course');
-    if (course?._globals?._components?._narrative) return true
+    course = content.find(({ _type }) => _type === 'course');
+    if (course?._globals?._components?._narrative) return true;
+
     course._globals._components = course._globals._components || {};
-    courseNarrativeGlobals = course?._globals?._components?._narrative || {};
+    courseNarrativeGlobals = course._globals._components._narrative = {};
     return true;
   });
   mutateContent('Narrative - update global previous text', async (content) => {
