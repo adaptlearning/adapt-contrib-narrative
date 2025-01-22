@@ -2,9 +2,10 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 let narratives, course, courseNarrativeGlobals;
 
 describe('Narrative - v3.0.3 to v4.0.0', async () => {
+  const originalAriaRegion = 'This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.';
   whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<4.0.0' });
   whereContent('Narrative - where narrative', async content => {
-    narratives = (narratives) ? narratives : content.filter(({ _component }) => _component === 'narrative');
+    narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
   });
   mutateContent('Narrative - add item _ariaLevel attribute', async (content) => {
@@ -19,7 +20,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     course = content.filter(({ _type }) => _type === 'course');
     courseNarrativeGlobals = course?._globals?._components?._narrative;
     if (courseNarrativeGlobals) {
-      courseNarrativeGlobals.ariaRegion = 'Narrative. Select the next button to progress.';
+      if(courseNarrativeGlobals.ariaRegion === originalAriaRegion) courseNarrativeGlobals.ariaRegion = 'Narrative. Select the next button to progress.';
     }
     return true;
   });
