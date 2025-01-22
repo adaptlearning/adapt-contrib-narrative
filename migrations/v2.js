@@ -17,7 +17,6 @@ describe('Narrative - v2.0.7 to v2.0.8', async () => {
   });
   checkContent('Narrative - check ._graphic.attribution attribute', async (content) => {
     const isValid = narratives.includes((narrative) => narrative._graphic.attribution);
-    console.log(isValid);
     if (!isValid) throw new Error('Narrative - no graphic attribution found');
     return true;
   });
