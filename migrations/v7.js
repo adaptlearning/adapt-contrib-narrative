@@ -91,7 +91,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = content.filter(({ _type }) => _type === 'course');
     if (course?._globals?._components?._narrative) return true
-    course?._globals?._components = course._globals._components || {};
+    course._globals._components = course._globals._components || {};
     courseNarrativeGlobals = course?._globals?._components?._narrative || {};
     return true;
   });

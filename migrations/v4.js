@@ -20,20 +20,18 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     course = content.filter(({ _type }) => _type === 'course');
     courseNarrativeGlobals = course?._globals?._components?._narrative;
     if (courseNarrativeGlobals) {
-      if(courseNarrativeGlobals.ariaRegion === originalAriaRegion) courseNarrativeGlobals.ariaRegion = 'Narrative. Select the next button to progress.';
+      if (courseNarrativeGlobals.ariaRegion === originalAriaRegion) courseNarrativeGlobals.ariaRegion = 'Narrative. Select the next button to progress.';
     }
     return true;
   });
   checkContent('Narrative - check globals ariaRegion attribute', async (content) => {
     if (courseNarrativeGlobals) {
       const isValid = courseNarrativeGlobals.filter(({ ariaRegion }) => ariaRegion === 'Narrative. Select the next button to progress.');
-      console.log(isValid);
       if (!isValid) throw new Error('Narrative - ariaRegion attribute missing');
     }
     return true;
   });
   checkContent('Narrative - check item _ariaLevel', async (content) => {
-    console.log(narratives);
     const isValid = narratives.filter(({ _ariaLevel }) => _ariaLevel === 0);
     if (!isValid) throw new Error('Narrative - _ariaLevel attribute missing');
     return true;
