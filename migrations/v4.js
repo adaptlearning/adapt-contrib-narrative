@@ -2,9 +2,9 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 let narratives, course, courseNarrativeGlobals;
 
 describe('Narrative - v3.0.3 to v4.0.0', async () => {
-  whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<3.0.3' });
+  whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<4.0.0' });
   whereContent('Narrative - where narrative', async content => {
-    narratives = content.filter(({ _component }) => _component === 'narrative');
+    narratives = (narratives) ? narratives : content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
   });
   mutateContent('Narrative - add item _ariaLevel attribute', async (content) => {
