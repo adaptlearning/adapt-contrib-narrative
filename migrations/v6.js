@@ -2,7 +2,7 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v6.1.0 to v6.2.0', async () => {
-  whereFromPlugin('Narrative - from v6.1.0', { name: 'adapt-contrib-narrative', version: '<6.1.0' });
+  whereFromPlugin('Narrative - from v6.1.0', { name: 'adapt-contrib-narrative', version: '<6.2.0' });
   whereContent('Narrative - where narrative globals', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
@@ -37,7 +37,7 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
 });
 
 describe('Narrative - v6.3.0 to v6.4.0', async () => {
-  whereFromPlugin('Narrative - from v6.3.0', { name: 'adapt-contrib-narrative', version: '<6.3.0' });
+  whereFromPlugin('Narrative - from v6.3.0', { name: 'adapt-contrib-narrative', version: '<6.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;

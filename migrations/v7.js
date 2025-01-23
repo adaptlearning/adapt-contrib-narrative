@@ -2,7 +2,7 @@ import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, u
 let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v7.3.1 to v7.4.0', async () => {
-  whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.3.1' });
+  whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
@@ -37,7 +37,7 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
 });
 
 describe('Narrative - v7.4.10 to v7.4.11', async () => {
-  whereFromPlugin('Narrative - from v7.4.10', { name: 'adapt-contrib-narrative', version: '<7.4.10' });
+  whereFromPlugin('Narrative - from v7.4.10', { name: 'adapt-contrib-narrative', version: '<7.4.11' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
@@ -57,7 +57,7 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
 });
 
 describe('Narrative - v7.4.13 to v7.5.0', async () => {
-  whereFromPlugin('Narrative - from v7.4.13', { name: 'adapt-contrib-narrative', version: '<7.4.13' });
+  whereFromPlugin('Narrative - from v7.4.13', { name: 'adapt-contrib-narrative', version: '<7.5.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
@@ -82,7 +82,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
 describe('Narrative - v7.7.1 to v7.8.0', async () => {
   const originalPreviousMsg = '{{#if title}}Back to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}';
   const originalNextMsg = '{{#if title}}Forward to {{{title}}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}';
-  whereFromPlugin('Narrative - from v7.7.1', { name: 'adapt-contrib-narrative', version: '<7.7.1' });
+  whereFromPlugin('Narrative - from v7.7.1', { name: 'adapt-contrib-narrative', version: '<7.8.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
