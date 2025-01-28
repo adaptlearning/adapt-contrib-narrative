@@ -1,9 +1,9 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
-let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v6.1.0 to v6.2.0', async () => {
+  let course, courseNarrativeGlobals, narratives;
   whereFromPlugin('Narrative - from v6.1.0', { name: 'adapt-contrib-narrative', version: '<6.2.0' });
-  whereContent('Narrative - where narrative globals', async (content) => {
+  whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
     if (narratives) return true;
   });
@@ -11,8 +11,8 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
     course = content.find(({ _type }) => _type === 'course');
     if (course?._globals?._components?._narrative) return true;
 
-    course._globals._components = course._globals._components || {};
-    courseNarrativeGlobals = course._globals._components._narrative = {};
+    course._globals._components = course._globals._components ?? {};
+    courseNarrativeGlobals = course._globals._components._narrative ?? {};
     return true;
   });
   mutateContent('Narrative - add previous globals', async (content) => {
@@ -24,12 +24,12 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
     return true;
   });
   checkContent('Narrative - check narrative globals previous', async (content) => {
-    const isValid = courseNarrativeGlobals.includes(({ previous }) => previous);
+    const isValid = courseNarrativeGlobals.previous === '{{#if title}}Back to {{title}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.previous}}{{/if}}';
     if (!isValid) throw new Error('Narrative globals previous missing');
     return true;
   });
   checkContent('Narrative - check narrative globals next', async (content) => {
-    const isValid = courseNarrativeGlobals.includes(({ next }) => next);
+    const isValid = courseNarrativeGlobals.next === '{{#if title}}Forward to {{title}} (item {{itemNumber}} of {{totalItems}}){{else}}{{_globals._accessibility._ariaLabels.next}}{{/if}}';
     if (!isValid) throw new Error('Narrative globals next missing');
     return true;
   });
@@ -37,6 +37,7 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
 });
 
 describe('Narrative - v6.3.0 to v6.4.0', async () => {
+  let narratives;
   whereFromPlugin('Narrative - from v6.3.0', { name: 'adapt-contrib-narrative', version: '<6.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');

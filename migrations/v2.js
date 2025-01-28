@@ -16,7 +16,11 @@ describe('Narrative - v2.0.7 to v2.1.0', async () => {
     return true;
   });
   checkContent('Narrative - check ._graphic.attribution attribute', async (content) => {
-    const isValid = narratives.includes((narrative) => narrative._graphic.attribution);
+    const isValid = narratives.every(narrative =>
+      narrative._items.every(item =>
+        item._graphic && item._graphic.attribution !== undefined
+      )
+    );
     if (!isValid) throw new Error('Narrative - no graphic attribution found');
     return true;
   });

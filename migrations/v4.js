@@ -20,8 +20,8 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     course = content.find(({ _type }) => _type === 'course');
     if (course?._globals?._components?._narrative) return true;
 
-    course._globals._components = course._globals._components || {};
-    courseNarrativeGlobals = course._globals._components._narrative = {};
+    course._globals._components = course._globals._components ?? {};
+    courseNarrativeGlobals = course._globals._components._narrative ?? {};
     return true;
   });
   mutateContent('Narrative - modify globals ariaRegion attribute', async (content) => {
@@ -32,7 +32,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
   });
   checkContent('Narrative - check globals ariaRegion attribute', async (content) => {
     if (courseNarrativeGlobals) {
-      const isValid = courseNarrativeGlobals.filter(({ ariaRegion }) => ariaRegion === 'Narrative. Select the next button to progress.');
+      const isValid = courseNarrativeGlobals.ariaRegion !== originalAriaRegion;
       if (!isValid) throw new Error('Narrative - ariaRegion attribute missing');
     }
     return true;
