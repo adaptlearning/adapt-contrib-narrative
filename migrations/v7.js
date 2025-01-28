@@ -50,8 +50,8 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
     return true;
   });
   checkContent('Narrative - check _isStackedOnMobile attribute', async (content) => {
-    const isInvalid = narratives.some(({ _isStackedOnMobile }) => _isStackedOnMobile);
-    if (isInvalid) throw new Error('Narrative - _isStackedOnMobile is invalid');
+    const isValid = narratives.some(({ _isStackedOnMobile }) => _isStackedOnMobile);
+    if (!isValid) throw new Error('Narrative - _isStackedOnMobile attribute is missing');
     return true;
   });
   updatePlugin('Narrative - update to v7.4.11', { name: 'adapt-contrib-narrative', version: '7.4.11', framework: '>=5.31.2' });
@@ -73,9 +73,9 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
     });
     return true;
   });
-  checkContent('Narrative - check _isStackedOnMobile attribute', async (content) => {
+  checkContent('Narrative - check _ariaLevel attribute', async (content) => {
     const isInvalid = narratives.some((narrative) => narrative._items._ariaLevel);
-    if (isInvalid) throw new Error('Narrative - _isStackedOnMobile is invalid');
+    if (isInvalid) throw new Error('Narrative - _ariaLevel is invalid');
     return true;
   });
   updatePlugin('Narrative - update to v7.5.0', { name: 'adapt-contrib-narrative', version: '7.5.0', framework: '>=5.31.2' });
