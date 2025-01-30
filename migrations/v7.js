@@ -51,7 +51,6 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
     return true;
   });
   checkContent('Narrative - check _isStackedOnMobile attribute', async (content) => {
-    console.log(narratives);
     const isValid = narratives.every(({ _isStackedOnMobile }) => _isStackedOnMobile !== undefined);
     if (!isValid) throw new Error('Narrative - _isStackedOnMobile attribute is missing');
     return true;
@@ -110,7 +109,6 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   });
   checkContent('Narrative - check global previous text', async (content) => {
     const isInvalid = courseNarrativeGlobals.previous === originalPreviousMsg;
-    console.log(course._globals._components._narrative);
     if (isInvalid) throw new Error('Narrative - global narrative previous text is invalid');
     return true;
   });
