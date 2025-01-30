@@ -5,7 +5,7 @@ describe('Narrative - v2.0.7 to v2.1.0', async () => {
   whereFromPlugin('Narrative - from v2.0.7', { name: 'adapt-contrib-narrative', version: '<2.1.0' });
   whereContent('Narrative - where narratives', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - add ._graphic.attribution attribute', async (content) => {
     narratives.forEach(item => {

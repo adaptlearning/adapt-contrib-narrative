@@ -5,7 +5,7 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
   whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - update default instruction text', async (content) => {
     narratives.forEach(item => {
@@ -41,7 +41,7 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
   whereFromPlugin('Narrative - from v7.4.10', { name: 'adapt-contrib-narrative', version: '<7.4.11' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - add _isStackedOnMobile attribute', async (content) => {
     narratives.forEach(item => {
@@ -62,7 +62,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
   whereFromPlugin('Narrative - from v7.4.13', { name: 'adapt-contrib-narrative', version: '<7.5.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - remove _ariaLevel override attribute', async (content) => {
     narratives.forEach(narrative => {
@@ -88,7 +88,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   whereFromPlugin('Narrative - from v7.7.1', { name: 'adapt-contrib-narrative', version: '<7.8.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = content.find(({ _type }) => _type === 'course');

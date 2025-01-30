@@ -6,7 +6,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
   whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<4.0.0' });
   whereContent('Narrative - where narrative', async content => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives) return true;
+    if (narratives.length) return true;
   });
   mutateContent('Narrative - add item _ariaLevel attribute', async (content) => {
     narratives.forEach(item => {
