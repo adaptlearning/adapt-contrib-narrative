@@ -1,18 +1,17 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import _ from 'lodash';
 
 describe('Narrative - v6.1.0 to v6.2.0', async () => {
   let course, courseNarrativeGlobals, narratives;
   whereFromPlugin('Narrative - from v6.1.0', { name: 'adapt-contrib-narrative', version: '<6.2.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = content.find(({ _type }) => _type === 'course');
-    if (course?._globals?._components?._narrative) return true;
-
-    course._globals._components = course._globals._components ?? {};
-    courseNarrativeGlobals = course._globals._components._narrative ?? {};
+    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
+    courseNarrativeGlobals = course._globals._components._narrative;
     return true;
   });
   mutateContent('Narrative - add previous globals', async (content) => {
@@ -41,7 +40,7 @@ describe('Narrative - v6.3.0 to v6.4.0', async () => {
   whereFromPlugin('Narrative - from v6.3.0', { name: 'adapt-contrib-narrative', version: '<6.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - add _isTextBelowImage attribute', async (content) => {
     narratives.forEach(item => (item._isTextBelowImage = false));

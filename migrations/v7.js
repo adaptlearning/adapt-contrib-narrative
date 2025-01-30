@@ -1,11 +1,12 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import _ from 'lodash';
 
 describe('Narrative - v7.3.1 to v7.4.0', async () => {
   let narratives;
   whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - update default instruction text', async (content) => {
     narratives.forEach(item => {
@@ -41,16 +42,17 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
   whereFromPlugin('Narrative - from v7.4.10', { name: 'adapt-contrib-narrative', version: '<7.4.11' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - add _isStackedOnMobile attribute', async (content) => {
-    narratives.forEach(item => {
-      item._isStackedOnMobile = false;
+    narratives.forEach(narrative => {
+      narrative._isStackedOnMobile = false;
     });
     return true;
   });
   checkContent('Narrative - check _isStackedOnMobile attribute', async (content) => {
-    const isValid = narratives.some(({ _isStackedOnMobile }) => _isStackedOnMobile);
+    console.log(narratives);
+    const isValid = narratives.every(({ _isStackedOnMobile }) => _isStackedOnMobile !== undefined);
     if (!isValid) throw new Error('Narrative - _isStackedOnMobile attribute is missing');
     return true;
   });
@@ -62,7 +64,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
   whereFromPlugin('Narrative - from v7.4.13', { name: 'adapt-contrib-narrative', version: '<7.5.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - remove _ariaLevel override attribute', async (content) => {
     narratives.forEach(narrative => {
@@ -88,14 +90,12 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   whereFromPlugin('Narrative - from v7.7.1', { name: 'adapt-contrib-narrative', version: '<7.8.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = content.filter(({ _component }) => _component === 'narrative');
-    if (narratives.length) return true;
+    return narratives.length;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = content.find(({ _type }) => _type === 'course');
-    if (course?._globals?._components?._narrative) return true;
-
-    course._globals._components = course._globals._components || {};
-    courseNarrativeGlobals = course._globals._components._narrative ?? {};
+    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
+    courseNarrativeGlobals = course._globals._components._narrative;
     return true;
   });
   mutateContent('Narrative - update global previous text', async (content) => {
@@ -110,6 +110,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   });
   checkContent('Narrative - check global previous text', async (content) => {
     const isInvalid = courseNarrativeGlobals.previous === originalPreviousMsg;
+    console.log(course._globals._components._narrative);
     if (isInvalid) throw new Error('Narrative - global narrative previous text is invalid');
     return true;
   });
