@@ -1,10 +1,10 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents } from 'adapt-migrations';
 let narratives;
 
 describe('Narrative - v2.0.7 to v2.1.0', async () => {
   whereFromPlugin('Narrative - from v2.0.7', { name: 'adapt-contrib-narrative', version: '<2.1.0' });
   whereContent('Narrative - where narratives', async (content) => {
-    narratives = content.filter(({ _component }) => _component === 'narrative');
+    narratives = getComponents('narrative');
     return narratives.length;
   });
   mutateContent('Narrative - add ._graphic.attribution attribute', async (content) => {

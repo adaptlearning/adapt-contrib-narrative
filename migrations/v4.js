@@ -1,4 +1,4 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse } from 'adapt-migrations';
 import _ from 'lodash';
 let course, courseNarrativeGlobals, narratives;
 
@@ -6,7 +6,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
   const originalAriaRegion = 'This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.';
   whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<4.0.0' });
   whereContent('Narrative - where narrative', async content => {
-    narratives = content.filter(({ _component }) => _component === 'narrative');
+    narratives = getComponents('narrative');
     return narratives.length;
   });
   mutateContent('Narrative - add item _ariaLevel attribute', async (content) => {
@@ -18,7 +18,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     return true;
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
-    course = content.find(({ _type }) => _type === 'course');
+    course = getCourse();
     if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
     courseNarrativeGlobals = course._globals._components._narrative;
     return true;
