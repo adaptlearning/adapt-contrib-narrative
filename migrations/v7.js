@@ -67,7 +67,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
   });
   mutateContent('Narrative - remove _ariaLevel override attribute', async (content) => {
     narratives.forEach(narrative => {
-      const narrativeItems = narrative._items.filter((item) => item._ariaLevel);
+      const narrativeItems = narrative._items.filter(({ _ariaLevel }) => _ariaLevel !== undefined);
       narrativeItems.forEach((item) => {
         delete item._ariaLevel;
       });
@@ -75,7 +75,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
     return true;
   });
   checkContent('Narrative - check _ariaLevel attribute', async (content) => {
-    const isInvalid = narratives.some((narrative) => narrative._items._ariaLevel);
+    const isInvalid = narratives.some(narrative => narrative._items?.some(item => _.has(item, '_ariaLevel') ?? false));
     if (isInvalid) throw new Error('Narrative - _ariaLevel is invalid');
     return true;
   });
