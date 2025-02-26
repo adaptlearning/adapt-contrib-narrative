@@ -1,8 +1,10 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse, testStopWhere, testSuccessWhere } from 'adapt-migrations';
 import _ from 'lodash';
 
 describe('Narrative - v7.3.1 to v7.4.0', async () => {
   let narratives;
+  const originalInstruction = 'Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.';
+  const originalMobileInstruction = 'This is optional instruction text that will be shown when viewed on mobile.';
   whereFromPlugin('Narrative - from v7.3.1', { name: 'adapt-contrib-narrative', version: '<7.4.0' });
   whereContent('Narrative - where narrative', async (content) => {
     narratives = getComponents('narrative');
@@ -10,7 +12,7 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
   });
   mutateContent('Narrative - update default instruction text', async (content) => {
     narratives.forEach(item => {
-      if (item.instruction === 'Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.') {
+      if (item.instruction === originalInstruction) {
         item.instruction = 'Select the next and back arrows to find out more.';
       }
     });
@@ -18,7 +20,7 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
   });
   mutateContent('Narrative - update default mobile instruction text', async (content) => {
     narratives.forEach(item => {
-      if (item.mobileInstruction === 'This is optional instruction text that will be shown when viewed on mobile.') {
+      if (item.mobileInstruction === originalMobileInstruction) {
         item.mobileInstruction = 'Select the plus icon followed by the next arrow to find out more.';
       }
     });
@@ -35,6 +37,24 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
     return true;
   });
   updatePlugin('Narrative - update to v7.4.0', { name: 'adapt-contrib-narrative', version: '7.4.0', framework: '>=5.20.1' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.3.1' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', instruction: 'custom instruction', mobileInstruction: 'custom mobile instruction', _items: [{ title: 'title 1' }] },
+      { _id: 'c-105', _component: 'narrative', instruction: originalInstruction, mobileInstruction: originalMobileInstruction, _items: [{ title: 'title 1' }] },
+      { _id: 'c-110', _component: 'narrative', _items: [{ title: 'title 1' }] }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.3.1' }],
+    content: [{ _component: 'other' }]
+  });
 });
 
 describe('Narrative - v7.4.10 to v7.4.11', async () => {
@@ -56,6 +76,23 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
     return true;
   });
   updatePlugin('Narrative - update to v7.4.11', { name: 'adapt-contrib-narrative', version: '7.4.11', framework: '>=5.31.2' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.10' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _id: 'c-105', _component: 'narrative', _items: [{ title: 'title 1' }] }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.11' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.10' }],
+    content: [{ _component: 'other' }]
+  });
 });
 
 describe('Narrative - v7.4.13 to v7.5.0', async () => {
@@ -75,11 +112,28 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
     return true;
   });
   checkContent('Narrative - check _ariaLevel attribute', async (content) => {
-    const isInvalid = narratives.some(narrative => narrative._items?.some(item => _.has(item, '_ariaLevel') ?? false));
+    const isInvalid = narratives.some(narrative => narrative._items?.some(item => _.has(item, '_ariaLevel')));
     if (isInvalid) throw new Error('Narrative - _ariaLevel is invalid');
     return true;
   });
   updatePlugin('Narrative - update to v7.5.0', { name: 'adapt-contrib-narrative', version: '7.5.0', framework: '>=5.31.2' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.13' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _id: 'c-105', _component: 'narrative', _items: [{ title: 'title 1', _ariaLevel: 0 }] }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.5.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.13' }],
+    content: [{ _component: 'other' }]
+  });
 });
 
 describe('Narrative - v7.7.1 to v7.8.0', async () => {
@@ -118,4 +172,37 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     return true;
   });
   updatePlugin('Narrative - update to v7.8.0', { name: 'adapt-contrib-narrative', version: '7.9.3', framework: '>=5.31.2' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course' }
+    ]
+  });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: { previous: originalPreviousMsg, next: originalNextMsg } } } }
+    ]
+  });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: { previous: 'custom previous', next: 'custom next' } } } }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.8.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
+    content: [{ _component: 'other' }]
+  });
 });

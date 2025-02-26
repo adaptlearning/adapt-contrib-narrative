@@ -1,4 +1,4 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse, testStopWhere, testSuccessWhere } from 'adapt-migrations';
 import _ from 'lodash';
 let course, courseNarrativeGlobals, narratives;
 
@@ -42,4 +42,37 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     return true;
   });
   updatePlugin('Narrative - update to v4.0.0', { name: 'adapt-contrib-narrative', version: '4.0.0', framework: '>=4.0.0' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course' }
+    ]
+  });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: { ariaRegion: originalAriaRegion } } } }
+    ]
+  });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: { ariaRegion: 'custom ariaRegion' } } } }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '4.0.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
+    content: [{ _component: 'other' }]
+  });
 });

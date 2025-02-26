@@ -1,4 +1,4 @@
-import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents } from 'adapt-migrations';
+import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, testSuccessWhere, testStopWhere } from 'adapt-migrations';
 let narratives;
 
 describe('Narrative - v2.0.7 to v2.1.0', async () => {
@@ -8,9 +8,9 @@ describe('Narrative - v2.0.7 to v2.1.0', async () => {
     return narratives.length;
   });
   mutateContent('Narrative - add ._graphic.attribution attribute', async (content) => {
-    narratives.forEach(item => {
-      item._items.forEach(_items => {
-        _items._graphic.attribution = '';
+    narratives.forEach(narrative => {
+      narrative._items.forEach(item => {
+        item._graphic.attribution = '';
       });
     });
     return true;
@@ -25,4 +25,21 @@ describe('Narrative - v2.0.7 to v2.1.0', async () => {
     return true;
   });
   updatePlugin('Narrative - update to v2.1.0', { name: 'adapt-contrib-narrative', version: '2.1.0', framework: '>=2.0.0' });
+
+  testSuccessWhere('correct version with narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '2.0.7' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ _graphic: {} }] },
+      { _id: 'c-105', _component: 'narrative', _items: [{ _graphic: {} }] }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '2.1.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '4.1.2' }],
+    content: [{ _component: 'other' }]
+  });
 });
