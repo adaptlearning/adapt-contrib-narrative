@@ -12,17 +12,15 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
   });
   mutateContent('Narrative - update default instruction text', async (content) => {
     narratives.forEach(item => {
-      if (item.instruction === originalInstruction) {
-        item.instruction = 'Select the next and back arrows to find out more.';
-      }
+      if (item.instruction !== originalInstruction) return;
+      item.instruction = 'Select the next and back arrows to find out more.';
     });
     return true;
   });
   mutateContent('Narrative - update default mobile instruction text', async (content) => {
     narratives.forEach(item => {
-      if (item.mobileInstruction === originalMobileInstruction) {
-        item.mobileInstruction = 'Select the plus icon followed by the next arrow to find out more.';
-      }
+      if (item.mobileInstruction !== originalMobileInstruction) return;
+      item.mobileInstruction = 'Select the plus icon followed by the next arrow to find out more.';
     });
     return true;
   });
@@ -147,10 +145,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = getCourse();
-    if (!_.has(course, '_globals._components._narrative')) {
-      _.set(course, '_globals._components._narrative', {});
-      course._globals._components._narrative = { previous: originalPreviousMsg, next: originalNextMsg };
-    };
+    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', { previous: originalPreviousMsg, next: originalNextMsg });
     courseNarrativeGlobals = course._globals._components._narrative;
     return true;
   });
@@ -174,7 +169,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     if (isInvalid) throw new Error('Narrative - global narrative next text is invalid');
     return true;
   });
-  updatePlugin('Narrative - update to v7.8.0', { name: 'adapt-contrib-narrative', version: '7.9.3', framework: '>=5.31.2' });
+  updatePlugin('Narrative - update to v7.8.0', { name: 'adapt-contrib-narrative', version: '7.8.0', framework: '>=5.31.2' });
 
   testSuccessWhere('narrative component with empty course', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],

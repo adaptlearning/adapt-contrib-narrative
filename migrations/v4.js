@@ -19,7 +19,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = getCourse();
-    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
+    if (!_.has(course, '_globals._components._narrative.ariaRegion')) _.set(course, '_globals._components._narrative.ariaRegion', originalAriaRegion);
     courseNarrativeGlobals = course._globals._components._narrative;
     return true;
   });
