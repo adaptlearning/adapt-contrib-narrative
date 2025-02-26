@@ -39,7 +39,7 @@ describe('Narrative - v2.0.7 to v2.1.0', async () => {
   });
 
   testStopWhere('no narrative components', {
-    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '4.1.2' }],
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '2.0.7' }],
     content: [{ _component: 'other' }]
   });
 });
