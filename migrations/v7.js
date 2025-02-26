@@ -27,12 +27,12 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
     return true;
   });
   checkContent('Narrative - check default instruction text', async (content) => {
-    const isInvalid = narratives.some(({ instruction }) => instruction === 'Select the forward arrows to move through the narrative on a desktop, or swipe the images and select the plus icons to do so on mobile.');
+    const isInvalid = narratives.some(({ instruction }) => instruction === originalInstruction);
     if (isInvalid) throw new Error('Narrative - default instruction is invalid');
     return true;
   });
   checkContent('Narrative - check default mobileInstruction text', async (content) => {
-    const isInvalid = narratives.some(({ mobileInstruction }) => mobileInstruction === 'This is optional instruction text that will be shown when viewed on mobile.');
+    const isInvalid = narratives.some(({ mobileInstruction }) => mobileInstruction === originalMobileInstruction);
     if (isInvalid) throw new Error('Narrative - default mobile instruction is invalid');
     return true;
   });
