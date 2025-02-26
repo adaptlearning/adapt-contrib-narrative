@@ -1,7 +1,7 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, testSuccessWhere, testStopWhere } from 'adapt-migrations';
-let narratives;
 
 describe('Narrative - v2.0.7 to v2.1.0', async () => {
+  let narratives;
   whereFromPlugin('Narrative - from v2.0.7', { name: 'adapt-contrib-narrative', version: '<2.1.0' });
   whereContent('Narrative - where narratives', async (content) => {
     narratives = getComponents('narrative');

@@ -34,7 +34,7 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
   });
   updatePlugin('Narrative - update to v6.2.0', { name: 'adapt-contrib-narrative', version: '6.2.0', framework: '>=5.5.0' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with empty course', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '6.1.0' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -79,7 +79,7 @@ describe('Narrative - v6.3.0 to v6.4.0', async () => {
   });
   updatePlugin('Narrative - update to v6.4.0', { name: 'adapt-contrib-narrative', version: '6.4.0', framework: '>=5.8.0' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] }

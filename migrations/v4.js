@@ -1,8 +1,8 @@
 import { describe, whereContent, whereFromPlugin, mutateContent, checkContent, updatePlugin, getComponents, getCourse, testStopWhere, testSuccessWhere } from 'adapt-migrations';
 import _ from 'lodash';
-let course, courseNarrativeGlobals, narratives;
 
 describe('Narrative - v3.0.3 to v4.0.0', async () => {
+  let course, courseNarrativeGlobals, narratives;
   const originalAriaRegion = 'This component displays an image gallery with accompanying text. Use the next and back navigation controls to work through the narrative.';
   whereFromPlugin('Narrative - from v3.0.3', { name: 'adapt-contrib-narrative', version: '<4.0.0' });
   whereContent('Narrative - where narrative', async content => {
@@ -43,7 +43,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
   });
   updatePlugin('Narrative - update to v4.0.0', { name: 'adapt-contrib-narrative', version: '4.0.0', framework: '>=4.0.0' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with empty course', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -51,7 +51,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     ]
   });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with originalAriaRegion', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -59,7 +59,7 @@ describe('Narrative - v3.0.3 to v4.0.0', async () => {
     ]
   });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with custom ariaRegion', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '3.0.3' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },

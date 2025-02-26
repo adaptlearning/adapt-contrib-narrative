@@ -38,7 +38,7 @@ describe('Narrative - v7.3.1 to v7.4.0', async () => {
   });
   updatePlugin('Narrative - update to v7.4.0', { name: 'adapt-contrib-narrative', version: '7.4.0', framework: '>=5.20.1' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative components with no instructions/original instructions/custom instructions', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.3.1' }],
     content: [
       { _id: 'c-100', _component: 'narrative', instruction: 'custom instruction', mobileInstruction: 'custom mobile instruction', _items: [{ title: 'title 1' }] },
@@ -77,7 +77,7 @@ describe('Narrative - v7.4.10 to v7.4.11', async () => {
   });
   updatePlugin('Narrative - update to v7.4.11', { name: 'adapt-contrib-narrative', version: '7.4.11', framework: '>=5.31.2' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative components', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.10' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -118,7 +118,7 @@ describe('Narrative - v7.4.13 to v7.5.0', async () => {
   });
   updatePlugin('Narrative - update to v7.5.0', { name: 'adapt-contrib-narrative', version: '7.5.0', framework: '>=5.31.2' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative components with/without _ariaLevel', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.4.13' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -147,7 +147,10 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   });
   mutateContent('Narrative - add globals if missing', async (content) => {
     course = getCourse();
-    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
+    if (!_.has(course, '_globals._components._narrative')) {
+      _.set(course, '_globals._components._narrative', {});
+      course._globals._components._narrative = { previous: originalPreviousMsg, next: originalNextMsg };
+    };
     courseNarrativeGlobals = course._globals._components._narrative;
     return true;
   });
@@ -173,7 +176,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
   });
   updatePlugin('Narrative - update to v7.8.0', { name: 'adapt-contrib-narrative', version: '7.9.3', framework: '>=5.31.2' });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with empty course', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -181,7 +184,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     ]
   });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with original messages', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
@@ -189,7 +192,7 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     ]
   });
 
-  testSuccessWhere('correct version with narrative components', {
+  testSuccessWhere('narrative component with custom messages', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
