@@ -204,3 +204,64 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     content: [{ _component: 'other' }]
   });
 });
+
+describe('Narrative - v7.9.3 to v7.10.0', async () => {
+  let course, courseNarrativeGlobals, narratives;
+  whereFromPlugin('Narrative - from v7.9.3', { name: 'adapt-contrib-narrative', version: '<7.10.0' });
+  whereContent('Narrative - where narrative', async (content) => {
+    narratives = getComponents('narrative');
+    return narratives.length;
+  });
+  mutateContent('Narrative - add globals if missing', async (content) => {
+    course = getCourse();
+    if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', {});
+    courseNarrativeGlobals = course._globals._components._narrative;
+    return true;
+  });
+  mutateContent('Narrative - add global titleDialog text', async (content) => {
+    courseNarrativeGlobals.titleDialog = 'Item {{itemNumber}} of {{totalItems}}';
+
+    return true;
+  });
+  mutateContent('Narrative - update global titleStrapline text', async (content) => {
+    courseNarrativeGlobals.titleStrapline = 'Find out more';
+
+    return true;
+  });
+  checkContent('Narrative - check global titleDialog text', async (content) => {
+    const isValid = courseNarrativeGlobals.titleDialog !== undefined;
+    if (!isValid) throw new Error('Narrative - global narrative titleDialog text is invalid');
+    return true;
+  });
+  checkContent('Narrative - check global titleStrapline text', async (content) => {
+    const isValid = courseNarrativeGlobals.titleStrapline !== undefined;
+    if (!isValid) throw new Error('Narrative - global narrative titleStrapline text is invalid');
+    return true;
+  });
+  updatePlugin('Narrative - update to v7.10.0', { name: 'adapt-contrib-narrative', version: '7.10.0', framework: '>=5.31.2' });
+
+  testSuccessWhere('narrative component with empty course', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.9.3' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course' }
+    ]
+  });
+
+  testSuccessWhere('narrative component with globals', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.9.3' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: {} } } }
+    ]
+  });
+
+  testStopWhere('incorrect version', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.10.0' }]
+  });
+
+  testStopWhere('no narrative components', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.9.3' }],
+    content: [{ _component: 'other' }]
+  });
+});
