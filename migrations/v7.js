@@ -147,6 +147,15 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     course = getCourse();
     if (!_.has(course, '_globals._components._narrative')) _.set(course, '_globals._components._narrative', { previous: originalPreviousMsg, next: originalNextMsg });
     courseNarrativeGlobals = course._globals._components._narrative;
+
+    const defaultValues = {
+      previous: originalPreviousMsg,
+      next: originalNextMsg
+    };
+    Object.entries(defaultValues).forEach(([propertyName, defaultValue]) => {
+      if (_.has(courseNarrativeGlobals, propertyName)) return;
+      _.set(courseNarrativeGlobals, propertyName, defaultValue);
+    });
     return true;
   });
   mutateContent('Narrative - update global previous text', async (content) => {
@@ -192,6 +201,14 @@ describe('Narrative - v7.7.1 to v7.8.0', async () => {
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
       { _type: 'course', _globals: { _components: { _narrative: { previous: 'custom previous', next: 'custom next' } } } }
+    ]
+  });
+
+  testSuccessWhere('narrative component with empty globals', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.7.1' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: {} } } }
     ]
   });
 
