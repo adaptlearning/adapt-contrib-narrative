@@ -42,6 +42,14 @@ describe('Narrative - v6.1.0 to v6.2.0', async () => {
     ]
   });
 
+  testSuccessWhere('narrative component with empty globals', {
+    fromPlugins: [{ name: 'adapt-contrib-narrative', version: '6.1.0' }],
+    content: [
+      { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
+      { _type: 'course', _globals: { _components: { _narrative: {} } } }
+    ]
+  });
+
   testStopWhere('incorrect version', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '6.2.0' }]
   });

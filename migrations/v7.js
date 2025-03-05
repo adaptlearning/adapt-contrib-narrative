@@ -265,7 +265,7 @@ describe('Narrative - v7.9.3 to v7.10.0', async () => {
     ]
   });
 
-  testSuccessWhere('narrative component with globals', {
+  testSuccessWhere('narrative component with empty globals', {
     fromPlugins: [{ name: 'adapt-contrib-narrative', version: '7.9.3' }],
     content: [
       { _id: 'c-100', _component: 'narrative', _items: [{ title: 'title 1' }] },
