@@ -287,6 +287,11 @@ class NarrativeView extends ComponentView {
   }
 
   inview() {
+    if (this.model.get('_isFullyLoaded') === false ); {
+      this.model.set('_isFullyLoaded', true);
+      return
+    }
+    
     console.log('narrative inview');
     this.model.set('_isInview', true);
 
