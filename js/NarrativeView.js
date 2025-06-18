@@ -122,7 +122,6 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
-    this.setupVisitedInview();
   }
 
   setupNarrative() {
@@ -287,13 +286,9 @@ class NarrativeView extends ComponentView {
   }
 
   inview() {
-    console.log('narrative inview check');
     if (this.model.get('_isFullyLoaded') === false ) {
       this.model.set('_isFullyLoaded', true);
-      
-      // Then exit out of the inview function
     } else {
-      console.log('narrative inview');
       this.model.set('_isInview', true);
 
       const activeItem = this.model.getActiveItem()
@@ -377,9 +372,7 @@ class NarrativeView extends ComponentView {
     if (!this.shouldUseInviewCompletion()) return;
 
     this.setupInviewCompletion('.component__widget');
-  }
 
-  setupVisitedInview() {
     this.$('.component__widget').on('inview', _.throttle(_.bind(this.inview, this), 100));
   }
 
