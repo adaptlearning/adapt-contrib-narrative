@@ -26,7 +26,7 @@ class NarrativeView extends ComponentView {
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
     this.model.set('_isInview', false);
-    this.model.set('_isFullyLoaded', true);
+    this.model.set('_isFullyLoaded', false);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
   }
@@ -287,19 +287,21 @@ class NarrativeView extends ComponentView {
   }
 
   inview() {
-    if (this.model.get('_isFullyLoaded') === false ); {
+    console.log('narrative inview check');
+    if (this.model.get('_isFullyLoaded') === false ) {
       this.model.set('_isFullyLoaded', true);
-      return
-    }
-    
-    console.log('narrative inview');
-    this.model.set('_isInview', true);
-
-    const activeItem = this.model.getActiveItem()
-    if (!!activeItem) {
-      activeItem.toggleVisited(true);
       
-      this.$('.component__widget').off('inview')
+      // Then exit out of the inview function
+    } else {
+      console.log('narrative inview');
+      this.model.set('_isInview', true);
+
+      const activeItem = this.model.getActiveItem()
+      if (!!activeItem) {
+        activeItem.toggleVisited(true);
+        
+        this.$('.component__widget').off('inview')
+      }
     }
   }
 
