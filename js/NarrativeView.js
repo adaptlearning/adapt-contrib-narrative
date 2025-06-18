@@ -25,6 +25,8 @@ class NarrativeView extends ComponentView {
 
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
+    this.model.set('_isInview', false);
+    this.model.set('_isFullyLoaded', true);
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
   }
@@ -67,7 +69,7 @@ class NarrativeView extends ComponentView {
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
 
-    if (this.isTextBelowImage()) {
+    if (this.isTextBelowImage() && this.model.get('_isInview')) {
       item.toggleVisited(true);
     }
 
@@ -120,6 +122,7 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
+    this.setupVisitedInview();
   }
 
   setupNarrative() {
@@ -214,7 +217,7 @@ class NarrativeView extends ComponentView {
   setStage(item) {
     const index = item.get('_index');
 
-    if (this.isLargeMode()) {
+    if (this.isLargeMode() && this.model.get('_isInview')) {
       item.toggleVisited(true);
     }
 
@@ -280,6 +283,18 @@ class NarrativeView extends ComponentView {
     if (this.model.areAllItemsCompleted()) {
       this.trigger('allItems');
       this.$('.narrative__instruction').removeClass('has-error');
+    }
+  }
+
+  inview() {
+    console.log('narrative inview');
+    this.model.set('_isInview', true);
+
+    const activeItem = this.model.getActiveItem()
+    if (!!activeItem) {
+      activeItem.toggleVisited(true);
+      
+      this.$('.component__widget').off('inview')
     }
   }
 
@@ -355,6 +370,10 @@ class NarrativeView extends ComponentView {
     if (!this.shouldUseInviewCompletion()) return;
 
     this.setupInviewCompletion('.component__widget');
+  }
+
+  setupVisitedInview() {
+    this.$('.component__widget').on('inview', _.throttle(_.bind(this.inview, this), 100));
   }
 
   preRemove() {
