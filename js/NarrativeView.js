@@ -25,8 +25,8 @@ class NarrativeView extends ComponentView {
 
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
-    this.model.set('_isInview', false);
-    this.model.set('_isFullyLoaded', false);
+    this._isInview = false;
+    this._isFullyLoaded = false;
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
   }
@@ -69,7 +69,7 @@ class NarrativeView extends ComponentView {
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
 
-    if (this.isTextBelowImage() && this.model.get('_isInview')) {
+    if (this.isTextBelowImage() && this._isInview) {
       item.toggleVisited(true);
     }
 
@@ -95,7 +95,6 @@ class NarrativeView extends ComponentView {
 
   renderMode() {
     const mode = this.calculateMode();
-    this.setupEventListeners();
 
     const isTextBelowImage = this.isTextBelowImage();
     this.model.set('_isTextBelowImageResolved', isTextBelowImage);
@@ -122,12 +121,13 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
+    this.setupInviewVisited();
   }
 
   setupNarrative() {
     const items = this.model.getChildren();
     if (!items || !items.length) return;
-
+    
     let activeItem = this.model.getActiveItem();
     if (!activeItem) {
       activeItem = this.model.getItem(0);
@@ -136,9 +136,8 @@ class NarrativeView extends ComponentView {
       // manually trigger change as it is not fired on reentry
       items.trigger('change:_isActive', activeItem, true);
     }
-
+    
     this.calculateWidths();
-    this.setupEventListeners();
     this.model.set('_isInitial', false);
   }
 
@@ -216,7 +215,7 @@ class NarrativeView extends ComponentView {
   setStage(item) {
     const index = item.get('_index');
 
-    if (this.isLargeMode() && this.model.get('_isInview')) {
+    if (this.isLargeMode() && this._isInview) {
       item.toggleVisited(true);
     }
 
@@ -286,17 +285,18 @@ class NarrativeView extends ComponentView {
   }
 
   inview() {
-    if (this.model.get('_isFullyLoaded') === false ) {
-      this.model.set('_isFullyLoaded', true);
+    if (this._isFullyLoaded === false) {
+      this._isFullyLoaded = true;
     } else {
-      this.model.set('_isInview', true);
-
-      const activeItem = this.model.getActiveItem()
+      this._isInview = true;
+  
+      const activeItem = this.model.getActiveItem();
       if (!!activeItem) {
         activeItem.toggleVisited(true);
-        
-        this.$('.component__widget').off('inview')
+        this.$('.component__widget').off('inview');
       }
+
+      if (this.shouldUseInviewCompletion()) this.setupInviewCompletion('.component__widget');
     }
   }
 
@@ -368,11 +368,7 @@ class NarrativeView extends ComponentView {
     return true;
   }
 
-  setupEventListeners() {
-    if (!this.shouldUseInviewCompletion()) return;
-
-    this.setupInviewCompletion('.component__widget');
-
+  setupInviewVisited() {
     this.$('.component__widget').on('inview', _.throttle(_.bind(this.inview, this), 100));
   }
 
