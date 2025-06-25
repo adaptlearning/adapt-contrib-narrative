@@ -284,20 +284,19 @@ class NarrativeView extends ComponentView {
     }
   }
 
-  inview() {
-    if (this._isFullyLoaded === false) {
+  onInview() {
+    if (!this._isFullyLoaded) {
       this._isFullyLoaded = true;
-    } else {
-      this._isInview = true;
-  
-      const activeItem = this.model.getActiveItem();
-      if (!!activeItem) {
-        activeItem.toggleVisited(true);
-        this.$('.component__widget').off('inview');
-      }
-
-      if (this.shouldUseInviewCompletion()) this.setupInviewCompletion('.component__widget');
+      return;
     }
+    this._isInview = true;
+    const activeItem = this.model.getActiveItem();
+    if (activeItem) {
+      activeItem.toggleVisited(true);
+      this.$('.component__widget').off('inview');
+    }
+    if (!this.shouldUseInviewCompletion()) return;
+    this.setupInviewCompletion('.component__widget'); // Can you let me know if still works please? I'm unsure it will.
   }
 
   openPopup() {
