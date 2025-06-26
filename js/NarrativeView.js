@@ -284,19 +284,21 @@ class NarrativeView extends ComponentView {
     }
   }
 
-  onInview() {
-    if (!this._isFullyLoaded) {
-      this._isFullyLoaded = true;
-      return;
-    }
+  onInview(event, isVisible) {
+    if (!isVisible) return;
+
     this._isInview = true;
     const activeItem = this.model.getActiveItem();
+
     if (activeItem) {
       activeItem.toggleVisited(true);
-      this.$('.component__widget').off('inview');
     }
-    if (!this.shouldUseInviewCompletion()) return;
-    this.setupInviewCompletion('.component__widget'); // Can you let me know if still works please? I'm unsure it will.
+
+    this.$('.component__widget').off('inview');
+
+    if (!this.shouldUseInviewCompletion()) return
+
+    this.setCompletionStatus();
   }
 
   openPopup() {
@@ -368,7 +370,7 @@ class NarrativeView extends ComponentView {
   }
 
   setupInviewVisited() {
-    this.$('.component__widget').on('inview', _.throttle(_.bind(this.inview, this), 100));
+    this.$('.component__widget').on('inview', _.debounce(_.bind(this.onInview, this), 100));
   }
 
   preRemove() {
