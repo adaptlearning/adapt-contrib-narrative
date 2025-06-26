@@ -26,7 +26,6 @@ class NarrativeView extends ComponentView {
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
     this._isInview = false;
-    this._isFullyLoaded = false;
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
   }
@@ -127,7 +126,7 @@ class NarrativeView extends ComponentView {
   setupNarrative() {
     const items = this.model.getChildren();
     if (!items || !items.length) return;
-    
+
     let activeItem = this.model.getActiveItem();
     if (!activeItem) {
       activeItem = this.model.getItem(0);
@@ -136,7 +135,7 @@ class NarrativeView extends ComponentView {
       // manually trigger change as it is not fired on reentry
       items.trigger('change:_isActive', activeItem, true);
     }
-    
+
     this.calculateWidths();
     this.model.set('_isInitial', false);
   }
