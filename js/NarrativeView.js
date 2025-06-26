@@ -283,7 +283,7 @@ class NarrativeView extends ComponentView {
     }
   }
 
-  onInview(event, isVisible) {
+  onNarrativeInview(event, isVisible) {
     if (!isVisible) return;
 
     this._isInview = true;
@@ -297,7 +297,7 @@ class NarrativeView extends ComponentView {
 
     if (!this.shouldUseInviewCompletion()) return
 
-    this.setCompletionStatus();
+    this.setupInviewCompletion();
   }
 
   openPopup() {
@@ -369,7 +369,7 @@ class NarrativeView extends ComponentView {
   }
 
   setupInviewVisited() {
-    this.$('.component__widget').on('inview', _.debounce(_.bind(this.onInview, this), 100));
+    this.$('.component__widget').on('inview', _.debounce(_.bind(this.onNarrativeInview, this), 100));
   }
 
   preRemove() {
