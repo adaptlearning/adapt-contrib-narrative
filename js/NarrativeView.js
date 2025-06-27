@@ -297,7 +297,7 @@ class NarrativeView extends ComponentView {
 
     if (!this.shouldUseInviewCompletion()) return
 
-    this.setupInviewCompletion();
+    this.setupInviewCompletion('.component__widget');
   }
 
   openPopup() {
