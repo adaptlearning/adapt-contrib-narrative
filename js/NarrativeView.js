@@ -369,7 +369,7 @@ class NarrativeView extends ComponentView {
   }
 
   setupInviewVisited() {
-    this.$('.component__widget').on('inview', _.debounce(_.bind(this.onNarrativeInview, this), 100));
+    this.$('.component__widget').on('inview', this.onNarrativeInview);
   }
 
   preRemove() {
