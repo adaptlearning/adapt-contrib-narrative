@@ -28,6 +28,7 @@ class NarrativeView extends ComponentView {
     this._isInview = false;
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
+    this.onNarrativeInview = this.onNarrativeInview.bind(this)
   }
 
   preRender() {
