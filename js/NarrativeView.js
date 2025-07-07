@@ -25,8 +25,10 @@ class NarrativeView extends ComponentView {
 
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
+    this._wasInview = false;
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
+    this.onInview = this.onInview.bind(this);
   }
 
   preRender() {
@@ -67,7 +69,7 @@ class NarrativeView extends ComponentView {
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
 
-    if (this.isTextBelowImage()) {
+    if (this.isTextBelowImage() && this._wasInview) {
       item.toggleVisited(true);
     }
 
@@ -93,7 +95,6 @@ class NarrativeView extends ComponentView {
 
   renderMode() {
     const mode = this.calculateMode();
-    this.setupEventListeners();
 
     const isTextBelowImage = this.isTextBelowImage();
     this.model.set('_isTextBelowImageResolved', isTextBelowImage);
@@ -120,6 +121,7 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
+    this.setupInviewCompletion('.component__widget');
   }
 
   setupNarrative() {
@@ -136,7 +138,6 @@ class NarrativeView extends ComponentView {
     }
 
     this.calculateWidths();
-    this.setupEventListeners();
     this.model.set('_isInitial', false);
   }
 
@@ -214,7 +215,7 @@ class NarrativeView extends ComponentView {
   setStage(item) {
     const index = item.get('_index');
 
-    if (this.isLargeMode()) {
+    if (this.isLargeMode() && this._wasInview) {
       item.toggleVisited(true);
     }
 
@@ -283,6 +284,19 @@ class NarrativeView extends ComponentView {
     }
   }
 
+  onInview(...args) {
+    const [ , isVisible ] = args;
+    if (!isVisible) return;
+    this._wasInview = true;
+    const activeItem = this.model.getActiveItem();
+    if (activeItem) activeItem.toggleVisited(true);
+    if (!this.shouldUseInviewCompletion()) {
+      this.removeInviewListener();
+      return;
+    }
+    super.onInview(...args);
+  }
+
   openPopup() {
     const globals = Adapt.course.get('_globals');
     const narrativeGlobals = globals._components._narrative;
@@ -345,16 +359,8 @@ class NarrativeView extends ComponentView {
     const config = this.model;
     const setCompletionOn = config.get('_setCompletionOn');
     const isMobileAndStacked = config.get('_isStackedOnMobile') && !config.get('_isLargeMode');
-
     if (!isMobileAndStacked && setCompletionOn !== 'inview') { return false; }
-
     return true;
-  }
-
-  setupEventListeners() {
-    if (!this.shouldUseInviewCompletion()) return;
-
-    this.setupInviewCompletion('.component__widget');
   }
 
   preRemove() {
