@@ -25,10 +25,10 @@ class NarrativeView extends ComponentView {
 
     this.model.set('_isInitial', true);
     this.model.set('_activeItemIndex', 0);
-    this._isInview = false;
+    this._wasInview = false;
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
-    this.onNarrativeInview = this.onNarrativeInview.bind(this)
+    this.onInview = this.onInview.bind(this);
   }
 
   preRender() {
@@ -69,7 +69,7 @@ class NarrativeView extends ComponentView {
   onItemsActiveChange(item, _isActive) {
     if (!_isActive) return;
 
-    if (this.isTextBelowImage() && this._isInview) {
+    if (this.isTextBelowImage() && this._wasInview) {
       item.toggleVisited(true);
     }
 
@@ -121,7 +121,7 @@ class NarrativeView extends ComponentView {
     this.setupNarrative();
     this.$('.narrative__slider').imageready(this.setReadyStatus.bind(this));
     this.$('.narrative__slide-container')[0]?.addEventListener('scroll', this.onScroll, true);
-    this.setupInviewVisited();
+    this.setupInviewCompletion('.component__widget');
   }
 
   setupNarrative() {
@@ -215,7 +215,7 @@ class NarrativeView extends ComponentView {
   setStage(item) {
     const index = item.get('_index');
 
-    if (this.isLargeMode() && this._isInview) {
+    if (this.isLargeMode() && this._wasInview) {
       item.toggleVisited(true);
     }
 
@@ -284,21 +284,17 @@ class NarrativeView extends ComponentView {
     }
   }
 
-  onNarrativeInview(event, isVisible) {
+  onInview(...args) {
+    const [ , isVisible ] = args;
     if (!isVisible) return;
-
-    this._isInview = true;
+    this._wasInview = true;
     const activeItem = this.model.getActiveItem();
-
-    if (activeItem) {
-      activeItem.toggleVisited(true);
+    if (activeItem) activeItem.toggleVisited(true);
+    if (!this.shouldUseInviewCompletion()) {
+      this.removeInviewListener();
+      return;
     }
-
-    this.$('.component__widget').off('inview');
-
-    if (!this.shouldUseInviewCompletion()) return
-
-    this.setupInviewCompletion('.component__widget');
+    super.onInview(...args);
   }
 
   openPopup() {
@@ -363,14 +359,8 @@ class NarrativeView extends ComponentView {
     const config = this.model;
     const setCompletionOn = config.get('_setCompletionOn');
     const isMobileAndStacked = config.get('_isStackedOnMobile') && !config.get('_isLargeMode');
-
     if (!isMobileAndStacked && setCompletionOn !== 'inview') { return false; }
-
     return true;
-  }
-
-  setupInviewVisited() {
-    this.$('.component__widget').on('inview', this.onNarrativeInview);
   }
 
   preRemove() {
