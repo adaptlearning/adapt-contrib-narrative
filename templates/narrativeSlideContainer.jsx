@@ -39,7 +39,7 @@ export default function NarrativeSlideContainer(props) {
               'narrative__slider-image-container',
               _isActive && 'is-active',
               _isVisited && 'is-visited',
-              _graphic.attribution && 'has-attribution'
+              _graphic?.attribution && 'has-attribution'
             ])}
             style={{ width: `${_itemWidth}%` }}
             aria-hidden={!_isActive || null}
@@ -47,11 +47,12 @@ export default function NarrativeSlideContainer(props) {
             key={_index}
           >
 
+            {_graphic &&
             <templates.image {..._graphic}
               classNamePrefixes={['narrative__slider-image js-narrative-swipe']}
               attributionClassNamePrefixes={['component', 'narrative']}
               draggable="false"
-            />
+            />}
 
           </div>
 
