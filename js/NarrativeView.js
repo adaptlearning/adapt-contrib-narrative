@@ -29,12 +29,14 @@ class NarrativeView extends ComponentView {
     this.onNavigationClicked = this.onNavigationClicked.bind(this);
     this.openPopup = this.openPopup.bind(this);
     this.onInview = this.onInview.bind(this);
+    this.onPopupOpened = this.onPopupOpened.bind(this);
   }
 
   preRender() {
     this.listenTo(Adapt, {
       'device:changed device:resize': this.reRender,
-      'notify:closed': this.closeNotify
+      'notify:closed': this.closeNotify,
+      'popup:opened': this.onPopupOpened
     });
     this.renderMode();
 
@@ -310,16 +312,19 @@ class NarrativeView extends ComponentView {
     const title = currentItem.get('title') || currentItem.get('strapline') || defaultTitle;
     const isAltTitle = Boolean(!currentItem.get('title'));
 
-    notify.popup({
+    this._popupView = notify.popup({
       isAltTitle,
       title,
       body: currentItem.get('body')
     });
+    this._popupActiveItem = currentItem;
+  }
 
-    Adapt.on('popup:opened', function() {
-      // Set the visited attribute for small and medium screen devices
-      currentItem.toggleVisited(true);
-    });
+  onPopupOpened($element) {
+    // Ignore popups that didn't originate from this narrative's openPopup
+    if (!this._popupView || !$element.closest(this._popupView.el).length) return;
+    // Set the visited attribute for small and medium screen devices
+    this._popupActiveItem.toggleVisited(true);
   }
 
   onNavigationClicked(e) {
